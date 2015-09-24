@@ -16,35 +16,21 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.app.services.homepage;
 
-import java.util.List;
+package domainapp.fixture.dom.quick;
 
-import org.apache.isis.applib.annotation.ViewModel;
+import org.apache.isis.applib.fixturescripts.FixtureScript;
+import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 
-import domainapp.dom.quick.QuickObject;
-import domainapp.dom.quick.QuickObjectRepository;
+public class QuickObjectsTearDown extends FixtureScript {
 
-@ViewModel
-public class HomePageViewModel {
-
-    //region > title
-    public String title() {
-        return getObjects().size() + " objects";
+    @Override
+    protected void execute(ExecutionContext executionContext) {
+        isisJdoSupport.executeUpdate("delete from \"simple\".\"SimpleObject\"");
     }
-    //endregion
 
-    //region > object (collection)
-    @org.apache.isis.applib.annotation.HomePage
-    public List<QuickObject> getObjects() {
-        return quickObjectRepository.listAll();
-    }
-    //endregion
-
-    //region > injected services
 
     @javax.inject.Inject
-    QuickObjectRepository quickObjectRepository;
+    private IsisJdoSupport isisJdoSupport;
 
-    //endregion
 }

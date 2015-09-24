@@ -16,11 +16,13 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.simple;
+package domainapp.dom.quick;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
+
+import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.Identifier;
@@ -60,12 +62,14 @@ import org.apache.isis.applib.util.ObjectContracts;
                         + "WHERE name.indexOf(:name) >= 0 ")
 })
 @javax.jdo.annotations.Unique(name="SimpleObject_name_UNQ", members = {"name"})
-@DomainObject
+@DomainObject(
+        editing = Editing.DISABLED
+)
 @DomainObjectLayout(
         bookmarking = BookmarkPolicy.AS_ROOT,
         cssClassFa = "fa-flag"
 )
-public class SimpleObject implements Comparable<SimpleObject> {
+public class QuickObject implements Comparable<QuickObject> {
 
 
     //region > identificatiom
@@ -80,9 +84,7 @@ public class SimpleObject implements Comparable<SimpleObject> {
 
     @javax.jdo.annotations.Column(allowsNull="false", length = 40)
     @Title(sequence="1")
-    @Property(
-            editing = Editing.DISABLED
-    )
+    @Property
     public String getName() {
         return name;
     }
@@ -95,8 +97,8 @@ public class SimpleObject implements Comparable<SimpleObject> {
 
     //region > updateName (action)
 
-    public static class UpdateNameDomainEvent extends ActionDomainEvent<SimpleObject> {
-        public UpdateNameDomainEvent(final SimpleObject source, final Identifier identifier, final Object... arguments) {
+    public static class UpdateNameDomainEvent extends ActionDomainEvent<QuickObject> {
+        public UpdateNameDomainEvent(final QuickObject source, final Identifier identifier, final Object... arguments) {
             super(source, identifier, arguments);
         }
     }
@@ -104,7 +106,7 @@ public class SimpleObject implements Comparable<SimpleObject> {
     @Action(
             domainEvent = UpdateNameDomainEvent.class
     )
-    public SimpleObject updateName(
+    public QuickObject updateName(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "New name")
             final String name) {
@@ -122,6 +124,120 @@ public class SimpleObject implements Comparable<SimpleObject> {
 
     //endregion
 
+    //region > anInteger (property)
+    private Integer anInteger;
+
+    @javax.jdo.annotations.Column(allowsNull="true")
+    public Integer getInteger() {
+        return anInteger;
+    }
+
+    public void setInteger(final Integer anInteger) {
+        this.anInteger = anInteger;
+    }
+    //endregion
+
+    //region > updateInteger (action)
+
+    public static class UpdateIntegerDomainEvent extends ActionDomainEvent<QuickObject> {
+        public UpdateIntegerDomainEvent(final QuickObject source, final Identifier identifier, final Object... arguments) {
+            super(source, identifier, arguments);
+        }
+    }
+
+    @Action(
+            domainEvent = UpdateIntegerDomainEvent.class
+    )
+    public QuickObject updateInteger(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "New integer")
+            final Integer integer) {
+        setInteger(integer);
+        return this;
+    }
+
+    public Integer default0UpdateInteger() {
+        return getInteger();
+    }
+
+    //endregion
+
+    //region > aLocalDate (property)
+    private LocalDate aLocalDate;
+
+    @javax.jdo.annotations.Column(allowsNull="true")
+    public LocalDate getLocalDate() {
+        return aLocalDate;
+    }
+
+    public void setLocalDate(final LocalDate aLocalDate) {
+        this.aLocalDate = aLocalDate;
+    }
+    //endregion
+
+    //region > updateLocalDate (action)
+
+    public static class UpdateLocalDateDomainEvent extends ActionDomainEvent<QuickObject> {
+        public UpdateLocalDateDomainEvent(final QuickObject source, final Identifier identifier, final Object... arguments) {
+            super(source, identifier, arguments);
+        }
+    }
+
+    @Action(
+            domainEvent = UpdateLocalDateDomainEvent.class
+    )
+    public QuickObject updateLocalDate(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "New localdate")
+            final LocalDate localdate) {
+        setLocalDate(localdate);
+        return this;
+    }
+
+    public LocalDate default0UpdateLocalDate() {
+        return getLocalDate();
+    }
+
+    //endregion
+
+    //region > aBoolean (property)
+    private Boolean aBoolean;
+
+    @javax.jdo.annotations.Column(allowsNull="true")
+    public Boolean getBoolean() {
+        return aBoolean;
+    }
+
+    public void setBoolean(final Boolean aBoolean) {
+        this.aBoolean = aBoolean;
+    }
+    //endregion
+
+    //region > updateBoolean (action)
+
+    public static class UpdateBooleanDomainEvent extends ActionDomainEvent<QuickObject> {
+        public UpdateBooleanDomainEvent(final QuickObject source, final Identifier identifier, final Object... arguments) {
+            super(source, identifier, arguments);
+        }
+    }
+
+    @Action(
+            domainEvent = UpdateBooleanDomainEvent.class
+    )
+    public QuickObject updateBoolean(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "New boolean")
+            final Boolean aBoolean) {
+        setBoolean(aBoolean);
+        return this;
+    }
+
+    public Boolean default0UpdateBoolean() {
+        return getBoolean();
+    }
+
+    //endregion
+
     //region > version (derived property)
     public Long getVersionSequence() {
         return (Long) JDOHelper.getVersion(this);
@@ -131,7 +247,7 @@ public class SimpleObject implements Comparable<SimpleObject> {
     //region > compareTo
 
     @Override
-    public int compareTo(final SimpleObject other) {
+    public int compareTo(final QuickObject other) {
         return ObjectContracts.compare(this, other, "name");
     }
 

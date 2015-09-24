@@ -16,11 +16,10 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.simple;
+package domainapp.dom.quick;
 
 import java.util.List;
 
-import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.Identifier;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -28,21 +27,19 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
-import org.apache.isis.applib.services.i18n.TranslatableString;
 
-@DomainService(repositoryFor = SimpleObject.class)
-@DomainServiceLayout(menuOrder = "10")
-public class SimpleObjects {
-
-    //region > title
-    public TranslatableString title() {
-        return TranslatableString.tr("Simple Objects");
-    }
-    //endregion
+@DomainService(
+        nature = NatureOfService.VIEW_MENU_ONLY
+)
+@DomainServiceLayout(
+        menuOrder = "10",
+        named = "Quick Objects"
+)
+public class QuickObjectMenu {
 
     //region > listAll (action)
     @Action(
@@ -52,8 +49,8 @@ public class SimpleObjects {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "1")
-    public List<SimpleObject> listAll() {
-        return container.allInstances(SimpleObject.class);
+    public List<QuickObject> listAll() {
+        return quickObjectRepository.listAll();
     }
     //endregion
 
@@ -65,21 +62,17 @@ public class SimpleObjects {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "2")
-    public List<SimpleObject> findByName(
+    public List<QuickObject> findByName(
             @ParameterLayout(named="Name")
             final String name
     ) {
-        return container.allMatches(
-                new QueryDefault<>(
-                        SimpleObject.class,
-                        "findByName",
-                        "name", name));
+        return quickObjectRepository.findByName(name);
     }
     //endregion
 
     //region > create (action)
-    public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {
-        public CreateDomainEvent(final SimpleObjects source, final Identifier identifier, final Object... arguments) {
+    public static class CreateDomainEvent extends ActionDomainEvent<QuickObjectMenu> {
+        public CreateDomainEvent(final QuickObjectMenu source, final Identifier identifier, final Object... arguments) {
             super(source, identifier, arguments);
         }
     }
@@ -88,20 +81,18 @@ public class SimpleObjects {
             domainEvent = CreateDomainEvent.class
     )
     @MemberOrder(sequence = "3")
-    public SimpleObject create(
-            final @ParameterLayout(named="Name") String name) {
-        final SimpleObject obj = container.newTransientInstance(SimpleObject.class);
-        obj.setName(name);
-        container.persistIfNotAlready(obj);
-        return obj;
+    public QuickObject create(
+            @ParameterLayout(named="Name")
+            final String name) {
+        return quickObjectRepository.create(name);
     }
 
     //endregion
 
     //region > injected services
 
-    @javax.inject.Inject 
-    DomainObjectContainer container;
+    @javax.inject.Inject
+    QuickObjectRepository quickObjectRepository;
 
     //endregion
 }

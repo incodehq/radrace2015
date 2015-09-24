@@ -14,26 +14,36 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package domainapp.integtests.specs;
+package domainapp.dom.quick;
 
-import org.junit.runner.RunWith;
+import org.junit.Before;
+import org.junit.Test;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
+import static org.assertj.core.api.Assertions.assertThat;
 
+public class QuickObjectTest {
 
-/**
- * Runs scenarios in all <tt>.feature</tt> files (this package and any subpackages). 
- */
-@RunWith(Cucumber.class)
-@CucumberOptions(
-        format = {
-                "html:target/cucumber-html-report"
-                ,"json:target/cucumber.json"
-        },
-        glue={"classpath:domainapp.integtests.specglue"},
-        strict = true,
-        tags = { "~@backlog", "~@ignore" })
-public class RunSpecs {
-    // intentionally empty 
+    QuickObject quickObject;
+
+    @Before
+    public void setUp() throws Exception {
+        quickObject = new QuickObject();
+    }
+
+    public static class Name extends QuickObjectTest {
+
+        @Test
+        public void happyCase() throws Exception {
+            // given
+            String name = "Foobar";
+            assertThat(quickObject.getName()).isNull();
+
+            // when
+            quickObject.setName(name);
+
+            // then
+            assertThat(quickObject.getName()).isEqualTo(name);
+        }
+    }
+
 }

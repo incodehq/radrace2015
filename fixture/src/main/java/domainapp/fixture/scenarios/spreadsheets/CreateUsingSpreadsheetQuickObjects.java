@@ -17,20 +17,14 @@
  *  under the License.
  */
 
-package domainapp.fixture.dom.simple;
+package domainapp.fixture.scenarios.spreadsheets;
 
-import org.apache.isis.applib.fixturescripts.FixtureScript;
-import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
+import domainapp.dom.quick.QuickObject;
+import domainapp.fixture.CreateUsingSpreadsheetAbstract;
 
-public class SimpleObjectsTearDown extends FixtureScript {
+public class CreateUsingSpreadsheetQuickObjects extends CreateUsingSpreadsheetAbstract<QuickObject> {
 
-    @Override
-    protected void execute(ExecutionContext executionContext) {
-        isisJdoSupport.executeUpdate("delete from \"simple\".\"SimpleObject\"");
+    public CreateUsingSpreadsheetQuickObjects() {
+        super(QuickObject.class);
     }
-
-
-    @javax.inject.Inject
-    private IsisJdoSupport isisJdoSupport;
-
 }
