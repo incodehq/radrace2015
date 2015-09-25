@@ -39,8 +39,12 @@ public class CreateUsingSpreadsheet<T> extends FixtureScript {
     private final Class<T> cls;
 
     public CreateUsingSpreadsheet(Class<T> cls) {
+        this(cls, cls.getSimpleName() + ".xlsx");
+    }
+
+    public CreateUsingSpreadsheet(Class<T> cls, String fileName) {
         this.cls = cls;
-        setResourceName(cls.getSimpleName() + ".xlsx");
+        setResourceName(fileName);
     }
 
     //region > resourceName (input)
