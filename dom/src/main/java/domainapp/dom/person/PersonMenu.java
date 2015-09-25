@@ -62,7 +62,7 @@ public class PersonMenu {
             @ParameterLayout(named="Name")
             final String name
     ) {
-        return quickObjectRepository.findByName(name);
+        return quickObjectRepository.findByName(".*"+name+".*");
     }
 
     @MemberOrder(sequence = "3")
