@@ -19,7 +19,7 @@ package domainapp.app.services.export;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 import com.google.common.base.Function;
 import com.google.common.io.Resources;
@@ -36,7 +36,6 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
-import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.clock.ClockService;
 import org.apache.isis.applib.value.Blob;
@@ -45,15 +44,16 @@ import org.isisaddons.module.docx.dom.DocxService;
 import org.isisaddons.module.docx.dom.LoadTemplateException;
 import org.isisaddons.module.docx.dom.MergeException;
 
-import domainapp.dom.Named;
 import domainapp.dom.event.EventRepository;
 import domainapp.dom.ingredient.IngredientRepository;
+import domainapp.dom.menu.Menu;
+import domainapp.dom.menuitem.MenuItem;
 import domainapp.dom.quick.QuickObjectMenu;
 
 @DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY
+        nature = NatureOfService.VIEW_CONTRIBUTIONS_ONLY
 )
-public class ExportToWordMenu {
+public class PublishContributionsForMenu {
 
     //region > exportToWordDoc (action)
 
@@ -64,24 +64,19 @@ public class ExportToWordMenu {
             cssClassFa = "fa-download"
     )
     @MemberOrder(sequence = "10")
-    public Blob exportToWordDoc() throws IOException, JDOMException, MergeException {
+    public Blob publish(final Menu menu) throws IOException, JDOMException, MergeException {
 
-        final List items = ingredientRepository.listAll();
-        return exportToWordDoc(items);
+        return exportToWordDocCatchExceptions(menu);
     }
 
     //endregion
 
     //region > exportToWordDoc (programmatic)
-    @Programmatic
-    public Blob exportToWordDoc(final List items) {
-        return exportToWordDocCatchExceptions(items);
-    }
 
-    private Blob exportToWordDocCatchExceptions(final List<Named> items)  {
+    private Blob exportToWordDocCatchExceptions(final Menu menu)  {
         final org.w3c.dom.Document w3cDocument;
         try {
-            w3cDocument = asInputW3cDocument(items);
+            w3cDocument = asInputW3cDocument(menu);
 
             final ByteArrayOutputStream docxTarget = new ByteArrayOutputStream();
             docxService.merge(w3cDocument, getWordprocessingMLPackage(), docxTarget, DocxService.MatchingPolicy.LAX);
@@ -97,8 +92,8 @@ public class ExportToWordMenu {
         }
     }
 
-    private org.w3c.dom.Document asInputW3cDocument(final List<Named> items) throws JDOMException {
-        final Document jdomDoc = asInputDocument(items);
+    private org.w3c.dom.Document asInputW3cDocument(final Menu menu) throws JDOMException {
+        final Document jdomDoc = asInputDocument(menu);
 
         final DOMOutputter domOutputter = new DOMOutputter();
         return domOutputter.output(jdomDoc);
@@ -112,7 +107,9 @@ public class ExportToWordMenu {
     }
 
 
-    private Document asInputDocument(final List<Named> namedList) {
+    private Document asInputDocument(final Menu menu) {
+
+        final Collection<MenuItem> menuItems = menu.getItems();
 
         final Element html = new Element("html");
         final Document document = new Document(html);
@@ -123,7 +120,7 @@ public class ExportToWordMenu {
         addPara(body, "ExportedOn", "date", clockService.nowAsLocalDateTime().toString("dd-MMM-yyyy"));
 
         final Element table = addTable(body, "MenuItems");
-        for(final Named item: namedList) {
+        for(final MenuItem item: menuItems) {
             addTableRow(table, new String[]{item.getName(), "", ""});
         }
         return document;
