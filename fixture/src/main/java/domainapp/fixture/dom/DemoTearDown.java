@@ -29,8 +29,16 @@ public class DemoTearDown extends FixtureScript {
 
         isisJdoSupport.executeUpdate("delete from \"simple\".\"QuickObject\"");
 
+        isisJdoSupport.executeUpdate("delete from \"simple\".\"OrderItem\"");
+        isisJdoSupport.executeUpdate("delete from \"simple\".\"Order\"");
+        isisJdoSupport.executeUpdate("delete from \"simple\".\"MenuItem\"");
+        isisJdoSupport.executeUpdate("delete from \"simple\".\"Menu\"");
+        isisJdoSupport.executeUpdate("delete from \"simple\".\"Event\"");
+
         isisJdoSupport.executeUpdate("delete from \"simple\".\"Ingredient\"");
         isisJdoSupport.executeUpdate("delete from \"simple\".\"IngredientCategory\"");
+        isisJdoSupport.executeUpdate("delete from \"simple\".\"Supplier\"");
+
     }
 
 

@@ -20,6 +20,8 @@ package domainapp.dom.event;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
+
 import org.apache.isis.applib.Identifier;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -36,8 +38,8 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
         nature = NatureOfService.VIEW_MENU_ONLY
 )
 @DomainServiceLayout(
-        menuOrder = "230",
-        named = "Ingredients"
+        menuOrder = "10",
+        named = "Events"
 )
 public class EventMenu {
 
@@ -82,9 +84,11 @@ public class EventMenu {
     )
     @MemberOrder(sequence = "3")
     public Event create(
-            @ParameterLayout(named="Name")
-            final String name) {
-        return eventRepository.create(name);
+            @ParameterLayout(named = "Name")
+            final String name,
+            @ParameterLayout(named = "Date")
+            final LocalDate date) {
+        return eventRepository.create(name, date);
     }
 
     //endregion

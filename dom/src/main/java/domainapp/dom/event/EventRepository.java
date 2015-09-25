@@ -20,6 +20,8 @@ package domainapp.dom.event;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
+
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
@@ -59,9 +61,11 @@ public class EventRepository {
     //region > create (programmatic)
 
     @Programmatic
-    public Event create(final String name) {
+    public Event create(
+            final String name, final LocalDate localDate) {
         final Event obj = container.newTransientInstance(Event.class);
         obj.setName(name);
+        obj.setDate(localDate);
         container.persistIfNotAlready(obj);
         return obj;
     }
@@ -73,10 +77,10 @@ public class EventRepository {
     @javax.inject.Inject
     DomainObjectContainer container;
 
-    public Event findOrCreate(final String categoryName) {
-        final Event event = findByName(categoryName);
+    public Event findOrCreate(final String name, final LocalDate date) {
+        final Event event = findByName(name);
         if(event == null) {
-            return create(categoryName);
+            return create(name, date);
         }
         return event;
     }

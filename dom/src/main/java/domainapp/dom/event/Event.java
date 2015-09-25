@@ -19,8 +19,11 @@
 package domainapp.dom.event;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
+
+import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Action;
@@ -28,6 +31,7 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
@@ -110,6 +114,19 @@ public class Event implements Comparable<Event> {
         return name.contains("!")? TranslatableString.tr("Exclamation mark is not allowed"): null;
     }
 
+    //endregion
+
+    //region > date (property)
+    private LocalDate date;
+
+    @Column(allowsNull = "false")
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(final LocalDate date) {
+        this.date = date;
+    }
     //endregion
 
     //region > version (derived property)
