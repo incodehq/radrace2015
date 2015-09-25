@@ -1,4 +1,4 @@
-= isis-app-quickstart
+= RAD RACE 2015
 
 image:https://travis-ci.org/isisaddons/isis-app-quickstart.png?branch=master[Build Status,link=https://travis-ci.org/isisaddons/isis-app-quickstart]
 
