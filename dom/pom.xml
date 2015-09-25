@@ -90,6 +90,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.isisaddons.module.commchannel</groupId>
+            <artifactId>isis-module-commchannel-dom</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.isisaddons.module.event</groupId>
             <artifactId>isis-module-event-dom</artifactId>
         </dependency>

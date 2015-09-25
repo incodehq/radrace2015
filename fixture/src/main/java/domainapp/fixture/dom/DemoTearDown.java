@@ -17,7 +17,7 @@
  *  under the License.
  */
 
-package domainapp.fixture.dom.quick;
+package domainapp.fixture.dom;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;

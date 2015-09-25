@@ -24,6 +24,7 @@ import org.apache.isis.applib.fixturescripts.FixtureScripts;
 import org.apache.isis.applib.services.fixturespec.FixtureScriptsSpecification;
 import org.apache.isis.applib.services.fixturespec.FixtureScriptsSpecificationProvider;
 
+import domainapp.fixture.scenarios.RecreateDemo;
 import domainapp.fixture.scenarios.RecreateQuickObjects;
 
 /**
@@ -36,7 +37,7 @@ public class DomainAppFixtureScriptsSpecificationProvider implements FixtureScri
         return FixtureScriptsSpecification
                 .builder(DomainAppFixtureScriptsSpecificationProvider.class)
                 .with(FixtureScripts.MultipleExecutionStrategy.EXECUTE)
-                .withRunScriptDefault(RecreateQuickObjects.class)
+                .withRunScriptDefault(RecreateDemo.class)
                 .withRunScriptDropDown(FixtureScriptsSpecification.DropDownPolicy.CHOICES)
                 .withRecreate(RecreateQuickObjects.class)
                 .build();

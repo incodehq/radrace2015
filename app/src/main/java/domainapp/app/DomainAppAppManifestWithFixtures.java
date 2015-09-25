@@ -27,8 +27,6 @@ import com.google.common.collect.Maps;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.fixture.scenarios.RecreateQuickObjects;
-
 /**
  * Run the app but without setting up any fixtures.
  */
@@ -39,7 +37,7 @@ public class DomainAppAppManifestWithFixtures extends DomainAppAppManifest {
      */
     @Override
     public List<Class<? extends FixtureScript>> getFixtures() {
-        return Lists.newArrayList(RecreateQuickObjects.class);
+        return Lists.newArrayList(domainapp.fixture.scenarios.RecreateDemo.class);
     }
 
     /**

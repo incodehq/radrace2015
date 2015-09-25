@@ -27,7 +27,7 @@ import org.apache.isis.applib.fixturescripts.FixtureScript;
 
 import domainapp.dom.ingredientcategory.IngredientCategory;
 import domainapp.dom.quick.QuickObject;
-import domainapp.fixture.dom.quick.DemoTearDown;
+import domainapp.fixture.dom.DemoTearDown;
 import domainapp.fixture.scenarios.spreadsheets.CreateUsingSpreadsheet;
 
 public class RecreateDemo extends FixtureScript {

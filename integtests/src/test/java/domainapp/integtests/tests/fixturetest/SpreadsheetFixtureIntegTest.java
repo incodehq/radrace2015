@@ -30,7 +30,7 @@ import org.apache.isis.applib.fixturescripts.FixtureScripts;
 import domainapp.dom.quick.QuickObject;
 import domainapp.dom.quick.QuickObjectMenu;
 import domainapp.fixture.dom.quick.QuickObjectsTearDown;
-import domainapp.fixture.scenarios.spreadsheets.CreateUsingSpreadsheetQuickObjects;
+import domainapp.fixture.scenarios.spreadsheets.CreateUsingSpreadsheet;
 import domainapp.integtests.tests.DomainAppIntegTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,8 +50,7 @@ public class SpreadsheetFixtureIntegTest extends DomainAppIntegTest {
             fixtureScripts.runFixtureScript(new QuickObjectsTearDown(), null);
 
             // when
-            final CreateUsingSpreadsheetQuickObjects fs = new CreateUsingSpreadsheetQuickObjects();
-            fs.setResourceName("QuickObject.xlsx");
+            final CreateUsingSpreadsheet fs = new CreateUsingSpreadsheet<>(QuickObject.class);
 
             fixtureScripts.runFixtureScript(fs, null);
             nextTransaction();

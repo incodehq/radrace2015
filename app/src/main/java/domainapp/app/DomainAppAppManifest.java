@@ -40,17 +40,20 @@ public class DomainAppAppManifest implements AppManifest {
     @Override
     public List<Class<?>> getModules() {
         return Arrays.asList(
-                org.isisaddons.module.audit.AuditModule.class,
-                org.isisaddons.module.command.CommandModule.class,
-                org.isisaddons.module.devutils.DevUtilsModule.class,
+//                org.isisaddons.module.audit.AuditModule.class,
+//                org.isisaddons.module.command.CommandModule.class,
+//                org.isisaddons.module.devutils.DevUtilsModule.class,
                 org.isisaddons.module.docx.DocxModule.class,
-                org.isisaddons.module.event.EventModule.class,
+//                org.isisaddons.module.commchannel.CommChannelModule.class,
+//                org.isisaddons.module.event.EventModule.class,
                 org.isisaddons.module.excel.ExcelModule.class,
-                org.isisaddons.module.publishing.PublishingModule.class,
-                org.isisaddons.module.sessionlogger.SessionLoggerModule.class,
+//                org.isisaddons.module.publishing.PublishingModule.class,
+//                org.isisaddons.module.sessionlogger.SessionLoggerModule.class,
                 org.isisaddons.module.security.SecurityModule.class,
-                org.isisaddons.module.settings.SettingsModule.class,
-                org.isisaddons.wicket.gmap3.cpt.service.Gmap3ServiceModule.class,
+                org.isisaddons.module.settings.SettingsModule.class, // needed for themes.
+//                org.isisaddons.wicket.fullcalendar2.cpt.ui.FullCalendar2UiModule.class,
+//                org.isisaddons.wicket.gmap3.cpt.service.Gmap3ServiceModule.class,
+//                org.isisaddons.wicket.gmap3.cpt.ui.Gmap3UiModule.class,
                 DomainAppDomainModule.class,  // domain (entities and repositories)
                 DomainAppFixtureModule.class,
                 DomainAppAppModule.class

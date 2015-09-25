@@ -40,6 +40,7 @@
 
         <isis-module-audit.version>1.9.0</isis-module-audit.version>
         <isis-module-command.version>1.9.0</isis-module-command.version>
+        <isis-module-commchannel.version>1.10.0-SNAPSHOT</isis-module-commchannel.version>
         <isis-module-event.version>1.10.0-SNAPSHOT</isis-module-event.version>
         <isis-module-excel.version>1.10.0-SNAPSHOT</isis-module-excel.version>
         <isis-module-publishing.version>1.9.0</isis-module-publishing.version>
@@ -329,6 +330,11 @@
                 <groupId>org.isisaddons.module.command</groupId>
                 <artifactId>isis-module-command-dom</artifactId>
                 <version>${isis-module-command.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.isisaddons.module.commchannel</groupId>
+                <artifactId>isis-module-commchannel-dom</artifactId>
+                <version>${isis-module-commchannel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.isisaddons.module.devutils</groupId>
