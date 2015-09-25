@@ -51,7 +51,7 @@ public class DomainAppAppManifest implements AppManifest {
 //                org.isisaddons.module.sessionlogger.SessionLoggerModule.class,
                 org.isisaddons.module.security.SecurityModule.class,
                 org.isisaddons.module.settings.SettingsModule.class, // needed for themes.
-//                org.isisaddons.wicket.fullcalendar2.cpt.ui.FullCalendar2UiModule.class,
+                org.isisaddons.wicket.fullcalendar2.cpt.ui.FullCalendar2UiModule.class,
 //                org.isisaddons.wicket.gmap3.cpt.service.Gmap3ServiceModule.class,
 //                org.isisaddons.wicket.gmap3.cpt.ui.Gmap3UiModule.class,
                 DomainAppDomainModule.class,  // domain (entities and repositories)

@@ -70,7 +70,7 @@ public class Supplier implements Comparable<Supplier> {
 
     //region > identificatiom
     public TranslatableString title() {
-        return TranslatableString.tr("Object: {name}", "name", getName());
+        return TranslatableString.tr("{name}", "name", getName());
     }
     //endregion
 

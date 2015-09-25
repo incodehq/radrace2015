@@ -22,29 +22,29 @@ import java.util.List;
 
 import org.apache.isis.applib.annotation.ViewModel;
 
-import domainapp.dom.quick.QuickObject;
-import domainapp.dom.quick.QuickObjectRepository;
+import domainapp.dom.event.Event;
+import domainapp.dom.event.EventRepository;
 
 @ViewModel
 public class HomePageViewModel {
 
     //region > title
     public String title() {
-        return getObjects().size() + " objects";
+        return getUpcomingEvents().size() + " events";
     }
     //endregion
 
     //region > object (collection)
     @org.apache.isis.applib.annotation.HomePage
-    public List<QuickObject> getObjects() {
-        return quickObjectRepository.listAll();
+    public List<Event> getUpcomingEvents() {
+        return eventRepository.listAll();
     }
     //endregion
 
     //region > injected services
 
     @javax.inject.Inject
-    QuickObjectRepository quickObjectRepository;
+    EventRepository eventRepository;
 
     //endregion
 }

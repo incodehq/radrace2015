@@ -20,8 +20,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.SortedSet;
+
+import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Iterables;
 import com.google.common.io.Resources;
 
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
@@ -33,6 +38,7 @@ import org.jdom2.output.DOMOutputter;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
+import org.apache.isis.applib.annotation.Contributed;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
@@ -45,6 +51,7 @@ import org.isisaddons.module.docx.dom.LoadTemplateException;
 import org.isisaddons.module.docx.dom.MergeException;
 
 import domainapp.dom.event.EventRepository;
+import domainapp.dom.ingredient.Ingredient;
 import domainapp.dom.ingredient.IngredientRepository;
 import domainapp.dom.menu.Menu;
 import domainapp.dom.menuitem.MenuItem;
@@ -55,13 +62,14 @@ import domainapp.dom.quick.QuickObjectMenu;
 )
 public class PublishContributionsForMenu {
 
-    //region > exportToWordDoc (action)
+    //region > publish (action)
 
     @Action(
             semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            cssClassFa = "fa-download"
+            cssClassFa = "fa-download",
+            contributed = Contributed.AS_ACTION
     )
     @MemberOrder(sequence = "10")
     public Blob publish(final Menu menu) throws IOException, JDOMException, MergeException {
@@ -81,7 +89,7 @@ public class PublishContributionsForMenu {
             final ByteArrayOutputStream docxTarget = new ByteArrayOutputStream();
             docxService.merge(w3cDocument, getWordprocessingMLPackage(), docxTarget, DocxService.MatchingPolicy.LAX);
 
-            final String blobName = "simpleObjects-" + timestamp() + ".docx";
+            final String blobName = menu.getEvent().getName() + "-" + timestamp() + ".docx";
             final String blobMimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
             final byte[] blobBytes = docxTarget.toByteArray();
 
@@ -117,12 +125,34 @@ public class PublishContributionsForMenu {
         final Element body = new Element("body");
         html.addContent(body);
 
+        addPara(body, "EventName", "rich", menu.getEvent().getName());
         addPara(body, "ExportedOn", "date", clockService.nowAsLocalDateTime().toString("dd-MMM-yyyy"));
 
         final Element table = addTable(body, "MenuItems");
+
+        addTableRow(table, new String[]{ "", "" });
         for(final MenuItem item: menuItems) {
-            addTableRow(table, new String[]{item.getName(), "", ""});
+
+            final String name = item.getName();
+
+
+            addTableRow(table, new String[] { name, item.getMemberPrice().toString() });
+
+            final SortedSet<Ingredient> ingredients = item.getIngredients();
+
+            final String ingredientSummary = Joiner.on(", ")
+                    .join(Iterables.transform(ingredients, new Function<Ingredient, String>() {
+                        @Nullable @Override public String apply(final Ingredient input) {
+                            return input.getName();
+                        }
+                    }));
+
+            addTableRow(table, new String[]{ "       " + ingredientSummary, "" });
+            addTableRow(table, new String[]{ "", "" });
         }
+        addTableRow(table, new String[]{ "", "" });
+
+
         return document;
     }
 

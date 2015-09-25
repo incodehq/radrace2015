@@ -115,7 +115,7 @@ public class QuickObjectIntegTest extends DomainAppIntegTest {
             final String title = container.titleOf(quickObjectWrapped);
 
             // then
-            assertThat(title).isEqualTo("Object: " + name);
+            assertThat(title).isEqualTo(name);
         }
     }
 }

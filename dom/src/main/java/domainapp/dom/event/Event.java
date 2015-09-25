@@ -39,6 +39,9 @@ import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEvent;
+import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEventable;
+
 import domainapp.dom.Named;
 import domainapp.dom.menu.Menu;
 import domainapp.dom.menu.MenuRepository;
@@ -73,12 +76,12 @@ import domainapp.dom.menu.MenuRepository;
         bookmarking = BookmarkPolicy.AS_ROOT,
         cssClassFa = "fa-flag"
 )
-public class Event implements Comparable<Event>, Named {
+public class Event implements Comparable<Event>, Named, CalendarEventable {
 
 
     //region > identificatiom
     public TranslatableString title() {
-        return TranslatableString.tr("Object: {name}", "name", getName());
+        return TranslatableString.tr("{name}", "name", getName());
     }
     //endregion
 
@@ -163,10 +166,22 @@ public class Event implements Comparable<Event>, Named {
     @Inject
     MenuRepository menuRepository;
 
-    @SuppressWarnings("unused")
-    private DomainObjectContainer container;
 
     //endregion
 
+    //region > Calendarable
+    @SuppressWarnings("unused")
+    private DomainObjectContainer container;
+
+    @Override
+    public String getCalendarName() {
+        return "events";
+    }
+
+    @Override
+    public CalendarEvent toCalendarEvent() {
+        return new CalendarEvent(getDate().toDateTimeAtStartOfDay(), "events", container.titleOf(this), "");
+    }
+    //endregion
 
 }
