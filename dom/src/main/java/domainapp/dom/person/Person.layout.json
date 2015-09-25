@@ -1,0 +1,139 @@
+{
+  "columns": [
+    {
+      "span": 4,
+      "memberGroups": {
+        "General": {
+          "members": {
+            "firstName": {
+              "propertyLayout": {
+                "named": "First Name",
+                "typicalLength": 25
+              }
+            },
+            "lastName": {
+              "propertyLayout": {
+                "named": "Last Name",
+                "typicalLength": 25
+              }
+            }
+          }
+        },
+        "Birth": {
+          "members": {
+            "dateOfBirth": {
+              "propertyLayout": {
+                "named": "Date Of Birth",
+                "typicalLength": 12
+              }
+            },
+            "cityOfBirth": {
+              "propertyLayout": {
+                "named": "City Of Birth",
+                "typicalLength": 25
+              }
+            },
+            "countryOfBirth": {
+              "propertyLayout": {
+                "named": "Country Of Birth",
+                "typicalLength": 25
+              }
+            }
+          }
+        },
+        "Address": {
+          "members": {
+            "street": {
+              "propertyLayout": {
+                "named": "Street",
+                "typicalLength": 25
+              }
+            },
+            "city": {
+              "propertyLayout": {
+                "named": "City",
+                "typicalLength": 25
+              }
+            },
+            "postCode": {
+              "propertyLayout": {
+                "named": "Post Code",
+                "typicalLength": 25
+              }
+            },
+            "country": {
+              "propertyLayout": {
+                "named": "Country",
+                "typicalLength": 25
+              }
+            }
+          }
+        },
+        "Membership": {
+          "members": {
+            "member": {
+              "propertyLayout": {
+                "named": "Member",
+                "typicalLength": 5
+              }
+            },
+            "memberId": {
+              "propertyLayout": {
+                "hidden": "EVERYWHERE",
+                "named": "Member Id",
+                "typicalLength": 25
+              }
+            },
+            "organiser": {
+              "propertyLayout": {
+                "named": "Organiser",
+                "typicalLength": 5
+              }
+            },
+            "streetNumber": {
+              "propertyLayout": {
+                "named": "Street Number",
+                "typicalLength": 25
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "span": 0,
+      "memberGroups": {}
+    },
+    {
+      "span": 0,
+      "memberGroups": {}
+    },
+    {
+      "span": 8,
+      "collections": {}
+    }
+  ],
+  "actions": {
+    "downloadLayout": {
+      "actionLayout": {
+        "cssClass": "btn-default",
+        "cssClassFa": "fa fa-fw fa-download",
+        "named": "Download Layout",
+        "contributed": "AS_ACTION"
+      }
+    },
+    "updateName": {
+      "actionLayout": {
+        "cssClass": "btn-default",
+        "cssClassFa": "fa fa-fw fa-edit",
+        "named": "Update Name"
+      }
+    },
+    "recentActivity": {
+      "actionLayout": {
+        "cssClass": "btn-default",
+        "named": "Recent Activity"
+      }
+    }
+  }
+}

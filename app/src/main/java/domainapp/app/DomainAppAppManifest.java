@@ -42,7 +42,7 @@ public class DomainAppAppManifest implements AppManifest {
         return Arrays.asList(
 //                org.isisaddons.module.audit.AuditModule.class,
 //                org.isisaddons.module.command.CommandModule.class,
-//                org.isisaddons.module.devutils.DevUtilsModule.class,
+                org.isisaddons.module.devutils.DevUtilsModule.class,
                 org.isisaddons.module.docx.DocxModule.class,
 //                org.isisaddons.module.commchannel.CommChannelModule.class,
 //                org.isisaddons.module.event.EventModule.class,
