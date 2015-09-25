@@ -1,7 +1,10 @@
 package domainapp.fixture.scenarios.spreadsheets;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -139,29 +142,31 @@ public class PeopleImport implements Importable {
             Person p = personRepository.findByMemberId(getNumber().toString());
 
             if (p == null) {
-                p = personRepository.create(getFirstName(), getLastName());
+                p = personRepository.create(pretty(getFirstName()), pretty(getLastName()));
                 p.setMemberId(getNumber().toString());
             }
-            p.setStreet(getStreet());
+            p.setStreet(pretty(getStreet()));
             p.setStreetNumber(getStreetNumber().toString());
             p.setPostCode(getPostCode());
-            p.setCity(getCity());
-            p.setCountry(getCountry());
+            p.setCity(pretty(getCity()));
+            p.setCountry(pretty(getCountry()));
 
             p.setDateOfBirth(getDateOfBirth());
-            p.setCityOfBirth(getLocationOfBirth());
-            p.setCountryOfBirth(getCountryOfBirth());
+            p.setCityOfBirth(pretty(getLocationOfBirth()));
+            p.setCountryOfBirth(pretty(getCountryOfBirth()));
 
-            if (getMemberType() == "member") {
+            if (Objects.equals(getMemberType(), "member")) {
                 p.setMember(true);
             }
-            ;
 
             container.flush();
         } catch (Exception e) {
-
+            // REVIEW: ignore any garbage
         }
+    }
 
+    private static String pretty(final String str) {
+        return str == null? null : StringUtils.capitalize(str.toLowerCase());
     }
 
     @Inject

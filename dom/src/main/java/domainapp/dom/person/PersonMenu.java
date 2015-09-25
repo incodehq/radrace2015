@@ -34,7 +34,7 @@ import org.apache.isis.applib.annotation.SemanticsOf;
         nature = NatureOfService.VIEW_MENU_ONLY
 )
 @DomainServiceLayout(
-        menuOrder = "10",
+        menuOrder = "400",
         named = "Persons"
 )
 public class PersonMenu {

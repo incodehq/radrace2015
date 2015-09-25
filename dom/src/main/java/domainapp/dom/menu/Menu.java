@@ -19,10 +19,14 @@
 package domainapp.dom.menu;
 
 import java.math.BigDecimal;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.jdo.JDOHelper;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -31,11 +35,15 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.event.Event;
+import domainapp.dom.ingredient.Ingredient;
+import domainapp.dom.menuitem.MenuItem;
+import domainapp.dom.menuitem.MenuItemRepository;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -104,6 +112,36 @@ public class Menu implements Comparable<Menu> {
     }
     //endregion
 
+    //region > items (collection)
+    @Persistent(mappedBy = "menu", dependentElement = "true")
+    private SortedSet<MenuItem> items = new TreeSet<MenuItem>();
+
+    @MemberOrder(sequence = "1")
+    public SortedSet<MenuItem> getItems() {
+        return items;
+    }
+
+    public void setItems(final SortedSet<MenuItem> items) {
+        this.items = items;
+    }
+    //endregion
+
+    //region > newItem (action)
+    public Menu newItem(
+            final Ingredient ingredient,
+            @ParameterLayout(named = "Member price")
+            final BigDecimal memberPrice) {
+
+        final MenuItem menuItem = container.newTransientInstance(MenuItem.class);
+        menuItem.setIngredient(ingredient);
+        menuItem.setMenu(this);
+        menuItem.setMemberPrice(memberPrice);
+
+        container.persistIfNotAlready(menuItem);
+
+        return this;
+    }
+    //endregion
 
 
     //region > version (derived property)
@@ -123,9 +161,11 @@ public class Menu implements Comparable<Menu> {
 
     //region > injected services
 
-    @javax.inject.Inject
-    @SuppressWarnings("unused")
-    private DomainObjectContainer container;
+    @Inject
+    MenuItemRepository menuItemRepository;
+
+    @Inject
+    DomainObjectContainer container;
 
     //endregion
 

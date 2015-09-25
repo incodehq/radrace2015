@@ -18,7 +18,10 @@
  */
 package domainapp.dom.menuitem;
 
+import java.math.BigDecimal;
+
 import javax.jdo.JDOHelper;
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -28,12 +31,14 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Property;
-import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
+
+import domainapp.dom.ingredient.Ingredient;
+import domainapp.dom.menu.Menu;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -52,12 +57,17 @@ import org.apache.isis.applib.util.ObjectContracts;
                 value = "SELECT "
                         + "FROM domainapp.dom.menuitem.MenuItem "),
         @javax.jdo.annotations.Query(
-                name = "findByName", language = "JDOQL",
+                name = "findByMenu", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.menuitem.MenuItem "
-                        + "WHERE name.indexOf(:name) >= 0 ")
+                        + "WHERE menu == :menu "),
+        @javax.jdo.annotations.Query(
+                name = "findByIngredient", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.menuitem.MenuItem "
+                        + "WHERE ingredient == :ingredient ")
 })
-@javax.jdo.annotations.Unique(name="MenuItem_name_UNQ", members = {"name"})
+@javax.jdo.annotations.Unique(name="MenuItem_menu_ingredient_UNQ", members = {"menu", "ingredient"})
 @DomainObject(
         editing = Editing.DISABLED
 )
@@ -70,44 +80,67 @@ public class MenuItem implements Comparable<MenuItem> {
 
     //region > identificatiom
     public TranslatableString title() {
-        return TranslatableString.tr("Object: {name}", "name", getName());
+        return TranslatableString.tr(
+                "{ingredient} @ {memberPrice}",
+                "ingredient", container.titleOf(getIngredient()),
+                "memberPrice", getMemberPrice()
+                );
     }
     //endregion
 
-    //region > name (property)
+    //region > menu (property)
+    private Menu menu;
 
-    private String name;
-
-    @javax.jdo.annotations.Column(allowsNull="false", length = 40)
-    @Title(sequence="1")
-    @Property
-    public String getName() {
-        return name;
+    @Column(allowsNull = "false")
+    public Menu getMenu() {
+        return menu;
     }
 
-    public void setName(final String name) {
-        this.name = name;
+    public void setMenu(final Menu menu) {
+        this.menu = menu;
+    }
+    //endregion
+
+    //region > ingredient (property)
+    private Ingredient ingredient;
+
+    @MemberOrder(sequence = "1")
+    @Column(allowsNull = "false")
+    public Ingredient getIngredient() {
+        return ingredient;
     }
 
-    // endregion
+    public void setIngredient(final Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
+    //endregion
 
-    //region > updateName (action)
+    //region > memberPrice (property)
+    private BigDecimal memberPrice;
+
+    @Column(allowsNull = "false")
+    public BigDecimal getMemberPrice() {
+        return memberPrice;
+    }
+
+    public void setMemberPrice(final BigDecimal memberPrice) {
+        this.memberPrice = memberPrice;
+    }
+    //endregion
+    
+    //region > updateMemberPrice (action)
 
     @Action
-    public MenuItem updateName(
+    public MenuItem updateMemberPrice(
             @Parameter(maxLength = 40)
-            @ParameterLayout(named = "New name")
-            final String name) {
-        setName(name);
+            @ParameterLayout(named = "New price")
+            final BigDecimal memberPrice) {
+        setMemberPrice(memberPrice);
         return this;
     }
 
-    public String default0UpdateName() {
-        return getName();
-    }
-
-    public TranslatableString validateUpdateName(final String name) {
-        return name.contains("!")? TranslatableString.tr("Exclamation mark is not allowed"): null;
+    public BigDecimal default0UpdateMemberPrice() {
+        return getMemberPrice();
     }
 
     //endregion
@@ -122,7 +155,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
     @Override
     public int compareTo(final MenuItem other) {
-        return ObjectContracts.compare(this, other, "name");
+        return ObjectContracts.compare(this, other, "menu", "ingredient");
     }
 
     //endregion

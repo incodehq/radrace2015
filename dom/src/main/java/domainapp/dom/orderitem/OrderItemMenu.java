@@ -33,7 +33,8 @@ import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
 @DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY
+//        nature = NatureOfService.VIEW_MENU_ONLY // REVIEW: exclude from the UI
+        nature = NatureOfService.DOMAIN
 )
 @DomainServiceLayout(
         menuOrder = "230",

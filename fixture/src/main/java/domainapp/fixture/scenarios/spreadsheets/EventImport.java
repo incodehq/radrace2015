@@ -24,10 +24,15 @@ import javax.inject.Inject;
 
 import org.joda.time.LocalDate;
 
+import org.apache.isis.applib.annotation.Optionality;
+import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.ViewModel;
 
 import domainapp.dom.event.Event;
 import domainapp.dom.event.EventRepository;
+import domainapp.dom.ingredient.Ingredient;
+import domainapp.dom.ingredient.IngredientRepository;
+import domainapp.dom.menu.Menu;
 import domainapp.dom.menu.MenuRepository;
 
 @ViewModel
@@ -35,8 +40,10 @@ public class EventImport implements Importable {
 
     private String name;
     private LocalDate date;
-
     private BigDecimal nonMemberSupplement;
+
+    private String ingredient;
+    private BigDecimal memberPrice;
 
     public String getName() {
         return name;
@@ -46,6 +53,7 @@ public class EventImport implements Importable {
         this.name = name;
     }
 
+    @Property(optionality = Optionality.OPTIONAL)
     public LocalDate getDate() {
         return date;
     }
@@ -54,6 +62,7 @@ public class EventImport implements Importable {
         this.date = date;
     }
 
+    @Property(optionality = Optionality.OPTIONAL)
     public BigDecimal getNonMemberSupplement() {
         return nonMemberSupplement;
     }
@@ -62,14 +71,40 @@ public class EventImport implements Importable {
         this.nonMemberSupplement = nonMemberSupplement;
     }
 
+    @Property(optionality = Optionality.OPTIONAL)
+    public String getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(final String ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    @Property(optionality = Optionality.OPTIONAL)
+    public BigDecimal getMemberPrice() {
+        return memberPrice;
+    }
+
+    public void setMemberPrice(final BigDecimal memberPrice) {
+        this.memberPrice = memberPrice;
+    }
+
     @Override
     public void importData() {
         final Event event = eventRepository.findOrCreate(getName(), getDate());
-        menuRepository.findOrCreate(event, nonMemberSupplement);
+        final Menu menu = menuRepository.findOrCreate(event, nonMemberSupplement);
+
+        if(getIngredient() != null) {
+            final Ingredient ingredient = ingredientRepository.findByName(getIngredient());
+            menu.newItem(ingredient, getMemberPrice());
+        }
     }
 
     @Inject
     EventRepository eventRepository;
+
+    @Inject
+    IngredientRepository ingredientRepository;
 
     @Inject
     MenuRepository menuRepository;

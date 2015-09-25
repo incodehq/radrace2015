@@ -36,8 +36,8 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
         nature = NatureOfService.VIEW_MENU_ONLY
 )
 @DomainServiceLayout(
-        menuOrder = "230",
-        named = "Ingredients"
+        menuOrder = "150",
+        named = "Orders"
 )
 public class OrderMenu {
 

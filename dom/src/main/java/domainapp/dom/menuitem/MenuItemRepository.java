@@ -56,30 +56,8 @@ public class MenuItemRepository {
     }
     //endregion
 
-    //region > create (programmatic)
-
-    @Programmatic
-    public MenuItem create(final String name) {
-        final MenuItem obj = container.newTransientInstance(MenuItem.class);
-        obj.setName(name);
-        container.persistIfNotAlready(obj);
-        return obj;
-    }
-
-    //endregion
-
-    //region > injected services
-
+    //region > injected
     @javax.inject.Inject
     DomainObjectContainer container;
-
-    public MenuItem findOrCreate(final String categoryName) {
-        final MenuItem menuItem = findByName(categoryName);
-        if(menuItem == null) {
-            return create(categoryName);
-        }
-        return menuItem;
-    }
-
     //endregion
 }
