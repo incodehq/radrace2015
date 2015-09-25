@@ -18,6 +18,7 @@
  */
 package domainapp.dom.event;
 
+import javax.inject.Inject;
 import javax.jdo.JDOHelper;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
@@ -31,13 +32,15 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
-import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
+
+import domainapp.dom.menu.Menu;
+import domainapp.dom.menu.MenuRepository;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -129,6 +132,16 @@ public class Event implements Comparable<Event> {
     }
     //endregion
 
+    //region > menu (derived property)
+    private Menu menu;
+
+    @javax.jdo.annotations.NotPersistent // REVIEW: alternatively, map a 1:1 relationship
+    public Menu getMenu() {
+        return menuRepository.findByEvent(this);
+    }
+
+    //endregion
+    
     //region > version (derived property)
     public Long getVersionSequence() {
         return (Long) JDOHelper.getVersion(this);
@@ -146,7 +159,9 @@ public class Event implements Comparable<Event> {
 
     //region > injected services
 
-    @javax.inject.Inject
+    @Inject
+    MenuRepository menuRepository;
+
     @SuppressWarnings("unused")
     private DomainObjectContainer container;
 

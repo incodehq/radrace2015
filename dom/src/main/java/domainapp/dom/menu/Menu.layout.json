@@ -21,7 +21,7 @@
             "memberGroups": {
                 "General": {
                     "members": {
-                        "name": {
+                        "event": {
                             "actions": {
                                 "updateName": {
                                     "actionLayout": {
@@ -29,7 +29,8 @@
                                     }
                                 }
                             }
-                        }
+                        },
+                        "nonMemberSupplement": {}
                     }
                 },
                 "Misc": {

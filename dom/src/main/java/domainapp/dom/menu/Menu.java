@@ -18,22 +18,24 @@
  */
 package domainapp.dom.menu;
 
+import java.math.BigDecimal;
+
 import javax.jdo.JDOHelper;
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
-import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
-import org.apache.isis.applib.annotation.Parameter;
-import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
+
+import domainapp.dom.event.Event;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -52,12 +54,12 @@ import org.apache.isis.applib.util.ObjectContracts;
                 value = "SELECT "
                         + "FROM domainapp.dom.menu.Menu "),
         @javax.jdo.annotations.Query(
-                name = "findByName", language = "JDOQL",
+                name = "findByEvent", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.menu.Menu "
-                        + "WHERE name.indexOf(:name) >= 0 ")
+                        + "WHERE event == :event ")
 })
-@javax.jdo.annotations.Unique(name="Menu_name_UNQ", members = {"name"})
+@javax.jdo.annotations.Unique(name="Menu_event_UNQ", members = {"event"})
 @DomainObject(
         editing = Editing.DISABLED
 )
@@ -70,47 +72,39 @@ public class Menu implements Comparable<Menu> {
 
     //region > identificatiom
     public TranslatableString title() {
-        return TranslatableString.tr("Object: {name}", "name", getName());
+        return TranslatableString.tr("{event}'s Menu", "event", getEvent());
     }
     //endregion
 
-    //region > name (property)
+    //region > event (property)
+    private Event event;
 
-    private String name;
-
-    @javax.jdo.annotations.Column(allowsNull="false", length = 40)
     @Title(sequence="1")
-    @Property
-    public String getName() {
-        return name;
+    @Column(allowsNull = "false")
+    public Event getEvent() {
+        return event;
     }
 
-    public void setName(final String name) {
-        this.name = name;
+    public void setEvent(final Event event) {
+        this.event = event;
     }
-
-    // endregion
-
-    //region > updateName (action)
-
-    @Action
-    public Menu updateName(
-            @Parameter(maxLength = 40)
-            @ParameterLayout(named = "New name")
-            final String name) {
-        setName(name);
-        return this;
-    }
-
-    public String default0UpdateName() {
-        return getName();
-    }
-
-    public TranslatableString validateUpdateName(final String name) {
-        return name.contains("!")? TranslatableString.tr("Exclamation mark is not allowed"): null;
-    }
-
     //endregion
+
+    //region > nonMemberSupplement (property)
+    private BigDecimal nonMemberSupplement;
+
+    @Column(allowsNull = "false")
+    @MemberOrder(sequence = "1")
+    public BigDecimal getNonMemberSupplement() {
+        return nonMemberSupplement;
+    }
+
+    public void setNonMemberSupplement(final BigDecimal nonMemberSupplement) {
+        this.nonMemberSupplement = nonMemberSupplement;
+    }
+    //endregion
+
+
 
     //region > version (derived property)
     public Long getVersionSequence() {
@@ -122,7 +116,7 @@ public class Menu implements Comparable<Menu> {
 
     @Override
     public int compareTo(final Menu other) {
-        return ObjectContracts.compare(this, other, "name");
+        return ObjectContracts.compare(this, other, "event");
     }
 
     //endregion

@@ -18,19 +18,25 @@
  */
 package domainapp.fixture.scenarios.spreadsheets;
 
+import java.math.BigDecimal;
+
 import javax.inject.Inject;
 
 import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.annotation.ViewModel;
 
+import domainapp.dom.event.Event;
 import domainapp.dom.event.EventRepository;
+import domainapp.dom.menu.MenuRepository;
 
 @ViewModel
 public class EventImport implements Importable {
 
     private String name;
     private LocalDate date;
+
+    private BigDecimal nonMemberSupplement;
 
     public String getName() {
         return name;
@@ -48,12 +54,24 @@ public class EventImport implements Importable {
         this.date = date;
     }
 
+    public BigDecimal getNonMemberSupplement() {
+        return nonMemberSupplement;
+    }
+
+    public void setNonMemberSupplement(final BigDecimal nonMemberSupplement) {
+        this.nonMemberSupplement = nonMemberSupplement;
+    }
+
     @Override
     public void importData() {
-        eventRepository.findOrCreate(getName(), getDate());
+        final Event event = eventRepository.findOrCreate(getName(), getDate());
+        menuRepository.findOrCreate(event, nonMemberSupplement);
     }
 
     @Inject
     EventRepository eventRepository;
+
+    @Inject
+    MenuRepository menuRepository;
 
 }

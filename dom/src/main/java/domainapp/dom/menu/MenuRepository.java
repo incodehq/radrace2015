@@ -18,14 +18,16 @@
  */
 package domainapp.dom.menu;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
-import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
+
+import domainapp.dom.event.Event;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -44,24 +46,24 @@ public class MenuRepository {
     //region > findByName (programmatic)
 
     @Programmatic
-    public Menu findByName(
-            @ParameterLayout(named="Name")
-            final String name
+    public Menu findByEvent(
+            final Event event
     ) {
         return container.uniqueMatch(
                 new QueryDefault<>(
                         Menu.class,
-                        "findByName",
-                        "name", name));
+                        "findByEvent",
+                        "event", event));
     }
     //endregion
 
     //region > create (programmatic)
 
     @Programmatic
-    public Menu create(final String name) {
+    public Menu create(final Event event, final BigDecimal nonMemberSupplement) {
         final Menu obj = container.newTransientInstance(Menu.class);
-        obj.setName(name);
+        obj.setEvent(event);
+        obj.setNonMemberSupplement(nonMemberSupplement);
         container.persistIfNotAlready(obj);
         return obj;
     }
@@ -73,10 +75,10 @@ public class MenuRepository {
     @javax.inject.Inject
     DomainObjectContainer container;
 
-    public Menu findOrCreate(final String categoryName) {
-        final Menu menu = findByName(categoryName);
+    public Menu findOrCreate(final Event event, final BigDecimal nonMemberSupplement) {
+        final Menu menu = findByEvent(event);
         if(menu == null) {
-            return create(categoryName);
+            return create(event, nonMemberSupplement);
         }
         return menu;
     }

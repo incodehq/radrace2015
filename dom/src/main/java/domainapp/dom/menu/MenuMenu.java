@@ -18,6 +18,7 @@
  */
 package domainapp.dom.menu;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.isis.applib.Identifier;
@@ -28,9 +29,13 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.Optionality;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
+
+import domainapp.dom.event.Event;
 
 @DomainService(
         nature = NatureOfService.DOMAIN // REVIEW: exclude from UI for now.
@@ -63,10 +68,9 @@ public class MenuMenu {
     )
     @MemberOrder(sequence = "2")
     public Menu findMenu(
-            @ParameterLayout(named = "Name")
-            final String name
+            final Event event
     ) {
-        return menuRepository.findByName(name);
+        return menuRepository.findByEvent(event);
     }
     //endregion
 
@@ -82,9 +86,11 @@ public class MenuMenu {
     )
     @MemberOrder(sequence = "3")
     public Menu create(
-            @ParameterLayout(named="Name")
-            final String name) {
-        return menuRepository.create(name);
+            final Event event,
+            @Parameter(optionality = Optionality.OPTIONAL)
+            @ParameterLayout(named="Non-member supplement")
+            final BigDecimal nonMemberSupplement) {
+        return menuRepository.create(event, nonMemberSupplement);
     }
 
     //endregion
