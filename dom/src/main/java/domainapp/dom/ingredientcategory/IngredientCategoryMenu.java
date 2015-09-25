@@ -33,11 +33,12 @@ import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
 @DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY
+        nature = NatureOfService.DOMAIN // REVIEW: suppress from the UI for now..
 )
 @DomainServiceLayout(
-        menuOrder = "10",
-        named = "Ingredient Category"
+        menuOrder = "20",
+        named = "Ingredient Category",
+        menuBar = DomainServiceLayout.MenuBar.SECONDARY
 )
 public class IngredientCategoryMenu {
 
@@ -62,7 +63,7 @@ public class IngredientCategoryMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "2")
-    public List<IngredientCategory> findByName(
+    public IngredientCategory findByName(
             @ParameterLayout(named="Name")
             final String name
     ) {

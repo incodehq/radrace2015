@@ -25,10 +25,10 @@ import com.google.common.collect.Lists;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.dom.ingredientcategory.IngredientCategory;
 import domainapp.dom.quick.QuickObject;
 import domainapp.fixture.dom.DemoTearDown;
 import domainapp.fixture.scenarios.spreadsheets.CreateUsingSpreadsheet;
+import domainapp.fixture.scenarios.spreadsheets.CreateUsingSpreadsheetForIngredientImport;
 
 public class RecreateDemo extends FixtureScript {
 
@@ -60,9 +60,9 @@ public class RecreateDemo extends FixtureScript {
         //
         ec.executeChild(this, new DemoTearDown());
 
-        getQuickObjects().addAll(execute(ec, QuickObject.class).getObjects());
+//        getQuickObjects().addAll(execute(ec, QuickObject.class).getObjects());
 
-        execute(ec, IngredientCategory.class);
+        ec.executeChild(this, new CreateUsingSpreadsheetForIngredientImport<>());
 
     }
 

@@ -16,9 +16,10 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.ingredientcategory;
+package domainapp.dom.ingredient;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -31,14 +32,17 @@ import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import domainapp.dom.ingredientcategory.IngredientCategory;
+
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
         schema = "simple",
-        table = "IngredientCategory"
+        table = "Ingredient"
 )
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
@@ -50,14 +54,14 @@ import org.apache.isis.applib.util.ObjectContracts;
         @javax.jdo.annotations.Query(
                 name = "find", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.modules.ingredientcategory.IngredientCategory "),
+                        + "FROM domainapp.dom.modules.ingredient.Ingredient "),
         @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.modules.ingredientcategory.IngredientCategory "
+                        + "FROM domainapp.dom.modules.ingredient.Ingredient "
                         + "WHERE name.indexOf(:name) >= 0 ")
 })
-@javax.jdo.annotations.Unique(name="IngredientCategory_name_UNQ", members = {"name"})
+@javax.jdo.annotations.Unique(name="Ingredient_name_UNQ", members = {"name"})
 @DomainObject(
         editing = Editing.DISABLED
 )
@@ -65,7 +69,7 @@ import org.apache.isis.applib.util.ObjectContracts;
         bookmarking = BookmarkPolicy.AS_ROOT,
         cssClassFa = "fa-flag"
 )
-public class IngredientCategory implements Comparable<IngredientCategory> {
+public class Ingredient implements Comparable<Ingredient> {
 
 
     //region > identificatiom
@@ -93,8 +97,8 @@ public class IngredientCategory implements Comparable<IngredientCategory> {
 
     //region > updateName (action)
 
-    @Action
-    public IngredientCategory updateName(
+    @Action(semantics = SemanticsOf.IDEMPOTENT)
+    public Ingredient updateName(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "New name")
             final String name) {
@@ -112,6 +116,19 @@ public class IngredientCategory implements Comparable<IngredientCategory> {
 
     //endregion
 
+    //region > category (property)
+    private IngredientCategory category;
+
+    @Column(allowsNull = "false")
+    public IngredientCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(final IngredientCategory category) {
+        this.category = category;
+    }
+    //endregion
+
     //region > version (derived property)
     public Long getVersionSequence() {
         return (Long) JDOHelper.getVersion(this);
@@ -121,7 +138,7 @@ public class IngredientCategory implements Comparable<IngredientCategory> {
     //region > compareTo
 
     @Override
-    public int compareTo(final IngredientCategory other) {
+    public int compareTo(final Ingredient other) {
         return ObjectContracts.compare(this, other, "name");
     }
 

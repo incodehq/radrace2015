@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.quick;
+package domainapp.dom.ingredient;
 
 import java.util.List;
 
@@ -32,15 +32,17 @@ import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
+import domainapp.dom.ingredientcategory.IngredientCategory;
+
 @DomainService(
-//        nature = NatureOfService.VIEW_MENU_ONLY
-        nature = NatureOfService.DOMAIN  // TODO: quick-n-dirty hiding...
+        nature = NatureOfService.VIEW_MENU_ONLY
 )
 @DomainServiceLayout(
         menuOrder = "10",
-        named = "Quick Objects"
+        named = "Ingredient",
+        menuBar = DomainServiceLayout.MenuBar.SECONDARY
 )
-public class QuickObjectMenu {
+public class IngredientMenu {
 
     //region > listAll (action)
     @Action(
@@ -50,8 +52,8 @@ public class QuickObjectMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "1")
-    public List<QuickObject> listAll() {
-        return quickObjectRepository.listAll();
+    public List<Ingredient> listAll() {
+        return ingredientRepository.listAll();
     }
     //endregion
 
@@ -63,17 +65,17 @@ public class QuickObjectMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "2")
-    public List<QuickObject> findByName(
+    public Ingredient findByName(
             @ParameterLayout(named="Name")
             final String name
     ) {
-        return quickObjectRepository.findByName(name);
+        return ingredientRepository.findByName(name);
     }
     //endregion
 
     //region > create (action)
-    public static class CreateDomainEvent extends ActionDomainEvent<QuickObjectMenu> {
-        public CreateDomainEvent(final QuickObjectMenu source, final Identifier identifier, final Object... arguments) {
+    public static class CreateDomainEvent extends ActionDomainEvent<IngredientMenu> {
+        public CreateDomainEvent(final IngredientMenu source, final Identifier identifier, final Object... arguments) {
             super(source, identifier, arguments);
         }
     }
@@ -82,10 +84,11 @@ public class QuickObjectMenu {
             domainEvent = CreateDomainEvent.class
     )
     @MemberOrder(sequence = "3")
-    public QuickObject create(
-            @ParameterLayout(named="Name")
-            final String name) {
-        return quickObjectRepository.create(name);
+    public Ingredient create(
+            @ParameterLayout(named = "Name")
+            final String name,
+            final IngredientCategory ingredientCategory) {
+        return ingredientRepository.create(name, ingredientCategory);
     }
 
     //endregion
@@ -93,7 +96,7 @@ public class QuickObjectMenu {
     //region > injected services
 
     @javax.inject.Inject
-    QuickObjectRepository quickObjectRepository;
+    IngredientRepository ingredientRepository;
 
     //endregion
 }

@@ -16,25 +16,31 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
+package domainapp.fixture.scenarios.spreadsheets;
 
-package domainapp.fixture.dom;
+import org.apache.isis.applib.annotation.ViewModel;
 
-import org.apache.isis.applib.fixturescripts.FixtureScript;
-import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
+@ViewModel
+public class IngredientImport {
 
-public class DemoTearDown extends FixtureScript {
+    private String name;
+    private String category;
 
-    @Override
-    protected void execute(ExecutionContext executionContext) {
-
-        isisJdoSupport.executeUpdate("delete from \"simple\".\"QuickObject\"");
-
-        isisJdoSupport.executeUpdate("delete from \"simple\".\"Ingredient\"");
-        isisJdoSupport.executeUpdate("delete from \"simple\".\"IngredientCategory\"");
+    public String getName() {
+        return name;
     }
 
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-    @javax.inject.Inject
-    private IsisJdoSupport isisJdoSupport;
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(final String category) {
+        this.category = category;
+    }
+
 
 }

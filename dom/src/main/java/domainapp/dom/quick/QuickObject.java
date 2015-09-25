@@ -42,7 +42,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
         schema = "simple",
-        table = "SimpleObject"
+        table = "QuickObject"
 )
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
@@ -54,14 +54,14 @@ import org.apache.isis.applib.util.ObjectContracts;
         @javax.jdo.annotations.Query(
                 name = "find", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.modules.simple.SimpleObject "),
+                        + "FROM domainapp.dom.modules.quick.QuickObject "),
         @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.modules.simple.SimpleObject "
+                        + "FROM domainapp.dom.modules.quick.QuickObject "
                         + "WHERE name.indexOf(:name) >= 0 ")
 })
-@javax.jdo.annotations.Unique(name="SimpleObject_name_UNQ", members = {"name"})
+@javax.jdo.annotations.Unique(name="QuickObject_name_UNQ", members = {"name"})
 @DomainObject(
         editing = Editing.DISABLED
 )
