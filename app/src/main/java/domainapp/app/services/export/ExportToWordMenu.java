@@ -34,7 +34,6 @@ import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Programmatic;
@@ -46,15 +45,13 @@ import org.isisaddons.module.docx.dom.DocxService;
 import org.isisaddons.module.docx.dom.LoadTemplateException;
 import org.isisaddons.module.docx.dom.MergeException;
 
-import domainapp.dom.quick.QuickObject;
+import domainapp.dom.Named;
+import domainapp.dom.event.EventRepository;
+import domainapp.dom.ingredient.IngredientRepository;
 import domainapp.dom.quick.QuickObjectMenu;
 
 @DomainService(
-        nature = NatureOfService.DOMAIN // REVIEW: suppress for now...
-)
-@DomainServiceLayout(
-        named="Quick Objects",
-        menuOrder = "30"
+        nature = NatureOfService.VIEW_MENU_ONLY
 )
 public class ExportToWordMenu {
 
@@ -69,22 +66,22 @@ public class ExportToWordMenu {
     @MemberOrder(sequence = "10")
     public Blob exportToWordDoc() throws IOException, JDOMException, MergeException {
 
-        final List<QuickObject> list = quickObjectMenu.listAll();
-        return exportToWordDoc(list);
+        final List items = ingredientRepository.listAll();
+        return exportToWordDoc(items);
     }
 
     //endregion
 
     //region > exportToWordDoc (programmatic)
     @Programmatic
-    public Blob exportToWordDoc(final List<QuickObject> items) {
+    public Blob exportToWordDoc(final List items) {
         return exportToWordDocCatchExceptions(items);
     }
 
-    private Blob exportToWordDocCatchExceptions(final List<QuickObject> quickObjects)  {
+    private Blob exportToWordDocCatchExceptions(final List<Named> items)  {
         final org.w3c.dom.Document w3cDocument;
         try {
-            w3cDocument = asInputW3cDocument(quickObjects);
+            w3cDocument = asInputW3cDocument(items);
 
             final ByteArrayOutputStream docxTarget = new ByteArrayOutputStream();
             docxService.merge(w3cDocument, getWordprocessingMLPackage(), docxTarget, DocxService.MatchingPolicy.LAX);
@@ -100,18 +97,22 @@ public class ExportToWordMenu {
         }
     }
 
-    private String timestamp() {
-        return clockService.nowAsLocalDateTime().toString("yyyyMMdd'_'HHmmss");
-    }
-
-    private org.w3c.dom.Document asInputW3cDocument(final List<QuickObject> items) throws JDOMException {
+    private org.w3c.dom.Document asInputW3cDocument(final List<Named> items) throws JDOMException {
         final Document jdomDoc = asInputDocument(items);
 
         final DOMOutputter domOutputter = new DOMOutputter();
         return domOutputter.output(jdomDoc);
     }
 
-    private Document asInputDocument(final List<QuickObject> quickObjects) {
+
+    //endregion (
+
+    private String timestamp() {
+        return clockService.nowAsLocalDateTime().toString("yyyyMMdd'_'HHmmss");
+    }
+
+
+    private Document asInputDocument(final List<Named> namedList) {
 
         final Element html = new Element("html");
         final Document document = new Document(html);
@@ -121,10 +122,9 @@ public class ExportToWordMenu {
 
         addPara(body, "ExportedOn", "date", clockService.nowAsLocalDateTime().toString("dd-MMM-yyyy"));
 
-        final Element table = addTable(body, "SimpleObjects");
-        for(final QuickObject quickObject : quickObjects) {
-            addTableRow(table,
-                    new String[] { quickObject.getName() });
+        final Element table = addTable(body, "MenuItems");
+        for(final Named item: namedList) {
+            addTableRow(table, new String[]{item.getName(), "", ""});
         }
         return document;
     }
@@ -144,7 +144,7 @@ public class ExportToWordMenu {
     private void initializeIfNecessary() {
         if(wordprocessingMLPackage == null) {
             try {
-                final byte[] bytes = Resources.toByteArray(Resources.getResource(this.getClass(), "SimpleObjectsExport.docx"));
+                final byte[] bytes = Resources.toByteArray(Resources.getResource(this.getClass(), "MenuReport.docx"));
                 wordprocessingMLPackage = docxService.loadPackage(new ByteArrayInputStream(bytes));
             } catch (IOException | LoadTemplateException e) {
                 throw new RuntimeException(e);
@@ -220,6 +220,12 @@ public class ExportToWordMenu {
 
     @javax.inject.Inject
     private DocxService docxService;
+
+    @javax.inject.Inject
+    private EventRepository eventRepository;
+
+    @javax.inject.Inject
+    private IngredientRepository ingredientRepository;
 
     @javax.inject.Inject
     private QuickObjectMenu quickObjectMenu;

@@ -39,6 +39,7 @@ import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import domainapp.dom.Named;
 import domainapp.dom.menu.Menu;
 import domainapp.dom.menu.MenuRepository;
 
@@ -72,7 +73,7 @@ import domainapp.dom.menu.MenuRepository;
         bookmarking = BookmarkPolicy.AS_ROOT,
         cssClassFa = "fa-flag"
 )
-public class Event implements Comparable<Event> {
+public class Event implements Comparable<Event>, Named {
 
 
     //region > identificatiom

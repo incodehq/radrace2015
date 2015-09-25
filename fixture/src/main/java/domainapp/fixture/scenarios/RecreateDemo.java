@@ -28,7 +28,6 @@ import org.apache.isis.applib.fixturescripts.FixtureScript;
 import domainapp.dom.quick.QuickObject;
 import domainapp.fixture.dom.DemoTearDown;
 import domainapp.fixture.scenarios.spreadsheets.CreateUsingSpreadsheet;
-import domainapp.fixture.scenarios.spreadsheets.EventImport;
 import domainapp.fixture.scenarios.spreadsheets.IngredientImport;
 import domainapp.fixture.scenarios.spreadsheets.PeopleImport;
 
@@ -65,7 +64,7 @@ public class RecreateDemo extends FixtureScript {
 //        getQuickObjects().addAll(execute(ec, QuickObject.class).getObjects());
 
         ec.executeChild(this, new CreateUsingSpreadsheet<>(IngredientImport.class));
-        ec.executeChild(this, new CreateUsingSpreadsheet<>(EventImport.class, "EventImport.xls"));
+//        ec.executeChild(this, new CreateUsingSpreadsheet<>(EventImport.class, "EventImport.xls"));
         ec.executeChild(this, new CreateUsingSpreadsheet<>(PeopleImport.class, "PeopleImportA.xls"));
 
 //        ec.executeChild(this, new CreateUsingSpreadsheet<>(OrderImport.class));

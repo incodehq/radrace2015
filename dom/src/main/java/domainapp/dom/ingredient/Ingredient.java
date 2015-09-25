@@ -37,6 +37,7 @@ import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import domainapp.dom.Named;
 import domainapp.dom.ingredientcategory.IngredientCategory;
 import domainapp.dom.supplier.Supplier;
 
@@ -70,7 +71,7 @@ import domainapp.dom.supplier.Supplier;
         bookmarking = BookmarkPolicy.AS_ROOT,
         cssClassFa = "fa-flag"
 )
-public class Ingredient implements Comparable<Ingredient> {
+public class Ingredient implements Comparable<Ingredient>, Named {
 
 
     //region > identificatiom

@@ -44,6 +44,7 @@ import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import domainapp.dom.Named;
 import domainapp.dom.ingredient.Ingredient;
 import domainapp.dom.menu.Menu;
 
@@ -82,7 +83,7 @@ import domainapp.dom.menu.Menu;
         bookmarking = BookmarkPolicy.AS_ROOT,
         cssClassFa = "fa-flag"
 )
-public class MenuItem implements Comparable<MenuItem> {
+public class MenuItem implements Comparable<MenuItem>, Named {
 
 
     //region > identificatiom
