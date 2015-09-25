@@ -28,7 +28,7 @@ public class DemoTearDown extends FixtureScript {
     protected void execute(ExecutionContext executionContext) {
 
         // TODO: currently breaking...
-        
+
 //        // quickobjects :-(
 //        isisJdoSupport.executeUpdate("delete from \"simple\".SimpleObject\"");
 //

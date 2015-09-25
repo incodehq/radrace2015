@@ -87,10 +87,16 @@ public class CreateUsingSpreadsheet<T> extends FixtureScript {
         final List<T> objects = excelService.fromExcel(blob, cls);
 
         for (final T obj : objects) {
-            container.persistIfNotAlready(obj);
+            doPersist(obj);
             this.objects.add(obj);
         }
+    }
 
+    /**
+     * Override if required.
+     */
+    protected void doPersist(final T obj) {
+        container.persistIfNotAlready(obj);
     }
 
     @Inject

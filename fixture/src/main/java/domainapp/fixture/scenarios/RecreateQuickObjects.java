@@ -27,7 +27,7 @@ import org.apache.isis.applib.fixturescripts.FixtureScript;
 
 import domainapp.dom.quick.QuickObject;
 import domainapp.fixture.dom.quick.QuickObjectsTearDown;
-import domainapp.fixture.scenarios.spreadsheets.CreateUsingSpreadsheetQuickObjects;
+import domainapp.fixture.scenarios.spreadsheets.CreateUsingSpreadsheet;
 
 public class RecreateQuickObjects extends FixtureScript {
 
@@ -59,8 +59,7 @@ public class RecreateQuickObjects extends FixtureScript {
         //
         ec.executeChild(this, new QuickObjectsTearDown());
 
-        final CreateUsingSpreadsheetQuickObjects fs = new CreateUsingSpreadsheetQuickObjects();
-        fs.setResourceName("QuickObject.xlsx");
+        final CreateUsingSpreadsheet fs = new CreateUsingSpreadsheet(QuickObject.class);
         ec.executeChild(this, fs);
 
         getQuickObjects().addAll(fs.getObjects());
