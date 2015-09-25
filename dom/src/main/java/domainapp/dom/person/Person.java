@@ -18,6 +18,7 @@
  */
 package domainapp.dom.person;
 
+import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
@@ -35,6 +36,7 @@ import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Where;
+import org.apache.isis.applib.services.clock.ClockService;
 import org.apache.isis.applib.util.TitleBuffer;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -265,6 +267,14 @@ public class Person implements Comparable<Person> {
         this.organiser = organiser;
     }
 
+    public Boolean isAdult(){
+        if (getDateOfBirth() == null){
+            return null;
+        }
+        return getDateOfBirth().plusYears(18).compareTo(clockService.now())>=0;
+    }
+
+
     @Override
     public int compareTo(final Person o) {
         return ComparisonChain.start()
@@ -272,4 +282,7 @@ public class Person implements Comparable<Person> {
                 .compare(getFirstName(), o.getLastName())
                 .result();
     }
+
+    @Inject
+    private ClockService clockService;
 }
