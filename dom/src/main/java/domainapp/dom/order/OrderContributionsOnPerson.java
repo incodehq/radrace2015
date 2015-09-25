@@ -23,11 +23,11 @@ import java.util.List;
 import org.apache.isis.applib.Identifier;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
+import org.apache.isis.applib.annotation.CollectionLayout;
+import org.apache.isis.applib.annotation.Contributed;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.RenderType;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
@@ -35,41 +35,42 @@ import domainapp.dom.event.Event;
 import domainapp.dom.person.Person;
 
 @DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY
+        nature = NatureOfService.VIEW_CONTRIBUTIONS_ONLY
 )
-@DomainServiceLayout(
-        menuOrder = "150",
-        named = "Orders"
-)
-public class OrderMenu {
+public class OrderContributionsOnPerson {
 
-    //region > listAll (action)
+    //region > orders (contributed collection)
     @Action(
             semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT
+            contributed = Contributed.AS_ASSOCIATION
     )
-    @MemberOrder(sequence = "1")
-    public List<Order> orders() {
-        return orderRepository.listAll();
-    }
-    //endregion
-
-    //region > findByPerson(action)
-    @Action(
-            semantics = SemanticsOf.SAFE
+    @CollectionLayout(
+            render = RenderType.EAGERLY
     )
-    @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT
-    )
-    @MemberOrder(sequence = "2")
-    public List<Order> findOrders(
-            final Person person
-    ) {
+    public List<Order> orders(final Person person) {
         return orderRepository.findByPerson(person);
     }
     //endregion
+
+    //region > create (contributed action)
+    public static class CreateDomainEvent extends ActionDomainEvent<OrderMenu> {
+        public CreateDomainEvent(final OrderMenu source, final Identifier identifier, final Object... arguments) {
+            super(source, identifier, arguments);
+        }
+    }
+
+    @Action(
+            domainEvent = CreateDomainEvent.class
+    )
+    public Order create(
+            final Person person, final Event event) {
+        return orderRepository.create(person, event);
+    }
+
+    //endregion
+
 
     //region > injected services
 

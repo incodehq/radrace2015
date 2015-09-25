@@ -28,16 +28,12 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
-import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Property;
-import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
@@ -71,7 +67,13 @@ import domainapp.dom.person.Person;
                 name = "findByEvent", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.order.Order "
-                        + "WHERE event == :event ")
+                        + "WHERE event == :event "),
+        @javax.jdo.annotations.Query(
+                name = "findByPersonAndEvent", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.order.Order "
+                        + "WHERE event == :event "
+                        + "   && person == :person")
 })
 @javax.jdo.annotations.Unique(name="Order_event_person_UNQ", members = {"event", "person"})
 @DomainObject(
@@ -91,44 +93,6 @@ public class Order implements Comparable<Order> {
                 "person", container.titleOf(getPerson()),
                 "event", getEvent().getName());
     }
-    //endregion
-
-    //region > name (property)
-
-    private String name;
-
-    @javax.jdo.annotations.Column(allowsNull="false", length = 40)
-    @Title(sequence="1")
-    @Property
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    // endregion
-
-    //region > updateName (action)
-
-    @Action
-    public Order updateName(
-            @Parameter(maxLength = 40)
-            @ParameterLayout(named = "New name")
-            final String name) {
-        setName(name);
-        return this;
-    }
-
-    public String default0UpdateName() {
-        return getName();
-    }
-
-    public TranslatableString validateUpdateName(final String name) {
-        return name.contains("!")? TranslatableString.tr("Exclamation mark is not allowed"): null;
-    }
-
     //endregion
 
     //region > person (property)

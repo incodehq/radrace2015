@@ -52,9 +52,9 @@ public class PersonRepository {
 
     @Programmatic
     public Person findByMemberId(
-            String memberId){
+            Integer memberId){
         return container.uniqueMatch(
-                new QueryDefault<Person>(
+                new QueryDefault<>(
                         Person.class,
                         "findByMemberId",
                         "memberId", memberId));

@@ -23,9 +23,11 @@ import java.util.List;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
-import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
+
+import domainapp.dom.event.Event;
+import domainapp.dom.person.Person;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -41,27 +43,51 @@ public class OrderRepository {
     }
     //endregion
 
-    //region > findByName (programmatic)
+    //region > findByPerson (programmatic)
 
     @Programmatic
-    public Order findByName(
-            @ParameterLayout(named="Name")
-            final String name
+    public List<Order> findByPerson(
+            final Person person) {
+        return container.allMatches(
+                new QueryDefault<>(Order.class,
+                        "findByPerson", "person", person));
+    }
+    //endregion
+
+    //region > findByEvent (programmatic)
+
+    @Programmatic
+    public List<Order> findByEvent(
+            final Event event) {
+        return container.allMatches(
+                new QueryDefault<>(Order.class,
+                        "findByEvent", "event", event));
+    }
+    //endregion
+
+    //region > findByPersonAndEvent (programmatic)
+
+    @Programmatic
+    public Order findByPersonAndEvent(
+            final Person person,
+            final Event event
     ) {
         return container.uniqueMatch(
                 new QueryDefault<>(
                         Order.class,
-                        "findByName",
-                        "name", name));
+                        "findByPersonAndEvent",
+                        "person", person,
+                        "event", event));
     }
     //endregion
 
     //region > create (programmatic)
 
     @Programmatic
-    public Order create(final String name) {
+    public Order create(final Person person, final Event event) {
         final Order obj = container.newTransientInstance(Order.class);
-        obj.setName(name);
+        obj.setEvent(event);
+        obj.setPerson(person);
         container.persistIfNotAlready(obj);
         return obj;
     }
@@ -73,10 +99,10 @@ public class OrderRepository {
     @javax.inject.Inject
     DomainObjectContainer container;
 
-    public Order findOrCreate(final String categoryName) {
-        final Order order = findByName(categoryName);
+    public Order findOrCreate(final Person person, final Event event) {
+        final Order order = findByPersonAndEvent(person, event);
         if(order == null) {
-            return create(categoryName);
+            return create(person, event);
         }
         return order;
     }

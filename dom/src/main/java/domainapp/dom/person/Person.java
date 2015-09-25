@@ -78,15 +78,15 @@ public class Person implements Comparable<Person> {
         return tb.append(getLastName()).append(", ").append(getFirstName()).toString();
     }
 
-    private String memberId;
+    private Integer memberId;
 
     @Property(hidden = Where.EVERYWHERE)
-    @Column(allowsNull = "true", length = 50)
-    public String getMemberId() {
+    @Column(allowsNull = "true")
+    public Integer getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(final String memberId) {
+    public void setMemberId(final Integer memberId) {
         this.memberId = memberId;
     }
 
@@ -162,11 +162,11 @@ public class Person implements Comparable<Person> {
 
     @MemberOrder(sequence = "1")
     @Column(allowsNull = "true")
-    public String getPostCode() {
+    public String getPostcode() {
         return postcode;
     }
 
-    public void setPostCode(final String postcode) {
+    public void setPostcode(final String postcode) {
         this.postcode = postcode;
     }
     //endregion

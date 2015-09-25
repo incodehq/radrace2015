@@ -138,16 +138,15 @@ public class PeopleImport implements Importable {
     public void importData() {
 
         try {
-
-            Person p = personRepository.findByMemberId(getNumber().toString());
+            Person p = personRepository.findByMemberId(getNumber());
 
             if (p == null) {
                 p = personRepository.create(pretty(getFirstName()), pretty(getLastName()));
-                p.setMemberId(getNumber().toString());
+                p.setMemberId(getNumber());
             }
             p.setStreet(pretty(getStreet()));
             p.setStreetNumber(getStreetNumber().toString());
-            p.setPostCode(getPostCode());
+            p.setPostcode(getPostCode());
             p.setCity(pretty(getCity()));
             p.setCountry(pretty(getCountry()));
 

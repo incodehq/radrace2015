@@ -80,7 +80,10 @@ public class Menu implements Comparable<Menu> {
 
     //region > identificatiom
     public TranslatableString title() {
-        return TranslatableString.tr("{event}'s Menu", "event", getEvent());
+        return TranslatableString.tr(
+                "{event}'s Menu",
+                "event",
+                container.titleOf(getEvent()));
     }
     //endregion
 
