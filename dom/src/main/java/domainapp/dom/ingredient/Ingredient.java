@@ -38,6 +38,7 @@ import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.ingredientcategory.IngredientCategory;
+import domainapp.dom.supplier.Supplier;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -54,11 +55,11 @@ import domainapp.dom.ingredientcategory.IngredientCategory;
         @javax.jdo.annotations.Query(
                 name = "find", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.modules.ingredient.Ingredient "),
+                        + "FROM domainapp.dom.ingredient.Ingredient "),
         @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.modules.ingredient.Ingredient "
+                        + "FROM domainapp.dom.ingredient.Ingredient "
                         + "WHERE name.indexOf(:name) >= 0 ")
 })
 @javax.jdo.annotations.Unique(name="Ingredient_name_UNQ", members = {"name"})
@@ -128,6 +129,20 @@ public class Ingredient implements Comparable<Ingredient> {
         this.category = category;
     }
     //endregion
+
+    //region > category (property)
+    private Supplier supplier;
+
+    @Column(allowsNull = "false")
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(final Supplier supplier) {
+        this.supplier = supplier;
+    }
+    //endregion
+
 
     //region > version (derived property)
     public Long getVersionSequence() {

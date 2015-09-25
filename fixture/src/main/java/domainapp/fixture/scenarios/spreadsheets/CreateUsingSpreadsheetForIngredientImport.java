@@ -24,6 +24,8 @@ import javax.inject.Inject;
 import domainapp.dom.ingredient.IngredientRepository;
 import domainapp.dom.ingredientcategory.IngredientCategory;
 import domainapp.dom.ingredientcategory.IngredientCategoryRepository;
+import domainapp.dom.supplier.Supplier;
+import domainapp.dom.supplier.SupplierRepository;
 
 public class CreateUsingSpreadsheetForIngredientImport<T> extends CreateUsingSpreadsheet<IngredientImport> {
 
@@ -33,10 +35,13 @@ public class CreateUsingSpreadsheetForIngredientImport<T> extends CreateUsingSpr
 
     @Override
     protected void doPersist(final IngredientImport obj) {
+        final Supplier supplier =
+                supplierRepository.findOrCreate(obj.getSupplier());
+
         final IngredientCategory ingredientCategory =
                 ingredientCategoryRepository.findOrCreate(obj.getCategory());
 
-        ingredientRepository.findOrCreate(obj.getName(), ingredientCategory);
+        ingredientRepository.findOrCreate(obj.getName(), ingredientCategory, supplier);
     }
 
     @Inject
@@ -44,5 +49,8 @@ public class CreateUsingSpreadsheetForIngredientImport<T> extends CreateUsingSpr
 
     @Inject
     IngredientCategoryRepository ingredientCategoryRepository;
+
+    @Inject
+    SupplierRepository supplierRepository;
 
 }

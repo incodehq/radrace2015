@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.ingredientcategory;
+package domainapp.dom.supplier;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.annotations.IdentityType;
@@ -38,7 +38,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
         schema = "simple",
-        table = "IngredientCategory"
+        table = "Supplier"
 )
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
@@ -50,14 +50,14 @@ import org.apache.isis.applib.util.ObjectContracts;
         @javax.jdo.annotations.Query(
                 name = "find", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.ingredientcategory.IngredientCategory "),
+                        + "FROM domainapp.dom.supplier.Supplier "),
         @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.ingredientcategory.IngredientCategory "
+                        + "FROM domainapp.dom.supplier.Supplier "
                         + "WHERE name.indexOf(:name) >= 0 ")
 })
-@javax.jdo.annotations.Unique(name="IngredientCategory_name_UNQ", members = {"name"})
+@javax.jdo.annotations.Unique(name="Supplier_name_UNQ", members = {"name"})
 @DomainObject(
         editing = Editing.DISABLED
 )
@@ -65,7 +65,7 @@ import org.apache.isis.applib.util.ObjectContracts;
         bookmarking = BookmarkPolicy.AS_ROOT,
         cssClassFa = "fa-flag"
 )
-public class IngredientCategory implements Comparable<IngredientCategory> {
+public class Supplier implements Comparable<Supplier> {
 
 
     //region > identificatiom
@@ -94,7 +94,7 @@ public class IngredientCategory implements Comparable<IngredientCategory> {
     //region > updateName (action)
 
     @Action
-    public IngredientCategory updateName(
+    public Supplier updateName(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "New name")
             final String name) {
@@ -121,7 +121,7 @@ public class IngredientCategory implements Comparable<IngredientCategory> {
     //region > compareTo
 
     @Override
-    public int compareTo(final IngredientCategory other) {
+    public int compareTo(final Supplier other) {
         return ObjectContracts.compare(this, other, "name");
     }
 

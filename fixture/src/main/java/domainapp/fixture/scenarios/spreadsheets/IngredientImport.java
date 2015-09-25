@@ -18,13 +18,22 @@
  */
 package domainapp.fixture.scenarios.spreadsheets;
 
+import javax.inject.Inject;
+
 import org.apache.isis.applib.annotation.ViewModel;
 
+import domainapp.dom.ingredient.IngredientRepository;
+import domainapp.dom.ingredientcategory.IngredientCategory;
+import domainapp.dom.ingredientcategory.IngredientCategoryRepository;
+import domainapp.dom.supplier.Supplier;
+import domainapp.dom.supplier.SupplierRepository;
+
 @ViewModel
-public class IngredientImport {
+public class IngredientImport implements Importable {
 
     private String name;
     private String category;
+    private String supplier;
 
     public String getName() {
         return name;
@@ -41,6 +50,42 @@ public class IngredientImport {
     public void setCategory(final String category) {
         this.category = category;
     }
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(final String supplier) {
+        this.supplier = supplier;
+    }
+
+    @Override public void importData() {
+        final Supplier supplier =
+                supplierRepository.findOrCreate(getSupplier());
+
+        final IngredientCategory ingredientCategory =
+                ingredientCategoryRepository.findOrCreate(getCategory());
+
+        ingredientRepository.findOrCreate(getName(), ingredientCategory, supplier);
+    }
+    private void doPersist(final IngredientImport obj) {
+        final Supplier supplier =
+                supplierRepository.findOrCreate(obj.getSupplier());
+
+        final IngredientCategory ingredientCategory =
+                ingredientCategoryRepository.findOrCreate(obj.getCategory());
+
+        ingredientRepository.findOrCreate(obj.getName(), ingredientCategory, supplier);
+    }
+
+    @Inject
+    IngredientRepository ingredientRepository;
+
+    @Inject
+    IngredientCategoryRepository ingredientCategoryRepository;
+
+    @Inject
+    SupplierRepository supplierRepository;
 
 
 }

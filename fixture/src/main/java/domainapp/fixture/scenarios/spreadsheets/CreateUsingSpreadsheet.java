@@ -96,7 +96,12 @@ public class CreateUsingSpreadsheet<T> extends FixtureScript {
      * Override if required.
      */
     protected void doPersist(final T obj) {
-        container.persistIfNotAlready(obj);
+        if(obj instanceof Importable) {
+            final Importable importable = (Importable) obj;
+            importable.importData();
+        } else {
+            container.persistIfNotAlready(obj);
+        }
     }
 
     @Inject

@@ -36,9 +36,8 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
         nature = NatureOfService.DOMAIN // REVIEW: suppress from the UI for now..
 )
 @DomainServiceLayout(
-        menuOrder = "20",
-        named = "Ingredient Category",
-        menuBar = DomainServiceLayout.MenuBar.SECONDARY
+        menuOrder = "220",
+        named = "Ingredients"
 )
 public class IngredientCategoryMenu {
 
@@ -50,7 +49,7 @@ public class IngredientCategoryMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "1")
-    public List<IngredientCategory> listAll() {
+    public List<IngredientCategory> categories() {
         return ingredientCategoryRepository.listAll();
     }
     //endregion
@@ -63,8 +62,8 @@ public class IngredientCategoryMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "2")
-    public IngredientCategory findByName(
-            @ParameterLayout(named="Name")
+    public IngredientCategory findCategory(
+            @ParameterLayout(named = "Name")
             final String name
     ) {
         return ingredientCategoryRepository.findByName(name);

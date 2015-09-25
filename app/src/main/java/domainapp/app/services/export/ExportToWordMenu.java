@@ -36,6 +36,7 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.clock.ClockService;
@@ -48,7 +49,9 @@ import org.isisaddons.module.docx.dom.MergeException;
 import domainapp.dom.quick.QuickObject;
 import domainapp.dom.quick.QuickObjectMenu;
 
-@DomainService
+@DomainService(
+        nature = NatureOfService.DOMAIN // REVIEW: suppress for now...
+)
 @DomainServiceLayout(
         named="Quick Objects",
         menuOrder = "30"

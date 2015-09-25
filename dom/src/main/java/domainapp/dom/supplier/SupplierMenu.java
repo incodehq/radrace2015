@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.ingredient;
+package domainapp.dom.supplier;
 
 import java.util.List;
 
@@ -32,17 +32,14 @@ import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
-import domainapp.dom.ingredientcategory.IngredientCategory;
-import domainapp.dom.supplier.Supplier;
-
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY
 )
 @DomainServiceLayout(
-        menuOrder = "210",
+        menuOrder = "230",
         named = "Ingredients"
 )
-public class IngredientMenu {
+public class SupplierMenu {
 
     //region > listAll (action)
     @Action(
@@ -52,8 +49,8 @@ public class IngredientMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "1")
-    public List<Ingredient> listIngredients() {
-        return ingredientRepository.listAll();
+    public List<Supplier> suppliers() {
+        return supplierRepository.listAll();
     }
     //endregion
 
@@ -65,17 +62,17 @@ public class IngredientMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "2")
-    public Ingredient findIngredients(
+    public Supplier findSupplier(
             @ParameterLayout(named = "Name")
             final String name
     ) {
-        return ingredientRepository.findByName(name);
+        return supplierRepository.findByName(name);
     }
     //endregion
 
     //region > create (action)
-    public static class CreateDomainEvent extends ActionDomainEvent<IngredientMenu> {
-        public CreateDomainEvent(final IngredientMenu source, final Identifier identifier, final Object... arguments) {
+    public static class CreateDomainEvent extends ActionDomainEvent<SupplierMenu> {
+        public CreateDomainEvent(final SupplierMenu source, final Identifier identifier, final Object... arguments) {
             super(source, identifier, arguments);
         }
     }
@@ -84,12 +81,10 @@ public class IngredientMenu {
             domainEvent = CreateDomainEvent.class
     )
     @MemberOrder(sequence = "3")
-    public Ingredient create(
-            @ParameterLayout(named = "Name")
-            final String name,
-            final IngredientCategory ingredientCategory,
-            final Supplier supplier) {
-        return ingredientRepository.create(name, ingredientCategory, supplier);
+    public Supplier create(
+            @ParameterLayout(named="Name")
+            final String name) {
+        return supplierRepository.create(name);
     }
 
     //endregion
@@ -97,7 +92,7 @@ public class IngredientMenu {
     //region > injected services
 
     @javax.inject.Inject
-    IngredientRepository ingredientRepository;
+    SupplierRepository supplierRepository;
 
     //endregion
 }

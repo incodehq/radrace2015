@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.ingredient;
+package domainapp.dom.supplier;
 
 import java.util.List;
 
@@ -27,33 +27,30 @@ import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 
-import domainapp.dom.ingredientcategory.IngredientCategory;
-import domainapp.dom.supplier.Supplier;
-
 @DomainService(
         nature = NatureOfService.DOMAIN,
-        repositoryFor = Ingredient.class
+        repositoryFor = Supplier.class
 )
-public class IngredientRepository {
+public class SupplierRepository {
 
     //region > listAll (programmatic)
 
     @Programmatic
-    public List<Ingredient> listAll() {
-        return container.allInstances(Ingredient.class);
+    public List<Supplier> listAll() {
+        return container.allInstances(Supplier.class);
     }
     //endregion
 
     //region > findByName (programmatic)
 
     @Programmatic
-    public Ingredient findByName(
+    public Supplier findByName(
             @ParameterLayout(named="Name")
             final String name
     ) {
         return container.uniqueMatch(
                 new QueryDefault<>(
-                        Ingredient.class,
+                        Supplier.class,
                         "findByName",
                         "name", name));
     }
@@ -62,14 +59,9 @@ public class IngredientRepository {
     //region > create (programmatic)
 
     @Programmatic
-    public Ingredient create(
-            final String name,
-            final IngredientCategory ingredientCategory,
-            final Supplier supplier) {
-        final Ingredient obj = container.newTransientInstance(Ingredient.class);
+    public Supplier create(final String name) {
+        final Supplier obj = container.newTransientInstance(Supplier.class);
         obj.setName(name);
-        obj.setCategory(ingredientCategory);
-        obj.setSupplier(supplier);
         container.persistIfNotAlready(obj);
         return obj;
     }
@@ -78,18 +70,15 @@ public class IngredientRepository {
 
     //region > injected services
 
-    @javax.inject.Inject 
+    @javax.inject.Inject
     DomainObjectContainer container;
 
-    public Ingredient findOrCreate(
-            final String name,
-            final IngredientCategory ingredientCategory,
-            final Supplier supplier) {
-        final Ingredient ingredient = findByName(name);
-        if(ingredient == null) {
-            return create(name, ingredientCategory, supplier);
+    public Supplier findOrCreate(final String categoryName) {
+        final Supplier supplier = findByName(categoryName);
+        if(supplier == null) {
+            return create(categoryName);
         }
-        return ingredient;
+        return supplier;
     }
 
     //endregion
