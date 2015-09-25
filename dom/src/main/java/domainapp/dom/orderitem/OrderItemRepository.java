@@ -56,30 +56,11 @@ public class OrderItemRepository {
     }
     //endregion
 
-    //region > create (programmatic)
-
-    @Programmatic
-    public OrderItem create(final String name) {
-        final OrderItem obj = container.newTransientInstance(OrderItem.class);
-        obj.setName(name);
-        container.persistIfNotAlready(obj);
-        return obj;
-    }
-
-    //endregion
 
     //region > injected services
 
     @javax.inject.Inject
     DomainObjectContainer container;
-
-    public OrderItem findOrCreate(final String categoryName) {
-        final OrderItem orderItem = findByName(categoryName);
-        if(orderItem == null) {
-            return create(categoryName);
-        }
-        return orderItem;
-    }
 
     //endregion
 }

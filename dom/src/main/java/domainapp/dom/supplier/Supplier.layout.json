@@ -49,33 +49,6 @@
             "memberGroups": {
                 "Data": {
                     "members": {
-                        "integer": {
-                            "actions": {
-                                "updateInteger": {
-                                    "actionLayout": {
-                                        "position": "BOTTOM"
-                                    }
-                                }
-                            }
-                        },
-                        "localDate": {
-                            "actions": {
-                                "updateLocalDate": {
-                                    "actionLayout": {
-                                        "position": "BOTTOM"
-                                    }
-                                }
-                            }
-                        },
-                        "boolean": {
-                            "actions": {
-                                "updateBoolean": {
-                                    "actionLayout": {
-                                        "position": "BOTTOM"
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }

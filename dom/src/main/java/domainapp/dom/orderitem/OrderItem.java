@@ -19,6 +19,7 @@
 package domainapp.dom.orderitem;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -30,10 +31,11 @@ import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Property;
-import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
+
+import domainapp.dom.menuitem.MenuItem;
+import domainapp.dom.order.Order;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -52,12 +54,12 @@ import org.apache.isis.applib.util.ObjectContracts;
                 value = "SELECT "
                         + "FROM domainapp.dom.orderitem.OrderItem "),
         @javax.jdo.annotations.Query(
-                name = "findByName", language = "JDOQL",
+                name = "findByOrder", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.orderitem.OrderItem "
-                        + "WHERE name.indexOf(:name) >= 0 ")
+                        + "WHERE order == :order ")
 })
-@javax.jdo.annotations.Unique(name="OrderItem_name_UNQ", members = {"name"})
+@javax.jdo.annotations.Unique(name="OrderItem_order_menuItem_UNQ", members = {"order", "menuItem"})
 @DomainObject(
         editing = Editing.DISABLED
 )
@@ -70,47 +72,69 @@ public class OrderItem implements Comparable<OrderItem> {
 
     //region > identificatiom
     public TranslatableString title() {
-        return TranslatableString.tr("Object: {name}", "name", getName());
+        return TranslatableString.tr(
+                "{quantity} x {menuItem}",
+                "quantity", getQuantity(),
+                "order", container.titleOf(getOrder()));
     }
     //endregion
 
-    //region > name (property)
 
-    private String name;
+    //region > order (property)
+    private Order order;
 
-    @javax.jdo.annotations.Column(allowsNull="false", length = 40)
-    @Title(sequence="1")
-    @Property
-    public String getName() {
-        return name;
+    @Column(allowsNull = "false")
+    public Order getOrder() {
+        return order;
     }
 
-    public void setName(final String name) {
-        this.name = name;
+    public void setOrder(final Order order) {
+        this.order = order;
+    }
+    //endregion
+
+    //region > menuItem (property)
+    private MenuItem menuItem;
+
+    @Column(allowsNull = "false")
+    public MenuItem getMenuItem() {
+        return menuItem;
     }
 
-    // endregion
+    public void setMenuItem(final MenuItem menuItem) {
+        this.menuItem = menuItem;
+    }
+    //endregion
 
-    //region > updateName (action)
+    //region > quantity (property)
+    private int quantity;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(final int quantity) {
+        this.quantity = quantity;
+    }
+    //endregion
+
+    //region > updateQuantity (action)
 
     @Action
-    public OrderItem updateName(
+    public OrderItem updateQuantity(
             @Parameter(maxLength = 40)
-            @ParameterLayout(named = "New name")
-            final String name) {
-        setName(name);
+            @ParameterLayout(named = "New quantity")
+            final int quantity) {
+        setQuantity(quantity);
         return this;
     }
 
-    public String default0UpdateName() {
-        return getName();
-    }
-
-    public TranslatableString validateUpdateName(final String name) {
-        return name.contains("!")? TranslatableString.tr("Exclamation mark is not allowed"): null;
+    public int default0UpdateQuantity() {
+        return getQuantity();
     }
 
     //endregion
+
 
     //region > version (derived property)
     public Long getVersionSequence() {
@@ -122,7 +146,7 @@ public class OrderItem implements Comparable<OrderItem> {
 
     @Override
     public int compareTo(final OrderItem other) {
-        return ObjectContracts.compare(this, other, "name");
+        return ObjectContracts.compare(this, other, "order", "menuItem");
     }
 
     //endregion

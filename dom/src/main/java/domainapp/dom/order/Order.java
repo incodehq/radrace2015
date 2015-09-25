@@ -18,8 +18,13 @@
  */
 package domainapp.dom.order;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import javax.jdo.JDOHelper;
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -28,12 +33,18 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
+
+import domainapp.dom.event.Event;
+import domainapp.dom.menuitem.MenuItem;
+import domainapp.dom.orderitem.OrderItem;
+import domainapp.dom.person.Person;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -52,12 +63,17 @@ import org.apache.isis.applib.util.ObjectContracts;
                 value = "SELECT "
                         + "FROM domainapp.dom.order.Order "),
         @javax.jdo.annotations.Query(
-                name = "findByName", language = "JDOQL",
+                name = "findByPerson", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.order.Order "
-                        + "WHERE name.indexOf(:name) >= 0 ")
+                        + "WHERE person == :person "),
+        @javax.jdo.annotations.Query(
+                name = "findByEvent", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.order.Order "
+                        + "WHERE event == :event ")
 })
-@javax.jdo.annotations.Unique(name="Order_name_UNQ", members = {"name"})
+@javax.jdo.annotations.Unique(name="Order_event_person_UNQ", members = {"event", "person"})
 @DomainObject(
         editing = Editing.DISABLED
 )
@@ -70,7 +86,10 @@ public class Order implements Comparable<Order> {
 
     //region > identificatiom
     public TranslatableString title() {
-        return TranslatableString.tr("Object: {name}", "name", getName());
+        return TranslatableString.tr(
+                "{person}/{event}",
+                "person", container.titleOf(getPerson()),
+                "event", getEvent().getName());
     }
     //endregion
 
@@ -112,6 +131,68 @@ public class Order implements Comparable<Order> {
 
     //endregion
 
+    //region > person (property)
+    private Person person;
+
+    @Column(allowsNull = "false")
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(final Person person) {
+        this.person = person;
+    }
+    //endregion
+
+    //region > event (property)
+    private Event event;
+
+    @Column(allowsNull = "false")
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(final Event event) {
+        this.event = event;
+    }
+    //endregion
+
+
+
+    //region > items (collection)
+    @Persistent(mappedBy = "order", dependentElement = "true")
+    private SortedSet<OrderItem> items = new TreeSet<OrderItem>();
+
+    @MemberOrder(sequence = "1")
+    public SortedSet<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(final SortedSet<OrderItem> items) {
+        this.items = items;
+    }
+    //endregion
+
+    //region > newItem (action)
+    public Order newItem(
+            final MenuItem menuItem,
+            @ParameterLayout(named = "Quantity")
+            final int quantity) {
+
+        final OrderItem orderItem = container.newTransientInstance(OrderItem.class);
+
+        orderItem.setOrder(this);
+        orderItem.setMenuItem(menuItem);
+        orderItem.setQuantity(quantity);
+
+        container.persistIfNotAlready(orderItem);
+
+        return this;
+    }
+    //endregion
+
+
+
     //region > version (derived property)
     public Long getVersionSequence() {
         return (Long) JDOHelper.getVersion(this);
@@ -122,7 +203,7 @@ public class Order implements Comparable<Order> {
 
     @Override
     public int compareTo(final Order other) {
-        return ObjectContracts.compare(this, other, "name");
+        return ObjectContracts.compare(this, other, "event", "person");
     }
 
     //endregion

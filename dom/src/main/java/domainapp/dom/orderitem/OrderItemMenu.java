@@ -20,7 +20,6 @@ package domainapp.dom.orderitem;
 
 import java.util.List;
 
-import org.apache.isis.applib.Identifier;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
@@ -30,7 +29,6 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
 @DomainService(
 //        nature = NatureOfService.VIEW_MENU_ONLY // REVIEW: exclude from the UI
@@ -71,24 +69,6 @@ public class OrderItemMenu {
     }
     //endregion
 
-    //region > create (action)
-    public static class CreateDomainEvent extends ActionDomainEvent<OrderItemMenu> {
-        public CreateDomainEvent(final OrderItemMenu source, final Identifier identifier, final Object... arguments) {
-            super(source, identifier, arguments);
-        }
-    }
-
-    @Action(
-            domainEvent = CreateDomainEvent.class
-    )
-    @MemberOrder(sequence = "3")
-    public OrderItem create(
-            @ParameterLayout(named="Name")
-            final String name) {
-        return orderItemRepository.create(name);
-    }
-
-    //endregion
 
     //region > injected services
 
