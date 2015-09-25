@@ -155,11 +155,8 @@ public class EventImport implements Importable {
         final Supplier supplier = supplierRepository.findOrCreate(getIngredientSupplier());
         final IngredientCategory ingredientCategory = ingredientCategoryRepository.findOrCreate(getIngredientCategory());
         final Ingredient ingredient = ingredientRepository.findOrCreate(getIngredient(), ingredientCategory, supplier);
-        final String menuItemName = getMenuItem();
-        final MenuItem menuItem = menu.newItem2(menuItemName, getMenuItemMemberPrice());
-
-        // FIXME
-        if(ingredient != null) {
+        final MenuItem menuItem = menu.newItem2(getMenuItem(), getMenuItemMemberPrice());
+        if(menuItem != null && ingredient != null) {
             menuItem.addIngredient(ingredient);
         }
     }

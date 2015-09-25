@@ -169,7 +169,7 @@ public class MenuItem implements Comparable<MenuItem> {
     //region > memberPrice (property)
     private BigDecimal memberPrice;
 
-    @Column(allowsNull = "true")
+    @Column(allowsNull = "true", scale = 2)
     public BigDecimal getMemberPrice() {
         return memberPrice;
     }

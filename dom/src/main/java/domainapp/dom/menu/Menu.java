@@ -109,7 +109,7 @@ public class Menu implements Comparable<Menu> {
     //region > nonMemberSupplement (property)
     private BigDecimal nonMemberSupplement;
 
-    @Column(allowsNull = "false")
+    @Column(allowsNull = "false", scale = 2)
     @MemberOrder(sequence = "1")
     public BigDecimal getNonMemberSupplement() {
         return nonMemberSupplement;
@@ -150,6 +150,9 @@ public class Menu implements Comparable<Menu> {
     public MenuItem newItem2(
             final String name,
             final BigDecimal memberPrice) {
+        if (name == null){
+            return null;
+        }
 
         final Optional<MenuItem> menuItemIfAny = Iterables.tryFind(getItems(), new Predicate<MenuItem>() {
             @Override public boolean apply(final MenuItem input) {

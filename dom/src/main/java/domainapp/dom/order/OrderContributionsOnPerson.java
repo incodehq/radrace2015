@@ -20,7 +20,6 @@ package domainapp.dom.order;
 
 import java.util.List;
 
-import org.apache.isis.applib.Identifier;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.CollectionLayout;
@@ -29,7 +28,6 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.RenderType;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
 import domainapp.dom.event.Event;
 import domainapp.dom.person.Person;
@@ -54,16 +52,6 @@ public class OrderContributionsOnPerson {
     }
     //endregion
 
-    //region > create (contributed action)
-    public static class CreateDomainEvent extends ActionDomainEvent<OrderMenu> {
-        public CreateDomainEvent(final OrderMenu source, final Identifier identifier, final Object... arguments) {
-            super(source, identifier, arguments);
-        }
-    }
-
-    @Action(
-            domainEvent = CreateDomainEvent.class
-    )
     public Order create(
             final Person person, final Event event) {
         return orderRepository.create(person, event);
