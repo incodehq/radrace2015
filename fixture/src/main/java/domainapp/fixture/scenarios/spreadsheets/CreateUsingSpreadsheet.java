@@ -17,7 +17,7 @@
  *  under the License.
  */
 
-package domainapp.fixture;
+package domainapp.fixture.scenarios.spreadsheets;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,12 +34,13 @@ import org.apache.isis.applib.value.Blob;
 
 import org.isisaddons.module.excel.dom.ExcelService;
 
-public abstract class CreateUsingSpreadsheetAbstract<T> extends FixtureScript {
+public class CreateUsingSpreadsheet<T> extends FixtureScript {
 
     private final Class<T> cls;
 
-    public CreateUsingSpreadsheetAbstract(Class<T> cls) {
+    public CreateUsingSpreadsheet(Class<T> cls) {
         this.cls = cls;
+        setResourceName(cls.getSimpleName() + ".xlsx");
     }
 
     //region > resourceName (input)

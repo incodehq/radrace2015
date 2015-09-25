@@ -19,11 +19,13 @@
 
 package domainapp.fixture.scenarios.spreadsheets;
 
-import domainapp.dom.quick.QuickObject;
+import domainapp.dom.ingredientcategory.IngredientCategory;
 
-public class CreateUsingSpreadsheetQuickObjects extends CreateUsingSpreadsheet<QuickObject> {
+public class CreateUsingSpreadsheetIngredientCategory
+        extends CreateUsingSpreadsheet<IngredientCategory> {
 
-    public CreateUsingSpreadsheetQuickObjects() {
-        super(QuickObject.class);
+    public CreateUsingSpreadsheetIngredientCategory() {
+        super(IngredientCategory.class);
     }
+
 }

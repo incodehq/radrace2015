@@ -51,7 +51,7 @@ public class SpreadsheetFixtureIntegTest extends DomainAppIntegTest {
 
             // when
             final CreateUsingSpreadsheetQuickObjects fs = new CreateUsingSpreadsheetQuickObjects();
-            fs.setResourceName("QuickObjects-1.xlsx");
+            fs.setResourceName("QuickObject.xlsx");
 
             fixtureScripts.runFixtureScript(fs, null);
             nextTransaction();

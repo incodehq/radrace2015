@@ -21,12 +21,12 @@
 
     <parent>
         <groupId>org.isisaddons.app</groupId>
-        <artifactId>quickstart</artifactId>
+        <artifactId>cles</artifactId>
         <version>1.10.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>quickstart-webapp</artifactId>
-    <name>Isis Addons quickstart Webapp</name>
+    <artifactId>cles-webapp</artifactId>
+    <name>Incode RadRace2015 CLES Webapp</name>
 
     <description>This module runs both the Wicket viewer and the Restfulobjects viewer in a single webapp configured to run using the datanucleus object store.  It combines a number of the Isis addons.</description>
 
@@ -141,7 +141,7 @@
         <!-- other modules in this project -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>quickstart-app</artifactId>
+            <artifactId>cles-app</artifactId>
         </dependency>
         
         <!-- other isis components -->

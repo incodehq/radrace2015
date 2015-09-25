@@ -23,12 +23,12 @@
 
     <parent>
         <groupId>org.isisaddons.app</groupId>
-        <artifactId>quickstart</artifactId>
+        <artifactId>cles</artifactId>
         <version>1.10.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>quickstart-fixture</artifactId>
-    <name>Isis Addons quickstart Fixtures</name>
+    <artifactId>cles-fixture</artifactId>
+    <name>Incode RadRace2015 CLES Fixtures</name>
 
     <build>
         <resources>
@@ -52,7 +52,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>quickstart-dom</artifactId>
+            <artifactId>cles-dom</artifactId>
             <exclusions>
                 <exclusion>
                     <!-- so don't pick up transitive dependency to asm 4.0.0 -->

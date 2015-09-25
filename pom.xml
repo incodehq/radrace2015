@@ -22,10 +22,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.isisaddons.app</groupId>
-    <artifactId>quickstart</artifactId>
+    <artifactId>cles</artifactId>
     <version>1.10.0-SNAPSHOT</version>
 
-    <name>Isis Addons Quickstart</name>
+    <name>Incode RadRace2015 CLES</name>
 
     <packaging>pom</packaging>
 
@@ -286,32 +286,32 @@
             <!-- this project's own modules -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>quickstart-app</artifactId>
+                <artifactId>cles-app</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>quickstart-canonical</artifactId>
+                <artifactId>cles-canonical</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>quickstart-dom</artifactId>
+                <artifactId>cles-dom</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>quickstart-fixture</artifactId>
+                <artifactId>cles-fixture</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>quickstart-integtests</artifactId>
+                <artifactId>cles-integtests</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>quickstart-webapp</artifactId>
+                <artifactId>cles-webapp</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

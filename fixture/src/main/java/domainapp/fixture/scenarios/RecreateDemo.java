@@ -25,19 +25,20 @@ import com.google.common.collect.Lists;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
+import domainapp.dom.ingredientcategory.IngredientCategory;
 import domainapp.dom.quick.QuickObject;
-import domainapp.fixture.dom.quick.QuickObjectsTearDown;
-import domainapp.fixture.scenarios.spreadsheets.CreateUsingSpreadsheetQuickObjects;
+import domainapp.fixture.dom.quick.DemoTearDown;
+import domainapp.fixture.scenarios.spreadsheets.CreateUsingSpreadsheet;
 
-public class RecreateQuickObjects extends FixtureScript {
+public class RecreateDemo extends FixtureScript {
 
 
-    public RecreateQuickObjects() {
+    public RecreateDemo() {
         withDiscoverability(Discoverability.DISCOVERABLE);
     }
 
 
-    //region > simpleObjects (output)
+    //region > quickObjects (output)
     private final List<QuickObject> quickObjects = Lists.newArrayList();
 
     /**
@@ -57,13 +58,18 @@ public class RecreateQuickObjects extends FixtureScript {
         //
         // execute
         //
-        ec.executeChild(this, new QuickObjectsTearDown());
+        ec.executeChild(this, new DemoTearDown());
 
-        final CreateUsingSpreadsheetQuickObjects fs = new CreateUsingSpreadsheetQuickObjects();
-        fs.setResourceName("QuickObject.xlsx");
-        ec.executeChild(this, fs);
+        getQuickObjects().addAll(execute(ec, QuickObject.class).getObjects());
 
-        getQuickObjects().addAll(fs.getObjects());
+        execute(ec, IngredientCategory.class);
 
+
+    }
+
+    private <T> CreateUsingSpreadsheet<T> execute(final ExecutionContext ec, final Class<T> aClass) {
+        CreateUsingSpreadsheet fs1 = new CreateUsingSpreadsheet<>(aClass);
+        ec.executeChild(this, fs1);
+        return fs1;
     }
 }

@@ -23,12 +23,12 @@
 
     <parent>
         <groupId>org.isisaddons.app</groupId>
-        <artifactId>quickstart</artifactId>
+        <artifactId>cles</artifactId>
         <version>1.10.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>quickstart-integtests</artifactId>
-    <name>Isis Addons quickstart Integration Tests</name>
+    <artifactId>cles-integtests</artifactId>
+    <name>Incode RadRace2015 CLES Integration Tests</name>
 
     <build>
         <testResources>
@@ -86,7 +86,7 @@
         <!-- other modules in this project -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>quickstart-app</artifactId>
+            <artifactId>cles-app</artifactId>
         </dependency>
 
         <dependency>

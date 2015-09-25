@@ -22,12 +22,12 @@
 
     <parent>
         <groupId>org.isisaddons.app</groupId>
-        <artifactId>quickstart</artifactId>
+        <artifactId>cles</artifactId>
         <version>1.10.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>quickstart-canonical</artifactId>
-    <name>Isis Addons quickstart Canonical Data</name>
+    <artifactId>cles-canonical</artifactId>
+    <name>Incode RadRace2015 CLES Canonical Data</name>
 
 
     <build>

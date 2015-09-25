@@ -22,12 +22,12 @@
 
     <parent>
         <groupId>org.isisaddons.app</groupId>
-        <artifactId>quickstart</artifactId>
+        <artifactId>cles</artifactId>
         <version>1.10.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>quickstart-app</artifactId>
-    <name>Isis Addons quickstart Application</name>
+    <artifactId>cles-app</artifactId>
+    <name>Incode RadRace2015 CLES Application</name>
 
     <build>
         <resources>
@@ -52,7 +52,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>quickstart-fixture</artifactId>
+            <artifactId>cles-fixture</artifactId>
         </dependency>
 
         <dependency>
