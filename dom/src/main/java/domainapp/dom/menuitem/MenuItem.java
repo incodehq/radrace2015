@@ -19,10 +19,13 @@
 package domainapp.dom.menuitem;
 
 import java.math.BigDecimal;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -34,6 +37,8 @@ import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
@@ -67,7 +72,7 @@ import domainapp.dom.menu.Menu;
                         + "FROM domainapp.dom.menuitem.MenuItem "
                         + "WHERE ingredient == :ingredient ")
 })
-@javax.jdo.annotations.Unique(name="MenuItem_menu_ingredient_UNQ", members = {"menu", "ingredient"})
+@javax.jdo.annotations.Unique(name="MenuItem_menu_ingredient_UNQ", members = {"menu", "name"})
 @DomainObject(
         editing = Editing.DISABLED
 )
@@ -81,8 +86,8 @@ public class MenuItem implements Comparable<MenuItem> {
     //region > identificatiom
     public TranslatableString title() {
         return TranslatableString.tr(
-                "{ingredient} @ {memberPrice}",
-                "ingredient", container.titleOf(getIngredient()),
+                "{name} @ {memberPrice}",
+                "name", getName(),
                 "memberPrice", getMemberPrice()
                 );
     }
@@ -101,19 +106,65 @@ public class MenuItem implements Comparable<MenuItem> {
     }
     //endregion
 
-    //region > ingredient (property)
-    private Ingredient ingredient;
+    //region > name (property)
+
+    private String name;
+
+    @javax.jdo.annotations.Column(allowsNull="false", length = 40)
+    @Title(sequence="1")
+    @Property
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    // endregion
+
+    //region > updateName (action)
+
+    @Action
+    public MenuItem updateName(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "New name")
+            final String name) {
+        setName(name);
+        return this;
+    }
+
+    public String default0UpdateName() {
+        return getName();
+    }
+
+    public TranslatableString validateUpdateName(final String name) {
+        return name.contains("!")? TranslatableString.tr("Exclamation mark is not allowed"): null;
+    }
+
+    //endregion
+
+
+    //region > ingredients (collection)
+    @Persistent(dependentElement = "true")
+    private SortedSet<Ingredient> ingredients = new TreeSet<Ingredient>();
 
     @MemberOrder(sequence = "1")
-    @Column(allowsNull = "false")
-    public Ingredient getIngredient() {
-        return ingredient;
+    public SortedSet<Ingredient> getIngredients() {
+        return ingredients;
     }
 
-    public void setIngredient(final Ingredient ingredient) {
-        this.ingredient = ingredient;
+    public void setIngredients(final SortedSet<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
     //endregion
+
+    //region > addIngredient (action)
+    public void addIngredient(final Ingredient ingredient) {
+        getIngredients().add(ingredient);
+    }
+    //endregion
+
 
     //region > memberPrice (property)
     private BigDecimal memberPrice;
@@ -155,7 +206,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
     @Override
     public int compareTo(final MenuItem other) {
-        return ObjectContracts.compare(this, other, "menu", "ingredient");
+        return ObjectContracts.compare(this, other, "menu", "name");
     }
 
     //endregion
@@ -165,6 +216,7 @@ public class MenuItem implements Comparable<MenuItem> {
     @javax.inject.Inject
     @SuppressWarnings("unused")
     private DomainObjectContainer container;
+
 
     //endregion
 

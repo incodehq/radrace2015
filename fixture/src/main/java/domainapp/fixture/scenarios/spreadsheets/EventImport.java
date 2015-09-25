@@ -36,6 +36,7 @@ import domainapp.dom.ingredientcategory.IngredientCategory;
 import domainapp.dom.ingredientcategory.IngredientCategoryRepository;
 import domainapp.dom.menu.Menu;
 import domainapp.dom.menu.MenuRepository;
+import domainapp.dom.menuitem.MenuItem;
 import domainapp.dom.supplier.Supplier;
 import domainapp.dom.supplier.SupplierRepository;
 
@@ -154,7 +155,10 @@ public class EventImport implements Importable {
         final Supplier supplier = supplierRepository.findOrCreate(getIngredientSupplier());
         final IngredientCategory ingredientCategory = ingredientCategoryRepository.findOrCreate(getIngredientCategory());
         final Ingredient ingredient = ingredientRepository.findOrCreate(getIngredient(), ingredientCategory, supplier);
-        menu.newItem(ingredient, getMenuItemMemberPrice());
+        final String menuItemName = getMenuItem();
+        final MenuItem menuItem = menu.newItem2(menuItemName, getMenuItemMemberPrice());
+
+        menuItem.addIngredient(ingredient);
     }
 
     @Inject

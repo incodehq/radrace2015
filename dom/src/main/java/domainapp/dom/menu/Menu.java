@@ -36,12 +36,12 @@ import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.event.Event;
-import domainapp.dom.ingredient.Ingredient;
 import domainapp.dom.menuitem.MenuItem;
 import domainapp.dom.menuitem.MenuItemRepository;
 
@@ -131,17 +131,28 @@ public class Menu implements Comparable<Menu> {
 
     //region > newItem (action)
     public Menu newItem(
-            final Ingredient ingredient,
+            @ParameterLayout(named = "Name")
+            final String name,
             @ParameterLayout(named = "Member price")
             final BigDecimal memberPrice) {
-        if (ingredient != null) {
-            final MenuItem menuItem = container.newTransientInstance(MenuItem.class);
-            menuItem.setIngredient(ingredient);
-            menuItem.setMenu(this);
-            menuItem.setMemberPrice(memberPrice);
-            container.persistIfNotAlready(menuItem);
-        }
+
+        newItem2(name, memberPrice);
+
         return this;
+    }
+
+    @Programmatic
+    public MenuItem newItem2(
+            final @ParameterLayout(named = "Name") String name,
+            final @ParameterLayout(named = "Member price") BigDecimal memberPrice) {
+        final MenuItem menuItem = container.newTransientInstance(MenuItem.class);
+        menuItem.setMenu(this);
+        menuItem.setName(name);
+        menuItem.setMemberPrice(memberPrice);
+
+        container.persistIfNotAlready(menuItem);
+
+        return menuItem;
     }
     //endregion
 
