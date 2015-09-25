@@ -49,7 +49,7 @@ public class SupplierMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "1")
-    public List<Supplier> suppliers() {
+    public List<Supplier> allSuppliers() {
         return supplierRepository.listAll();
     }
     //endregion

@@ -51,7 +51,7 @@ public class EventMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "1")
-    public List<Event> events() {
+    public List<Event> allEvents() {
         return eventRepository.listAll();
     }
     //endregion

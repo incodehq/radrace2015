@@ -60,7 +60,7 @@
                 "typicalLength": 25
               }
             },
-            "postCode": {
+            "postcode": {
               "propertyLayout": {
                 "named": "Post Code",
                 "typicalLength": 25

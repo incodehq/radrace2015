@@ -52,7 +52,7 @@ public class IngredientMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "1")
-    public List<Ingredient> listIngredients() {
+    public List<Ingredient> allIngredients() {
         return ingredientRepository.listAll();
     }
     //endregion
