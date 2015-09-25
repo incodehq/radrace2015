@@ -134,14 +134,13 @@ public class Menu implements Comparable<Menu> {
             final Ingredient ingredient,
             @ParameterLayout(named = "Member price")
             final BigDecimal memberPrice) {
-
-        final MenuItem menuItem = container.newTransientInstance(MenuItem.class);
-        menuItem.setIngredient(ingredient);
-        menuItem.setMenu(this);
-        menuItem.setMemberPrice(memberPrice);
-
-        container.persistIfNotAlready(menuItem);
-
+        if (ingredient != null) {
+            final MenuItem menuItem = container.newTransientInstance(MenuItem.class);
+            menuItem.setIngredient(ingredient);
+            menuItem.setMenu(this);
+            menuItem.setMemberPrice(memberPrice);
+            container.persistIfNotAlready(menuItem);
+        }
         return this;
     }
     //endregion

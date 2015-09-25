@@ -85,6 +85,10 @@ public class IngredientRepository {
             final String name,
             final IngredientCategory ingredientCategory,
             final Supplier supplier) {
+        if (name == null || ingredientCategory == null || supplier == null){
+            return null;
+        }
+
         final Ingredient ingredient = findByName(name);
         if(ingredient == null) {
             return create(name, ingredientCategory, supplier);

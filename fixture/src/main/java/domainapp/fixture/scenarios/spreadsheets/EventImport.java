@@ -32,43 +32,83 @@ import domainapp.dom.event.Event;
 import domainapp.dom.event.EventRepository;
 import domainapp.dom.ingredient.Ingredient;
 import domainapp.dom.ingredient.IngredientRepository;
+import domainapp.dom.ingredientcategory.IngredientCategory;
+import domainapp.dom.ingredientcategory.IngredientCategoryRepository;
 import domainapp.dom.menu.Menu;
 import domainapp.dom.menu.MenuRepository;
+import domainapp.dom.supplier.Supplier;
+import domainapp.dom.supplier.SupplierRepository;
 
 @ViewModel
 public class EventImport implements Importable {
 
-    private String name;
-    private LocalDate date;
-    private BigDecimal nonMemberSupplement;
+    // Event parameters
+    private String eventName;
+    private LocalDate eventDate;
+    private BigDecimal eventNonMemberSupplement;
 
+    // Menu Item paramenters
+    private String menuItem;
+    private String menuItemCategory;
+    private Boolean menuItemMandatory;
+    private BigDecimal menuItemMemberPrice;
+
+    // Ingredient parameters
     private String ingredient;
-    private BigDecimal memberPrice;
+    private String ingredientCategory;
+    private String ingredientSupplier;
 
-    public String getName() {
-        return name;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    @Property(optionality = Optionality.OPTIONAL)
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(final LocalDate date) {
-        this.date = date;
+    public void setEventName(final String eventName) {
+        this.eventName = eventName;
     }
 
     @Property(optionality = Optionality.OPTIONAL)
-    public BigDecimal getNonMemberSupplement() {
-        return nonMemberSupplement;
+    public LocalDate getEventDate() {
+        return eventDate;
     }
 
-    public void setNonMemberSupplement(final BigDecimal nonMemberSupplement) {
-        this.nonMemberSupplement = nonMemberSupplement;
+    public void setEventDate(final LocalDate eventDate) {
+        this.eventDate = eventDate;
+    }
+
+    @Property(optionality = Optionality.OPTIONAL)
+    public BigDecimal getEventNonMemberSupplement() {
+        return eventNonMemberSupplement;
+    }
+
+    public void setEventNonMemberSupplement(final BigDecimal eventNonMemberSupplement) {
+        this.eventNonMemberSupplement = eventNonMemberSupplement;
+    }
+
+    @Property(optionality = Optionality.OPTIONAL)
+    public String getMenuItem() {
+        return menuItem;
+    }
+
+    public void setMenuItem(final String menuItem) {
+        this.menuItem = menuItem;
+    }
+
+    @Property(optionality = Optionality.OPTIONAL)
+    public String getMenuItemCategory() {
+        return menuItemCategory;
+    }
+
+    public void setMenuItemCategory(final String menuItemCategory) {
+        this.menuItemCategory = menuItemCategory;
+    }
+
+    @Property(optionality = Optionality.OPTIONAL)
+    public Boolean getMenuItemMandatory() {
+        return menuItemMandatory;
+    }
+
+    public void setMenuItemMandatory(final Boolean menuItemMandatory) {
+        this.menuItemMandatory = menuItemMandatory;
     }
 
     @Property(optionality = Optionality.OPTIONAL)
@@ -81,23 +121,40 @@ public class EventImport implements Importable {
     }
 
     @Property(optionality = Optionality.OPTIONAL)
-    public BigDecimal getMemberPrice() {
-        return memberPrice;
+    public String getIngredientCategory() {
+        return ingredientCategory;
     }
 
-    public void setMemberPrice(final BigDecimal memberPrice) {
-        this.memberPrice = memberPrice;
+    public void setIngredientCategory(final String ingredientCategory) {
+        this.ingredientCategory = ingredientCategory;
+    }
+
+    @Property(optionality = Optionality.OPTIONAL)
+    public String getIngredientSupplier() {
+        return ingredientSupplier;
+    }
+
+    public void setIngredientSupplier(final String ingredientSupplier) {
+        this.ingredientSupplier = ingredientSupplier;
+    }
+
+    @Property(optionality = Optionality.OPTIONAL)
+    public BigDecimal getMenuItemMemberPrice() {
+        return menuItemMemberPrice;
+    }
+
+    public void setMenuItemMemberPrice(final BigDecimal menuItemMemberPrice) {
+        this.menuItemMemberPrice = menuItemMemberPrice;
     }
 
     @Override
     public void importData() {
-        final Event event = eventRepository.findOrCreate(getName(), getDate());
-        final Menu menu = menuRepository.findOrCreate(event, nonMemberSupplement);
-
-        if(getIngredient() != null) {
-            final Ingredient ingredient = ingredientRepository.findByName(getIngredient());
-            menu.newItem(ingredient, getMemberPrice());
-        }
+        final Event event = eventRepository.findOrCreate(getEventName(), getEventDate());
+        final Menu menu = menuRepository.findOrCreate(event, eventNonMemberSupplement);
+        final Supplier supplier = supplierRepository.findOrCreate(getIngredientSupplier());
+        final IngredientCategory ingredientCategory = ingredientCategoryRepository.findOrCreate(getIngredientCategory());
+        final Ingredient ingredient = ingredientRepository.findOrCreate(getIngredient(), ingredientCategory, supplier);
+        menu.newItem(ingredient, getMenuItemMemberPrice());
     }
 
     @Inject
@@ -108,5 +165,11 @@ public class EventImport implements Importable {
 
     @Inject
     MenuRepository menuRepository;
+
+    @Inject
+    IngredientCategoryRepository ingredientCategoryRepository;
+
+    @Inject
+    SupplierRepository supplierRepository;
 
 }

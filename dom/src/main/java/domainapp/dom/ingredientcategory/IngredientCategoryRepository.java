@@ -74,6 +74,9 @@ public class IngredientCategoryRepository {
     DomainObjectContainer container;
 
     public IngredientCategory findOrCreate(final String categoryName) {
+        if(categoryName == null) {
+            return null;
+        }
         final IngredientCategory ingredientCategory = findByName(categoryName);
         if(ingredientCategory == null) {
             return create(categoryName);

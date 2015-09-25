@@ -65,7 +65,7 @@ public class RecreateDemo extends FixtureScript {
 //        getQuickObjects().addAll(execute(ec, QuickObject.class).getObjects());
 
         ec.executeChild(this, new CreateUsingSpreadsheet<>(IngredientImport.class));
-        ec.executeChild(this, new CreateUsingSpreadsheet<>(EventImport.class));
+        ec.executeChild(this, new CreateUsingSpreadsheet<>(EventImport.class, "EventImport.xls"));
         ec.executeChild(this, new CreateUsingSpreadsheet<>(PeopleImport.class, "PeopleImportA.xls"));
 
 //        ec.executeChild(this, new CreateUsingSpreadsheet<>(OrderImport.class));

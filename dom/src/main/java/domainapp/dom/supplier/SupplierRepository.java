@@ -74,6 +74,7 @@ public class SupplierRepository {
     DomainObjectContainer container;
 
     public Supplier findOrCreate(final String categoryName) {
+        if (categoryName == null) {return null;}
         final Supplier supplier = findByName(categoryName);
         if(supplier == null) {
             return create(categoryName);
