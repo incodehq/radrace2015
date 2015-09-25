@@ -158,7 +158,10 @@ public class EventImport implements Importable {
         final String menuItemName = getMenuItem();
         final MenuItem menuItem = menu.newItem2(menuItemName, getMenuItemMemberPrice());
 
-        menuItem.addIngredient(ingredient);
+        // FIXME
+        if(ingredient != null) {
+            menuItem.addIngredient(ingredient);
+        }
     }
 
     @Inject

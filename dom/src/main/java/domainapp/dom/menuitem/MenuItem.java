@@ -72,7 +72,7 @@ import domainapp.dom.menu.Menu;
                         + "FROM domainapp.dom.menuitem.MenuItem "
                         + "WHERE ingredient == :ingredient ")
 })
-@javax.jdo.annotations.Unique(name="MenuItem_menu_ingredient_UNQ", members = {"menu", "name"})
+@javax.jdo.annotations.Unique(name="MenuItem_menu_name_UNQ", members = {"menu", "name"})
 @DomainObject(
         editing = Editing.DISABLED
 )
@@ -169,7 +169,7 @@ public class MenuItem implements Comparable<MenuItem> {
     //region > memberPrice (property)
     private BigDecimal memberPrice;
 
-    @Column(allowsNull = "false")
+    @Column(allowsNull = "true")
     public BigDecimal getMemberPrice() {
         return memberPrice;
     }

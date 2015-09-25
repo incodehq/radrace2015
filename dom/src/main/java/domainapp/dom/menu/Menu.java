@@ -29,6 +29,11 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
@@ -143,8 +148,18 @@ public class Menu implements Comparable<Menu> {
 
     @Programmatic
     public MenuItem newItem2(
-            final @ParameterLayout(named = "Name") String name,
-            final @ParameterLayout(named = "Member price") BigDecimal memberPrice) {
+            final String name,
+            final BigDecimal memberPrice) {
+
+        final Optional<MenuItem> menuItemIfAny = Iterables.tryFind(getItems(), new Predicate<MenuItem>() {
+            @Override public boolean apply(final MenuItem input) {
+                return Objects.equal(input.getName(), name);
+            }
+        });
+        if(menuItemIfAny.isPresent()) {
+            return menuItemIfAny.get();
+        }
+
         final MenuItem menuItem = container.newTransientInstance(MenuItem.class);
         menuItem.setMenu(this);
         menuItem.setName(name);
