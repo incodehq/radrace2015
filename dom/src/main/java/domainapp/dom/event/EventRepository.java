@@ -20,6 +20,8 @@ package domainapp.dom.event;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -28,6 +30,8 @@ import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
+
+import org.isisaddons.wicket.gmap3.cpt.service.LocationLookupService;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -62,10 +66,23 @@ public class EventRepository {
 
     @Programmatic
     public Event create(
-            final String name, final LocalDate localDate) {
+            final String name,
+            final LocalDate start,
+            final LocalDate end,
+            final LocalDate inscriptionStart,
+            final LocalDate inscriptionEnd,
+            final String location,
+            final Event.AccessLevel accessibleTo
+) {
         final Event obj = container.newTransientInstance(Event.class);
         obj.setName(name);
-        obj.setDate(localDate);
+        obj.setStart(start);
+        obj.setEnd(end);
+        obj.setAddress(location);
+        obj.setLocation(locationLookupService.lookup(location));
+        obj.setAccessibleTo(accessibleTo);
+        obj.setInscriptionStart(inscriptionStart);
+        obj.setInscriptionEnd(inscriptionEnd);
         container.persistIfNotAlready(obj);
         return obj;
     }
@@ -77,13 +94,27 @@ public class EventRepository {
     @javax.inject.Inject
     DomainObjectContainer container;
 
-    public Event findOrCreate(final String name, final LocalDate date) {
+    public Event findOrCreate(
+            final String name,
+            final LocalDate start,
+            final LocalDate end,
+            final LocalDate inscriptionStart,
+            final LocalDate inscriptionEnd,
+            final String location,
+            final Event.AccessLevel accessibleTo
+    ) {
         final Event event = findByName(name);
         if(event == null) {
-            return create(name, date);
+            return create(name, start,end,inscriptionStart, inscriptionEnd,location,accessibleTo);
         }
         return event;
     }
 
     //endregion
+
+
+    @Inject
+    LocationLookupService locationLookupService;
+
+
 }

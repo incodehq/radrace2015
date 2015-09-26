@@ -30,8 +30,10 @@
                                 }
                             }
                         },
-                        "date": {},
-                        "menu": {}
+                        "start": {},
+                        "end": {},
+                        "inscriptionStart": {},
+                        "inscriptionEnd": {}
                     }
                 },
                 "Misc": {
@@ -49,8 +51,21 @@
         {
             "span": 6,
             "memberGroups": {
-                "Data": {
+                "Details":{
+                    "members":{
+                        "address": {},
+                        "location": {},
+                        "accessibleTo":{},
+                        "menu": {}
+                    }
+                },
+                "Statistics": {
                     "members": {
+                        "total": {},
+                        "totalMembers": {},
+                        "totalNonMembers": {},
+                        "totalAdults": {},
+                        "totalChildren": {}
                     }
                 }
             }

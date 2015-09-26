@@ -46,8 +46,13 @@ public class EventImport implements Importable {
 
     // Event parameters
     private String eventName;
-    private LocalDate eventDate;
+    private LocalDate eventStart;
+    private LocalDate eventEnd;
+    private LocalDate eventInscriptionStart;
+    private LocalDate eventInscriptionEnd;
     private BigDecimal eventNonMemberSupplement;
+    private String eventLocation;
+    private String eventAccessibleTo;
 
     // Menu Item paramenters
     private String menuItem;
@@ -61,6 +66,42 @@ public class EventImport implements Importable {
     private String ingredientCategory;
     private String ingredientSupplier;
 
+    @Property(optionality = Optionality.OPTIONAL)
+    public String getEventLocation() {
+        return eventLocation;
+    }
+
+    public void setEventLocation(final String eventLocation) {
+        this.eventLocation = eventLocation;
+    }
+
+    @Property(optionality = Optionality.OPTIONAL)
+    public String getEventAccessibleTo() {
+        return eventAccessibleTo;
+    }
+
+    public void setEventAccessibleTo(final String eventAccessibleTo) {
+        this.eventAccessibleTo = eventAccessibleTo;
+    }
+
+    @Property(optionality = Optionality.OPTIONAL)
+    public LocalDate getEventInscriptionStart() {
+        return eventInscriptionStart;
+    }
+
+    public void setEventInscriptionStart(final LocalDate eventInscriptionStart) {
+        this.eventInscriptionStart = eventInscriptionStart;
+    }
+
+    @Property(optionality = Optionality.OPTIONAL)
+    public LocalDate getEventInscriptionEnd() {
+        return eventInscriptionEnd;
+    }
+
+    public void setEventInscriptionEnd(final LocalDate eventInscriptionEnd) {
+        this.eventInscriptionEnd = eventInscriptionEnd;
+    }
+
     public String getEventName() {
         return eventName;
     }
@@ -70,12 +111,21 @@ public class EventImport implements Importable {
     }
 
     @Property(optionality = Optionality.OPTIONAL)
-    public LocalDate getEventDate() {
-        return eventDate;
+    public LocalDate getEventStart() {
+        return eventStart;
     }
 
-    public void setEventDate(final LocalDate eventDate) {
-        this.eventDate = eventDate;
+    public void setEventStart(final LocalDate eventStart) {
+        this.eventStart = eventStart;
+    }
+
+    @Property(optionality = Optionality.OPTIONAL)
+    public LocalDate getEventEnd() {
+        return eventEnd;
+    }
+
+    public void setEventEnd(final LocalDate eventEnd) {
+        this.eventEnd = eventEnd;
     }
 
     @Property(optionality = Optionality.OPTIONAL)
@@ -160,7 +210,13 @@ public class EventImport implements Importable {
 
     @Override
     public void importData() {
-        final Event event = eventRepository.findOrCreate(getEventName(), getEventDate());
+        final Event event = eventRepository.findOrCreate(
+                getEventName(),
+                getEventStart(),
+                getEventEnd(),
+                getEventInscriptionStart(),
+                getEventInscriptionEnd(),
+                getEventLocation() ,getEventAccessibleTo()==null?null:Event.AccessLevel.valueOf(getEventAccessibleTo()) );
         final Menu menu = menuRepository.findOrCreate(event, eventNonMemberSupplement);
         final Supplier supplier = supplierRepository.findOrCreate(getIngredientSupplier());
         final IngredientCategory ingredientCategory = ingredientCategoryRepository.findOrCreate(getIngredientCategory());
@@ -199,5 +255,6 @@ public class EventImport implements Importable {
 
     @Inject
     SupplierRepository supplierRepository;
+
 
 }

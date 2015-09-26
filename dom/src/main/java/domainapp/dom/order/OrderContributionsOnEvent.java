@@ -60,7 +60,18 @@ public class OrderContributionsOnEvent {
     //region > injected services
 
     @Action(semantics = SemanticsOf.SAFE)
-    public BigInteger numberOfmembers(Event event) {
+    @ActionLayout(contributed = Contributed.AS_ASSOCIATION)
+    public BigInteger total(Event event) {
+        BigInteger sum = BigInteger.ZERO;
+        for (Order order : orderRepository.findByEvent(event)) {
+                sum = sum.add(BigInteger.ONE);
+        }
+        return sum;
+    }
+
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(contributed = Contributed.AS_ASSOCIATION)
+    public BigInteger totalMembers(Event event) {
         BigInteger sum = BigInteger.ZERO;
         for (Order order : orderRepository.findByEvent(event)) {
             if(order.getPerson().isMember()){
@@ -71,10 +82,11 @@ public class OrderContributionsOnEvent {
     }
 
     @Action(semantics = SemanticsOf.SAFE)
-    public BigInteger numberOfNonMembers(Event event) {
+    @ActionLayout(contributed = Contributed.AS_ASSOCIATION)
+    public BigInteger totalNonMembers(Event event) {
         BigInteger sum = BigInteger.ZERO;
         for (Order order : orderRepository.findByEvent(event)) {
-            if(order.getPerson().isMember()){
+            if(!order.getPerson().isMember()){
                 sum = sum.add(BigInteger.ONE);
             }
         }
@@ -82,17 +94,8 @@ public class OrderContributionsOnEvent {
     }
 
     @Action(semantics = SemanticsOf.SAFE)
-    public BigInteger numberOfChilderen(Event event) {
-        BigInteger sum = BigInteger.ZERO;
-        for (Order order : orderRepository.findByEvent(event)) {
-            if(order.getPerson().isMember()){
-                sum = sum.add(BigInteger.ONE);
-            }
-        }
-        return sum;
-    }
-
-    public BigInteger numberOfAdults(Event event) {
+    @ActionLayout(contributed = Contributed.AS_ASSOCIATION)
+    public BigInteger totalAdults(Event event) {
         BigInteger sum = BigInteger.ZERO;
         for (Order order : orderRepository.findByEvent(event)) {
             if(order.getPerson().isMember() && order.getPerson().isAdult()){
@@ -103,7 +106,8 @@ public class OrderContributionsOnEvent {
     }
 
     @Action(semantics = SemanticsOf.SAFE)
-    public BigInteger numberOfChildren(Event event) {
+    @ActionLayout(contributed = Contributed.AS_ASSOCIATION)
+    public BigInteger totalChildren(Event event) {
         BigInteger sum = BigInteger.ZERO;
         for (Order order : orderRepository.findByEvent(event)) {
             if(order.getPerson().isMember() && !order.getPerson().isAdult()){

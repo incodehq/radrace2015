@@ -22,25 +22,36 @@ import javax.inject.Inject;
 import javax.jdo.JDOHelper;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.PropertyLayout;
+import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.Title;
+import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEvent;
+import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEventable;
+import org.isisaddons.wicket.gmap3.cpt.applib.Locatable;
+import org.isisaddons.wicket.gmap3.cpt.applib.Location;
+import org.isisaddons.wicket.gmap3.cpt.service.LocationLookupService;
 
 import domainapp.dom.Named;
 import domainapp.dom.menu.Menu;
@@ -76,7 +87,7 @@ import domainapp.dom.menu.MenuRepository;
 @DomainObjectLayout(
         bookmarking = BookmarkPolicy.AS_ROOT
 )
-public class Event implements Comparable<Event>, Named /*, CalendarEventable */ {
+public class Event implements Comparable<Event>, Named, CalendarEventable, Locatable {
 
 
     //region > identificatiom
@@ -99,11 +110,7 @@ public class Event implements Comparable<Event>, Named /*, CalendarEventable */ 
     public void setName(final String name) {
         this.name = name;
     }
-
-    // endregion
-
-    //region > updateName (action)
-
+    
     @Action
     public Event updateName(
             @Parameter(maxLength = 40)
@@ -123,19 +130,133 @@ public class Event implements Comparable<Event>, Named /*, CalendarEventable */ 
 
     //endregion
 
-    //region > date (property)
-    private LocalDate date;
+    //region > accessibleTo (property)
+    private AccessLevel accessibleTo;
 
+    @MemberOrder(sequence = "1")
     @Column(allowsNull = "false")
-    public LocalDate getDate() {
-        return date;
+    public AccessLevel getAccessibleTo() {
+        return accessibleTo;
     }
 
-    public void setDate(final LocalDate date) {
-        this.date = date;
+    public void setAccessibleTo(final AccessLevel accessibleTo) {
+        this.accessibleTo = accessibleTo;
     }
     //endregion
 
+
+    //region > date (property)
+    private LocalDate start;
+
+    @Column(allowsNull = "true")
+    public LocalDate getStart() {
+        return start;
+    }
+
+    public void setStart(final LocalDate start) {
+        this.start = start;
+    }
+    //endregion
+
+    //region > date (property)
+    private LocalDate end;
+
+    @Column(allowsNull = "true")
+    public LocalDate getEnd() {
+        return end;
+    }
+
+    public void setEnd(final LocalDate end) {
+        this.end = end;
+    }
+    //endregion
+
+
+    public boolean isActiveOn(LocalDate date){
+        return getStart().compareTo(date)>= 0 && (getEnd() == null || getEnd().compareTo(date)<=0);
+    }
+
+    public boolean isOpenOn(LocalDate date){
+        return (getInscriptionStart() == null || getInscriptionStart().compareTo(date)>= 0) && (getInscriptionEnd() == null || getInscriptionEnd().compareTo(date)<=0);
+    }
+
+
+    //region > closingDate (property)
+    @Column(allowsNull = "false")
+    private LocalDate inscriptionStart;
+
+    @MemberOrder(sequence = "1")
+    @Column(allowsNull = "false")
+    public LocalDate getInscriptionStart() {
+        return inscriptionStart;
+    }
+
+    public void setInscriptionStart(final LocalDate inscriptionStart) {
+        this.inscriptionStart = inscriptionStart;
+    }
+    //endregion
+
+    //region > closingDate (property)
+    @Column(allowsNull = "false")
+    private LocalDate inscriptionEnd;
+
+    @MemberOrder(sequence = "1")
+    @Column(allowsNull = "false")
+    public LocalDate getInscriptionEnd() {
+        return inscriptionEnd;
+    }
+
+    public void setInscriptionEnd(final LocalDate inscriptionEnd) {
+        this.inscriptionEnd = inscriptionEnd;
+    }
+    //endregion
+
+
+    //region > location (property)
+    private String address;
+
+    @MemberOrder(sequence = "1")
+    @Column(allowsNull = "false")
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(final String address) {
+        this.address = address;
+    }
+    //endregion
+
+    //region > location (property)
+    @Persistent
+    private Location location;
+
+    @Property(editing = Editing.DISABLED, optionality = Optionality.OPTIONAL, hidden = Where.ALL_TABLES)
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(final Location location) {
+        this.location = location;
+    }
+
+    @Action(semantics = SemanticsOf.IDEMPOTENT)
+    @ActionLayout(named = "Lookup")
+    public Event updateLocation(
+            final @ParameterLayout(named = "Address", describedAs = "Example: Herengracht 469, Amsterdam, NL") String location) {
+        setAddress(location);
+        if (locationLookupService != null) {
+            // TODO: service does not seem to be loaded in tests
+            setLocation(locationLookupService.lookup(location));
+        }
+        return this;
+    }
+
+    public String default0UpdateLocation() {
+        return getAddress();
+    }
+
+    //endregion
+    
     //region > menu (derived property)
     private Menu menu;
 
@@ -166,6 +287,8 @@ public class Event implements Comparable<Event>, Named /*, CalendarEventable */ 
     @Inject
     MenuRepository menuRepository;
 
+    @Inject
+    LocationLookupService locationLookupService;
 
     //endregion
 
@@ -180,8 +303,15 @@ public class Event implements Comparable<Event>, Named /*, CalendarEventable */ 
 
     @Programmatic
     public CalendarEvent toCalendarEvent() {
-        return new CalendarEvent(getDate().toDateTimeAtStartOfDay(), "events", container.titleOf(this), "");
+        return new CalendarEvent(getStart().toDateTimeAtStartOfDay(), "events", container.titleOf(this), "");
     }
     //endregion
+
+    public enum AccessLevel {
+        ALL,
+        MEMBERS_ONLY,
+        INVITEES_ONLY
+    }
+
 
 }

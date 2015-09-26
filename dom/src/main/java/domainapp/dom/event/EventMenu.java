@@ -28,7 +28,6 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.HomePage;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
@@ -87,9 +86,20 @@ public class EventMenu {
     public Event create(
             @ParameterLayout(named = "Name")
             final String name,
-            @ParameterLayout(named = "Date")
-            final LocalDate date) {
-        return eventRepository.create(name, date);
+            @ParameterLayout(named = "Start")
+            final LocalDate start,
+            @ParameterLayout(named = "End")
+            final LocalDate end,
+            @ParameterLayout(named = "Inscription Start")
+            final LocalDate inscriptionStart,
+            @ParameterLayout(named = "Inscription End")
+            final LocalDate inscriptionEnd,
+            @ParameterLayout(named = "Location")
+            final String location,
+            @ParameterLayout(named = "accessibleTo")
+            final Event.AccessLevel accessibleTo
+            ) {
+        return eventRepository.create(name, start, end, inscriptionStart,inscriptionEnd,location,accessibleTo);
     }
 
     //endregion
