@@ -172,13 +172,20 @@ public class Event implements Comparable<Event>, Named, CalendarEventable, Locat
 
 
     public boolean isActiveOn(LocalDate date){
-        return getStart().compareTo(date)>= 0 && (getEnd() == null || getEnd().compareTo(date)<=0);
+        return getStart().compareTo(date)<= 0 && (getEnd() == null || getEnd().compareTo(date)>=0);
     }
 
     public boolean isOpenOn(LocalDate date){
-        return (getInscriptionStart() == null || getInscriptionStart().compareTo(date)>= 0) && (getInscriptionEnd() == null || getInscriptionEnd().compareTo(date)<=0);
+        return (getInscriptionStart() == null || getInscriptionStart().compareTo(date)<= 0) && (getInscriptionEnd() == null || getInscriptionEnd().compareTo(date)>=0);
     }
 
+    public boolean isFutureOn(LocalDate date){
+        return (getInscriptionStart() != null && getInscriptionStart().compareTo(date)> 0);
+    }
+
+    public boolean isPassedOn(LocalDate date){
+        return (getInscriptionEnd() != null && getInscriptionEnd().compareTo(date)<0);
+    }
 
     //region > closingDate (property)
     @Column(allowsNull = "false")

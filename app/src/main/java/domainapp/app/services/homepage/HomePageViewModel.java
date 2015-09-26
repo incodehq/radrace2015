@@ -20,9 +20,17 @@ package domainapp.app.services.homepage;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+
 import org.apache.isis.applib.annotation.CollectionLayout;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.RenderType;
 import org.apache.isis.applib.annotation.ViewModel;
+import org.apache.isis.applib.services.clock.ClockService;
 
 import domainapp.dom.event.Event;
 import domainapp.dom.event.EventRepository;
@@ -32,24 +40,74 @@ public class HomePageViewModel {
 
     //region > title
     public String title() {
-        return getUpcomingEvents().size() + " events";
+        return "Events";
     }
     //endregion
 
     //region > object (collection)
-    @org.apache.isis.applib.annotation.HomePage
+    //@org.apache.isis.applib.annotation.HomePage
     @CollectionLayout(
             render = RenderType.EAGERLY
     )
-    public List<Event> getUpcomingEvents() {
-        return eventRepository.listAll();
+    @MemberOrder(sequence = "1")
+    public List<Event> getCurrentEvents() {
+
+        return Lists.newArrayList(Iterables.filter(eventRepository.listAll(), new Predicate<Event>() {
+            @Override public boolean apply(final Event input) {
+                return input.isActiveOn(clockService.now());
+            }
+        }));
     }
+
+    @CollectionLayout(
+            render = RenderType.EAGERLY
+    )
+    @MemberOrder(sequence = "2")
+    public List<Event> getOpenEvents() {
+
+        return Lists.newArrayList(Iterables.filter(eventRepository.listAll(), new Predicate<Event>() {
+            @Override public boolean apply(final Event input) {
+                return input.isOpenOn(clockService.now());
+            }
+        }));
+    }
+
+    @CollectionLayout(
+            render = RenderType.EAGERLY
+    )
+    @MemberOrder(sequence = "3")
+    public List<Event> getFutureEvents() {
+
+        return Lists.newArrayList(Iterables.filter(eventRepository.listAll(), new Predicate<Event>() {
+            @Override public boolean apply(final Event input) {
+                return input.isFutureOn(clockService.now());
+            }
+        }));
+    }
+
+    @CollectionLayout(
+            render = RenderType.EAGERLY
+    )
+    @MemberOrder(sequence = "4")
+    public List<Event> getPassedEvents() {
+
+        return Lists.newArrayList(Iterables.filter(eventRepository.listAll(), new Predicate<Event>() {
+            @Override public boolean apply(final Event input) {
+                return input.isPassedOn(clockService.now());
+            }
+        }));
+    }
+
+
     //endregion
 
     //region > injected services
 
     @javax.inject.Inject
     EventRepository eventRepository;
+
+    @Inject
+    ClockService clockService;
 
     //endregion
 }
