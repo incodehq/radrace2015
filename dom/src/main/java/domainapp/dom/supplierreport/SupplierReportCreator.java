@@ -11,6 +11,7 @@ import com.google.common.collect.Maps;
 
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.Programmatic;
 
 import domainapp.dom.event.Event;
 import domainapp.dom.ingredient.Ingredient;
@@ -21,7 +22,7 @@ import domainapp.dom.supplier.Supplier;
 @DomainService(nature = NatureOfService.DOMAIN)
 public class SupplierReportCreator {
 
-
+    @Programmatic
     public Map<String, Integer> reportItemsFor(Supplier supplier, Event event) {
 
         Map<String, Integer> reportItems = Maps.newTreeMap();
