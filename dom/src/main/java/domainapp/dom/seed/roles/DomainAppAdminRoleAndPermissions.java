@@ -31,7 +31,7 @@ import domainapp.dom.supplier.SupplierMenu;
 
 public class DomainAppAdminRoleAndPermissions extends AbstractRoleAndPermissionsFixtureScript {
 
-    public static final String ROLE_NAME = "domainapp-regular-role";
+    public static final String ROLE_NAME = "domainapp-admin-role";
 
     public DomainAppAdminRoleAndPermissions() {
         super(ROLE_NAME, "Read/write access to domainapp dom");

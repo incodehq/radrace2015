@@ -49,7 +49,13 @@ public class DomainAppRegularRoleAndPermissions extends AbstractRoleAndPermissio
 //                EventMenu.class,
 //                Ingredient.class,
 //                IngredientCategory.class
-//                );
+//        );
+//        newMemberPermissions(
+//                ApplicationPermissionRule.VETO,
+//                ApplicationPermissionMode.VIEWING,
+//                Order.class,
+//                "paymentReceived"
+//        );
     }
 
 }

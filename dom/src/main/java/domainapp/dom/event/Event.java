@@ -170,19 +170,22 @@ public class Event implements Comparable<Event>, Named, CalendarEventable, Locat
     }
     //endregion
 
-
+    @Programmatic
     public boolean isActiveOn(LocalDate date){
         return getStart().compareTo(date)<= 0 && (getEnd() == null || getEnd().compareTo(date)>=0);
     }
 
+    @Programmatic
     public boolean isOpenOn(LocalDate date){
         return (getInscriptionStart() == null || getInscriptionStart().compareTo(date)<= 0) && (getInscriptionEnd() == null || getInscriptionEnd().compareTo(date)>=0);
     }
 
+    @Programmatic
     public boolean isFutureOn(LocalDate date){
         return (getInscriptionStart() != null && getInscriptionStart().compareTo(date)> 0);
     }
 
+    @Programmatic
     public boolean isPassedOn(LocalDate date){
         return (getInscriptionEnd() != null && getInscriptionEnd().compareTo(date)<0);
     }
