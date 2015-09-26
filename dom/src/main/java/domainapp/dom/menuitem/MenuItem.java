@@ -19,9 +19,7 @@
 package domainapp.dom.menuitem;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -29,7 +27,6 @@ import javax.inject.Inject;
 import javax.jdo.JDOHelper;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import com.google.common.collect.Lists;
@@ -107,7 +104,7 @@ public class MenuItem implements Comparable<MenuItem>, Named {
     //region > menu (property)
     private Menu menu;
 
-    @Column(allowsNull = "false")
+    @Column(allowsNull = "false", name = "menu_id")
     public Menu getMenu() {
         return menu;
     }
@@ -157,7 +154,9 @@ public class MenuItem implements Comparable<MenuItem>, Named {
 
 
     //region > ingredients (collection)
-    @Persistent(dependentElement = "true")
+    @javax.jdo.annotations.Persistent(table="MenuItemIngredients")
+    @javax.jdo.annotations.Join(column="menu_item_id")
+    @javax.jdo.annotations.Element(column="ingredient_id")
     private SortedSet<Ingredient> ingredients = new TreeSet<Ingredient>();
 
     @MemberOrder(sequence = "1")

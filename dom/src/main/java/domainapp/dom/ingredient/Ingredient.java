@@ -134,7 +134,7 @@ public class Ingredient implements Comparable<Ingredient>, Named {
     //region > category (property)
     private Supplier supplier;
 
-    @Column(allowsNull = "false")
+    @Column(allowsNull = "false", name = "supplier_id")
     public Supplier getSupplier() {
         return supplier;
     }

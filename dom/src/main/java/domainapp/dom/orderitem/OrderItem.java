@@ -57,7 +57,12 @@ import domainapp.dom.order.Order;
                 name = "findByOrder", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.orderitem.OrderItem "
-                        + "WHERE order == :order ")
+                        + "WHERE order == :order "),
+        @javax.jdo.annotations.Query(
+                name = "findByEvent", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.orderitem.OrderItem "
+                        + "WHERE order.menuItem.menu.event == :event ")
 })
 @javax.jdo.annotations.Unique(name="OrderItem_order_menuItem_UNQ", members = {"order", "menuItem"})
 @DomainObject(
@@ -82,7 +87,7 @@ public class OrderItem implements Comparable<OrderItem> {
     //region > order (property)
     private Order order;
 
-    @Column(allowsNull = "false")
+    @Column(allowsNull = "false", name = "order_id")
     public Order getOrder() {
         return order;
     }
