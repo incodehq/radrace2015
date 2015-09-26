@@ -62,7 +62,7 @@ import domainapp.dom.order.Order;
                 name = "findByEvent", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.orderitem.OrderItem "
-                        + "WHERE order.menuItem.menu.event == :event ")
+                        + "WHERE menuItem.menu.event == :event ")
 })
 @javax.jdo.annotations.Unique(name="OrderItem_order_menuItem_UNQ", members = {"order", "menuItem"})
 @DomainObject(

@@ -28,7 +28,6 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 
 import domainapp.dom.event.Event;
-import domainapp.dom.menu.Menu;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -66,8 +65,7 @@ public class OrderItemRepository {
     DomainObjectContainer container;
 
     public List<OrderItem> findByEvent(final Event event) {
-        final Menu menu = event.getMenu();
-        return container.allMatches(new QueryDefault<OrderItem>(OrderItem.class, "findByEvent", "event", "event"));
+        return container.allMatches(new QueryDefault<>(OrderItem.class, "findByEvent", "event", event));
     }
 
     //endregion
