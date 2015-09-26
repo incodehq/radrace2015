@@ -19,6 +19,7 @@
 package domainapp.dom.order;
 
 import java.util.List;
+import java.util.SortedSet;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DomainService;
@@ -27,6 +28,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 
 import domainapp.dom.event.Event;
+import domainapp.dom.menuitem.MenuItem;
 import domainapp.dom.person.Person;
 
 @DomainService(
@@ -65,6 +67,7 @@ public class OrderRepository {
     }
     //endregion
 
+
     //region > findByPersonAndEvent (programmatic)
 
     @Programmatic
@@ -81,15 +84,25 @@ public class OrderRepository {
     }
     //endregion
 
+
     //region > create (programmatic)
 
     @Programmatic
     public Order create(final Person person, final Event event) {
-        final Order obj = container.newTransientInstance(Order.class);
-        obj.setEvent(event);
-        obj.setPerson(person);
-        container.persistIfNotAlready(obj);
-        return obj;
+        final Order order = container.newTransientInstance(Order.class);
+        order.setEvent(event);
+        order.setPerson(person);
+
+        container.persistIfNotAlready(order);
+
+        final SortedSet<MenuItem> items = event.getMenu().getItems();
+
+        for (MenuItem item : items) {
+            if(item.isMandatory()) {
+                order.newItem(item, 1);
+            }
+        }
+        return order;
     }
 
     //endregion
@@ -99,6 +112,7 @@ public class OrderRepository {
     @javax.inject.Inject
     DomainObjectContainer container;
 
+    @Programmatic
     public Order findOrCreate(final Person person, final Event event) {
         final Order order = findByPersonAndEvent(person, event);
         if(order == null) {

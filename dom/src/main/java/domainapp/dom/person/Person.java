@@ -61,6 +61,11 @@ import org.apache.isis.applib.util.TitleBuffer;
                         + "FROM domainapp.dom.person.Person "
                         + "WHERE memberId == :memberId "),
         @javax.jdo.annotations.Query(
+                name = "findByUsername", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.person.Person "
+                        + "WHERE username == :username "),
+        @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.person.Person "
@@ -78,6 +83,21 @@ public class Person implements Comparable<Person> {
         TitleBuffer tb = new TitleBuffer();
         return tb.append(getLastName()).append(", ").append(getFirstName()).toString();
     }
+
+    //region > username (property)
+    private String username;
+
+    @Property()
+    @Column(allowsNull = "false")
+    @MemberOrder(sequence = "1")
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+    //endregion
 
     private Integer memberId;
 

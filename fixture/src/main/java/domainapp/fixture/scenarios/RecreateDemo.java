@@ -30,6 +30,7 @@ import domainapp.fixture.dom.DemoTearDown;
 import domainapp.fixture.scenarios.spreadsheets.CreateUsingSpreadsheet;
 import domainapp.fixture.scenarios.spreadsheets.EventImport;
 import domainapp.fixture.scenarios.spreadsheets.IngredientImport;
+import domainapp.fixture.scenarios.spreadsheets.OrderImport;
 import domainapp.fixture.scenarios.spreadsheets.PeopleImport;
 
 public class RecreateDemo extends FixtureScript {
@@ -66,7 +67,7 @@ public class RecreateDemo extends FixtureScript {
         ec.executeChild(this, new CreateUsingSpreadsheet<>(EventImport.class, "EventImport.xls"));
         ec.executeChild(this, new CreateUsingSpreadsheet<>(PeopleImport.class, "PeopleImportA.xls"));
 
-//        ec.executeChild(this, new CreateUsingSpreadsheet<>(OrderImport.class));
+        ec.executeChild(this, new CreateUsingSpreadsheet<>(OrderImport.class));
 
     }
 

@@ -137,14 +137,25 @@ public class Menu implements Comparable<Menu> {
     }
     //endregion
 
+    //region > findItem (programmatic)
+    @Programmatic
+    public MenuItem findItem(final String menuItemName) {
+        final Optional<MenuItem> menuItemIfAny = Iterables.tryFind(getItems(), menuItem -> Objects.equal(menuItem.getName(), menuItemName));
+        return menuItemIfAny.orNull();
+    }
+    //endregion
+
+
     //region > newItem (action)
     public Menu newItem(
             @ParameterLayout(named = "Name")
             final String name,
             @ParameterLayout(named = "Member price")
-            final BigDecimal memberPrice) {
+            final BigDecimal memberPrice,
+            @ParameterLayout(named = "Mandatory")
+            final boolean mandatory) {
 
-        newItem2(name, memberPrice);
+        newItem2(name, memberPrice, mandatory);
 
         return this;
     }
@@ -152,24 +163,29 @@ public class Menu implements Comparable<Menu> {
     @Programmatic
     public MenuItem newItem2(
             final String name,
-            final BigDecimal memberPrice) {
+            final BigDecimal memberPrice,
+            final Boolean mandatory) {
         if (name == null){
             return null;
         }
 
-        final Optional<MenuItem> menuItemIfAny = Iterables.tryFind(getItems(), new Predicate<MenuItem>() {
-            @Override public boolean apply(final MenuItem input) {
-                return Objects.equal(input.getName(), name);
-            }
-        });
+        final Optional<MenuItem> menuItemIfAny = Iterables.tryFind(getItems(), input -> Objects.equal(input.getName(), name));
         if(menuItemIfAny.isPresent()) {
-            return menuItemIfAny.get();
+            final MenuItem menuItem = menuItemIfAny.get();
+            if(memberPrice != null) {
+                menuItem.setMemberPrice(memberPrice);
+            }
+            if(mandatory != null) {
+                menuItem.setMandatory(mandatory);
+            }
+            return menuItem;
         }
 
         final MenuItem menuItem = container.newTransientInstance(MenuItem.class);
         menuItem.setMenu(this);
         menuItem.setName(name);
         menuItem.setMemberPrice(memberPrice);
+        menuItem.setMandatory(mandatory != null && mandatory);
 
         container.persistIfNotAlready(menuItem);
 

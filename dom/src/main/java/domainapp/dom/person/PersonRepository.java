@@ -72,4 +72,11 @@ public class PersonRepository {
     @javax.inject.Inject 
     DomainObjectContainer container;
 
+    public Person findByUsername(final String username) {
+        return container.uniqueMatch(
+                new QueryDefault<>(
+                        Person.class,
+                        "findByUsername",
+                        "username", username));
+    }
 }

@@ -5,6 +5,7 @@
       "memberGroups": {
         "General": {
           "members": {
+            "username": {},
             "firstName": {
               "propertyLayout": {
                 "named": "First Name",

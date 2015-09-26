@@ -9,9 +9,16 @@ import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.ViewModel;
+import org.apache.isis.applib.value.Password;
+
+import org.isisaddons.module.security.dom.role.ApplicationRoleRepository;
+import org.isisaddons.module.security.dom.user.ApplicationUser;
+import org.isisaddons.module.security.dom.user.ApplicationUserRepository;
 
 import domainapp.dom.person.Person;
 import domainapp.dom.person.PersonRepository;
+import domainapp.dom.seed.roles.DevUtilsModuleRoleAndPermissions;
+import domainapp.dom.seed.roles.DomainAppRegularRoleAndPermissions;
 
 @ViewModel
 public class PeopleImport implements Importable {
@@ -19,7 +26,7 @@ public class PeopleImport implements Importable {
     private Integer number;
     private String lastName;
     private String firstName;
-    private String password;
+    private Integer password;
     private String street;
     private Integer streetNumber;
     private String postCode;
@@ -54,11 +61,11 @@ public class PeopleImport implements Importable {
         this.firstName = firstName;
     }
 
-    public String getPassword() {
+    public Integer getPassword() {
         return password;
     }
 
-    public void setPassword(final String password) {
+    public void setPassword(final Integer password) {
         this.password = password;
     }
 
@@ -154,6 +161,22 @@ public class PeopleImport implements Importable {
             p.setCityOfBirth(pretty(getLocationOfBirth()));
             p.setCountryOfBirth(pretty(getCountryOfBirth()));
 
+            String username = (getFirstName()+"."+getLastName()).toLowerCase();
+            p.setUsername(username);
+
+            final ApplicationUser applicationUser = applicationUserRepository.newLocalUser(
+                    username,
+                    new Password(getPassword().toString()),
+                    new Password(getPassword().toString()),
+                    applicationRoleRepository.findByName(DomainAppRegularRoleAndPermissions.ROLE_NAME),
+                    true,
+                    "jcvanderwal+" + username + "@gmail.com"
+            );
+            applicationUser.addRole(applicationRoleRepository.findByName(DevUtilsModuleRoleAndPermissions.ROLE_NAME));
+
+            applicationUser.setGivenName(getFirstName());
+            applicationUser.setFamilyName(getLastName());
+
             if (Objects.equals(getMemberType(), "member")) {
                 p.setMember(true);
             }
@@ -170,6 +193,12 @@ public class PeopleImport implements Importable {
 
     @Inject
     DomainObjectContainer container;
+
+    @Inject
+    ApplicationUserRepository applicationUserRepository;
+
+    @Inject
+    ApplicationRoleRepository applicationRoleRepository;
 
     @Inject
     private PersonRepository personRepository;

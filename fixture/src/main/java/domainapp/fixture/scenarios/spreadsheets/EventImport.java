@@ -19,6 +19,7 @@
 package domainapp.fixture.scenarios.spreadsheets;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -51,7 +52,8 @@ public class EventImport implements Importable {
     // Menu Item paramenters
     private String menuItem;
     private String menuItemCategory;
-    private Boolean menuItemMandatory;
+    private String menuItemMandatory;
+    private String menuItemDependsUpon;
     private BigDecimal menuItemMemberPrice;
 
     // Ingredient parameters
@@ -104,12 +106,20 @@ public class EventImport implements Importable {
     }
 
     @Property(optionality = Optionality.OPTIONAL)
-    public Boolean getMenuItemMandatory() {
+    public String getMenuItemMandatory() {
         return menuItemMandatory;
     }
 
-    public void setMenuItemMandatory(final Boolean menuItemMandatory) {
+    public void setMenuItemMandatory(final String menuItemMandatory) {
         this.menuItemMandatory = menuItemMandatory;
+    }
+
+    public String getMenuItemDependsUpon() {
+        return menuItemDependsUpon;
+    }
+
+    public void setMenuItemDependsUpon(final String menuItemDependsUpon) {
+        this.menuItemDependsUpon = menuItemDependsUpon;
     }
 
     @Property(optionality = Optionality.OPTIONAL)
@@ -155,10 +165,24 @@ public class EventImport implements Importable {
         final Supplier supplier = supplierRepository.findOrCreate(getIngredientSupplier());
         final IngredientCategory ingredientCategory = ingredientCategoryRepository.findOrCreate(getIngredientCategory());
         final Ingredient ingredient = ingredientRepository.findOrCreate(getIngredient(), ingredientCategory, supplier);
-        final MenuItem menuItem = menu.newItem2(getMenuItem(), getMenuItemMemberPrice());
+
+        final Boolean menuItemMandatory = Objects.equals(getMenuItemMandatory(), "Yes");
+
+        final MenuItem menuItem = menu.newItem2(getMenuItem(), getMenuItemMemberPrice(), menuItemMandatory);
+
         if(menuItem != null && ingredient != null) {
+
             menuItem.addIngredient(ingredient);
+
+            final MenuItem menuItemDependsUpon = menu.newItem2(getMenuItemDependsUpon(), BigDecimal.ZERO, null);
+            if(menuItemDependsUpon != null) {
+                menuItem.dependsUpon(menuItemDependsUpon);
+            }
+
+            //menuItem.getDependencies().add()
         }
+
+
     }
 
     @Inject

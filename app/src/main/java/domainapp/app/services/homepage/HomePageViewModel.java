@@ -20,6 +20,8 @@ package domainapp.app.services.homepage;
 
 import java.util.List;
 
+import org.apache.isis.applib.annotation.CollectionLayout;
+import org.apache.isis.applib.annotation.RenderType;
 import org.apache.isis.applib.annotation.ViewModel;
 
 import domainapp.dom.event.Event;
@@ -36,6 +38,9 @@ public class HomePageViewModel {
 
     //region > object (collection)
     @org.apache.isis.applib.annotation.HomePage
+    @CollectionLayout(
+            render = RenderType.EAGERLY
+    )
     public List<Event> getUpcomingEvents() {
         return eventRepository.listAll();
     }

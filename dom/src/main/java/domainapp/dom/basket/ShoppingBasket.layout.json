@@ -1,0 +1,62 @@
+{
+  "columns": [
+    {
+      "span": 4,
+      "memberGroups": {
+        "General": {
+          "members": {
+            "order": {
+              "propertyLayout": {
+                "named": "Order"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "span": 0,
+      "memberGroups": {}
+    },
+    {
+      "span": 0,
+      "memberGroups": {}
+    },
+    {
+      "span": 8,
+      "collections": {
+        "selectedItems": {
+          "collectionLayout": {
+            "named": "Selected Items",
+            "paged": 12,
+            "render": "EAGERLY"
+          },
+          "actions": {
+            "chooseMenuItems": {
+              "actionLayout": {
+                "cssClass": "btn-default",
+                "named": "Choose Menu Items"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "actions": {
+    "downloadLayout": {
+      "actionLayout": {
+        "cssClass": "btn-default",
+        "cssClassFa": "fa fa-fw fa-download",
+        "named": "Download Layout",
+        "contributed": "AS_ACTION"
+      }
+    },
+    "recentActivity": {
+      "actionLayout": {
+        "cssClass": "btn-default",
+        "named": "Recent Activity"
+      }
+    }
+  }
+}

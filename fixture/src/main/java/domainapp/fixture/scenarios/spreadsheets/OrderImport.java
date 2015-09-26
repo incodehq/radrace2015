@@ -26,6 +26,7 @@ import org.apache.isis.applib.annotation.ViewModel;
 
 import domainapp.dom.event.Event;
 import domainapp.dom.event.EventRepository;
+import domainapp.dom.menuitem.MenuItem;
 import domainapp.dom.menuitem.MenuItemRepository;
 import domainapp.dom.order.Order;
 import domainapp.dom.order.OrderRepository;
@@ -43,7 +44,7 @@ public class OrderImport implements Importable {
     /**
      * The import is gonna insist that everyone is a member.
      */
-    @Property(optionality = Optionality.MANDATORY)
+    @Property(optionality = Optionality.OPTIONAL)
     public Integer getPersonNumber() {
         return personNumber;
     }
@@ -52,7 +53,7 @@ public class OrderImport implements Importable {
         this.personNumber = personNumber;
     }
 
-    @Property(optionality = Optionality.MANDATORY)
+    @Property(optionality = Optionality.OPTIONAL)
     public String getEventName() {
         return eventName;
     }
@@ -61,7 +62,7 @@ public class OrderImport implements Importable {
         this.eventName = eventName;
     }
 
-    @Property(optionality = Optionality.MANDATORY)
+    @Property(optionality = Optionality.OPTIONAL)
     public String getMenuItem() {
         return menuItem;
     }
@@ -70,7 +71,7 @@ public class OrderImport implements Importable {
         this.menuItem = menuItem;
     }
 
-    @Property(optionality = Optionality.MANDATORY)
+    @Property(optionality = Optionality.OPTIONAL)
     public int getQuantity() {
         return quantity;
     }
@@ -85,6 +86,13 @@ public class OrderImport implements Importable {
         final Event event = eventRepository.findByName(getEventName());
 
         final Order order = orderRepository.findOrCreate(person, event);
+
+        MenuItem menuItem = event.getMenu().findItem(getMenuItem());
+        if(menuItem != null) {
+            order.newItem(menuItem, getQuantity());
+        } else {
+            // just skip... bad data in the XLSX spreadsheet, referencing a non-existent menu item for this menu
+        }
     }
 
     @Inject

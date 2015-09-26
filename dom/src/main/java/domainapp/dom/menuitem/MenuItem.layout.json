@@ -21,6 +21,15 @@
             "memberGroups": {
                 "General": {
                     "members": {
+                        "name": {
+                            "actions": {
+                                "updateName": {
+                                    "actionLayout": {
+                                        "position": "BOTTOM"
+                                    }
+                                }
+                            }
+                        },
                         "menu": {},
                         "ingredient": {},
                         "memberPrice": {
@@ -47,12 +56,8 @@
             }
         },
         {
-            "span": 6,
+            "span": 0,
             "memberGroups": {
-                "Data": {
-                    "members": {
-                    }
-                }
             }
         },
         {
@@ -61,7 +66,37 @@
         },
         {
             "span": 6,
-            "collections": {}
+            "collections": {
+                "ingredients": {
+                    "actions": {
+                        "addIngredient": {
+                            "actionLayout": {
+                                "named": "Add",
+                                "position": "BOTTOM"
+                            }
+                        },
+                        "removeIngredient": {
+                            "actionLayout": {
+                                "named": "Remove",
+                                "position": "BOTTOM"
+                            }
+                        }
+                    }
+                },
+                "dependencies": {
+                    "collectionLayout": {
+                        "render": "EAGERLY"
+                    },
+                    "actions": {
+                        "dependsUpon": {},
+                        "removeDependency": {
+                            "actionLayout": {
+                                "named": "Remove"
+                            }
+                        }
+                    }
+                }
+            }
         }
     ],
     "actions": {}

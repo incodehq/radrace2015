@@ -29,11 +29,13 @@ import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
+import org.apache.isis.applib.annotation.CollectionLayout;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.RenderType;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
@@ -126,6 +128,9 @@ public class Order implements Comparable<Order> {
     @Persistent(mappedBy = "order", dependentElement = "true")
     private SortedSet<OrderItem> items = new TreeSet<OrderItem>();
 
+    @CollectionLayout(
+            render = RenderType.EAGERLY
+    )
     @MemberOrder(sequence = "1")
     public SortedSet<OrderItem> getItems() {
         return items;
