@@ -217,7 +217,7 @@ public class EventImport implements Importable {
                 getEventInscriptionStart(),
                 getEventInscriptionEnd(),
                 getEventLocation() ,getEventAccessibleTo()==null?null:Event.AccessLevel.valueOf(getEventAccessibleTo()) );
-        final Menu menu = menuRepository.findOrCreate(event, eventNonMemberSupplement);
+        final Menu menu = menuRepository.findOrCreate(event, eventNonMemberSupplement== null? BigDecimal.ZERO : eventNonMemberSupplement);
         final Supplier supplier = supplierRepository.findOrCreate(getIngredientSupplier());
         final IngredientCategory ingredientCategory = ingredientCategoryRepository.findOrCreate(getIngredientCategory());
         final Ingredient ingredient = ingredientRepository.findOrCreate(getIngredient(), ingredientCategory, supplier);
