@@ -34,13 +34,13 @@ import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEvent;
-import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEventable;
 
 import domainapp.dom.Named;
 import domainapp.dom.menu.Menu;
@@ -76,7 +76,7 @@ import domainapp.dom.menu.MenuRepository;
 @DomainObjectLayout(
         bookmarking = BookmarkPolicy.AS_ROOT
 )
-public class Event implements Comparable<Event>, Named, CalendarEventable {
+public class Event implements Comparable<Event>, Named /*, CalendarEventable */ {
 
 
     //region > identificatiom
@@ -173,12 +173,12 @@ public class Event implements Comparable<Event>, Named, CalendarEventable {
     @SuppressWarnings("unused")
     private DomainObjectContainer container;
 
-    @Override
+    @Programmatic
     public String getCalendarName() {
         return "events";
     }
 
-    @Override
+    @Programmatic
     public CalendarEvent toCalendarEvent() {
         return new CalendarEvent(getDate().toDateTimeAtStartOfDay(), "events", container.titleOf(this), "");
     }

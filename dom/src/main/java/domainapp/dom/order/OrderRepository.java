@@ -92,6 +92,7 @@ public class OrderRepository {
         final Order order = container.newTransientInstance(Order.class);
         order.setEvent(event);
         order.setPerson(person);
+        order.setStatus(OrderStatus.InProgress);
 
         container.persistIfNotAlready(order);
 

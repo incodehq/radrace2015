@@ -18,6 +18,7 @@
  */
 package domainapp.dom.order;
 
+import java.math.BigDecimal;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -34,7 +35,7 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RenderType;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
@@ -141,17 +142,17 @@ public class Order implements Comparable<Order> {
     }
     //endregion
 
-    //region > newItem (action)
+    //region > newItem (programmatic)
+    @Programmatic
     public Order newItem(
             final MenuItem menuItem,
-            @ParameterLayout(named = "Quantity")
             final int quantity) {
 
         final OrderItem orderItem = container.newTransientInstance(OrderItem.class);
 
         orderItem.setOrder(this);
         orderItem.setMenuItem(menuItem);
-        orderItem.setQuantity(quantity);
+        orderItem.setQuantity(quantity == 0? 1 : quantity);
 
         container.persistIfNotAlready(orderItem);
 
@@ -159,6 +160,65 @@ public class Order implements Comparable<Order> {
     }
     //endregion
 
+    //region > status (property)
+    private OrderStatus status;
+
+    @Column(allowsNull = "false")
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(final OrderStatus status) {
+        this.status = status;
+    }
+    //endregion
+
+    //region > totalToPay (derived property)
+
+    @javax.jdo.annotations.NotPersistent
+    public BigDecimal getTotal() {
+        final SortedSet<OrderItem> items = getItems();
+
+        BigDecimal runningTotal = BigDecimal.ZERO;
+        for (OrderItem item : items) {
+            final MenuItem menuItem = item.getMenuItem();
+            final BigDecimal memberPrice = menuItem.getMemberPrice();
+            final int quantity = item.getQuantity();
+            final BigDecimal costPerItem = memberPrice.multiply(BigDecimal.valueOf(quantity));
+            runningTotal = runningTotal.add(costPerItem);
+        }
+
+        return runningTotal;
+    }
+
+    //endregion
+
+    //region > paymentReceived (property)
+    private BigDecimal paymentReceived;
+
+    @Column(allowsNull = "true")
+    public BigDecimal getPaymentReceived() {
+        return paymentReceived;
+    }
+
+    public void setPaymentReceived(final BigDecimal paymentReceived) {
+        this.paymentReceived = paymentReceived;
+    }
+
+    //endregion
+
+    //region > totalToPay (derived property)
+
+    @javax.jdo.annotations.NotPersistent
+    public BigDecimal getTotalToPay() {
+        BigDecimal total = getTotal();
+        if(getPaymentReceived() != null) {
+            total = total.subtract(getPaymentReceived());
+        }
+        return total;
+    }
+
+    //endregion
 
 
     //region > version (derived property)

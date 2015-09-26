@@ -1,8 +1,7 @@
 package domainapp.dom.basket;
 
-import java.util.Iterator;
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 
 import javax.annotation.Nullable;
@@ -10,7 +9,6 @@ import javax.annotation.Nullable;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.CollectionLayout;
@@ -21,9 +19,9 @@ import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.annotation.ViewModel;
 
-import domainapp.dom.event.Event;
 import domainapp.dom.menuitem.MenuItem;
 import domainapp.dom.order.Order;
+import domainapp.dom.order.OrderStatus;
 import domainapp.dom.orderitem.OrderItem;
 
 @ViewModel
@@ -48,6 +46,20 @@ public class ShoppingBasket {
     public List<MenuItem> chooseMenuItems() {
         return getMenuItems();
     }
+
+    //region > totalToPay (property)
+    private BigDecimal totalToPay;
+
+    @MemberOrder(sequence = "1")
+    public BigDecimal getTotalToPay() {
+        return getOrder().getTotalToPay();
+    }
+
+    public String disableChooseMenuItems() {
+        return getOrder().getStatus() != OrderStatus.InProgress ? "Order has been completed": null;
+    }
+
+    //endregion
 
 
 

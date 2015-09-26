@@ -29,7 +29,11 @@
                                     }
                                 }
                             }
-                        }
+                        },
+                        "total": {},
+                        "paymentReceived": {},
+                        "totalToPay": {},
+                        "status": {}
                     }
                 },
                 "Misc": {

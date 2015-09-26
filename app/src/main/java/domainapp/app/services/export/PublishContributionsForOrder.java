@@ -68,7 +68,7 @@ public class PublishContributionsForOrder {
             contributed = Contributed.AS_ACTION
     )
     @MemberOrder(sequence = "10")
-    public Blob hardcopy(final Order order) throws IOException, JDOMException, MergeException {
+    public Blob print(final Order order) throws IOException, JDOMException, MergeException {
 
         return exportToWordDocCatchExceptions(order);
     }
