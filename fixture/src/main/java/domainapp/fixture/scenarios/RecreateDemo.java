@@ -63,10 +63,9 @@ public class RecreateDemo extends FixtureScript {
         ec.executeChild(this, new DemoTearDown());
 
         ec.executeChild(this, new CreateUsingSpreadsheet<>(EventImport.class, "EventImport.xls"));
-        ec.executeChild(this, new CreateUsingSpreadsheet<>(PeopleImport.class, "PeopleImportA.xls"));
+        ec.executeChild(this, new CreateUsingSpreadsheet<>(PeopleImport.class, "PeopleImportB.xls"));
 
         ec.executeChild(this, new CreateUsingSpreadsheet<>(OrderImport.class));
-
     }
 
     private <T> CreateUsingSpreadsheet<T> execute(final ExecutionContext ec, final Class<T> aClass) {
