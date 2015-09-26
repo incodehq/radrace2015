@@ -19,6 +19,7 @@
 package domainapp.dom.order;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -29,14 +30,19 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.CollectionLayout;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Optionality;
+import org.apache.isis.applib.annotation.Parameter;
+import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RenderType;
+import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.util.ObjectContracts;
 
@@ -216,6 +222,39 @@ public class Order implements Comparable<Order> {
             total = total.subtract(getPaymentReceived());
         }
         return total;
+    }
+
+    //endregion
+
+    //region > paymentReceived
+
+    @Action(semantics = SemanticsOf.SAFE)
+    public Order paymentReceived(
+            @Parameter(optionality = Optionality.MANDATORY)
+            @ParameterLayout(named = "Payment")
+            final BigDecimal payment) {
+        setPaymentReceived(payment);
+        if(Objects.equals(getTotalToPay(), BigDecimal.ZERO)) {
+            setStatus(OrderStatus.PaymentReceived);
+        }
+        return this;
+    }
+
+    public BigDecimal default0PaymentReceived() {
+        return getTotalToPay();
+    }
+    public String validate0PaymentReceived(final BigDecimal payment) {
+        if(payment.compareTo(getTotalToPay()) > 0) {
+            return "Too much!";
+        }
+        return null;
+    }
+    public String disablePaymentReceived() {
+        if (getStatus() == OrderStatus.InProgress)
+            return "Order is still in progress";
+        if (getStatus() == OrderStatus.PaymentReceived)
+            return "Payment has already been received";
+        return null;
     }
 
     //endregion

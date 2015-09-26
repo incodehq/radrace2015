@@ -31,7 +31,6 @@ import javax.jdo.annotations.VersionStrategy;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -111,7 +110,7 @@ public class Menu implements Comparable<Menu> {
     //region > nonMemberSupplement (property)
     private BigDecimal nonMemberSupplement;
 
-    @Column(allowsNull = "false", scale = 2)
+    @Column(allowsNull = "true", scale = 2)
     @MemberOrder(sequence = "1")
     public BigDecimal getNonMemberSupplement() {
         return nonMemberSupplement;

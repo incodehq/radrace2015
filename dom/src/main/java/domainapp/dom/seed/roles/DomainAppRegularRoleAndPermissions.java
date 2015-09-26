@@ -21,6 +21,14 @@ import org.isisaddons.module.security.dom.permission.ApplicationPermissionRule;
 import org.isisaddons.module.security.seed.scripts.AbstractRoleAndPermissionsFixtureScript;
 
 import domainapp.dom.DomainAppDomainModule;
+import domainapp.dom.event.EventMenu;
+import domainapp.dom.ingredient.Ingredient;
+import domainapp.dom.ingredient.IngredientMenu;
+import domainapp.dom.ingredientcategory.IngredientCategory;
+import domainapp.dom.order.OrderMenu;
+import domainapp.dom.person.PersonMenu;
+import domainapp.dom.supplier.Supplier;
+import domainapp.dom.supplier.SupplierMenu;
 
 public class DomainAppRegularRoleAndPermissions extends AbstractRoleAndPermissionsFixtureScript {
 
@@ -37,6 +45,18 @@ public class DomainAppRegularRoleAndPermissions extends AbstractRoleAndPermissio
                 ApplicationPermissionMode.CHANGING,
                 "domainapp.app",
                 DomainAppDomainModule.class.getPackage().getName()
+                );
+        newClassPermissions(
+                ApplicationPermissionRule.VETO,
+                ApplicationPermissionMode.VIEWING,
+                SupplierMenu.class,
+                Supplier.class,
+                IngredientMenu.class,
+                PersonMenu.class,
+                OrderMenu.class,
+                EventMenu.class,
+                Ingredient.class,
+                IngredientCategory.class
                 );
     }
 

@@ -37,7 +37,8 @@
                 "cssClass": "btn-default",
                 "named": "Choose Menu Items"
               }
-            }
+            },
+            "updateQuantity": {}
           }
         }
       }

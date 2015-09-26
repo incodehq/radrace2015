@@ -13,6 +13,9 @@ import com.google.common.collect.Lists;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.CollectionLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Optionality;
+import org.apache.isis.applib.annotation.Parameter;
+import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RenderType;
 import org.apache.isis.applib.annotation.SemanticsOf;
@@ -61,7 +64,29 @@ public class ShoppingBasket {
 
     //endregion
 
+    //region > updateQuantity (action)
+    @MemberOrder(sequence = "1")
+    public ShoppingBasket updateQuantity(final MenuItem menuItem,
+            @ParameterLayout(named="Quantity") @Parameter(optionality = Optionality.MANDATORY)
+            final int quantity) {
+        final SortedSet<OrderItem> items = getOrder().getItems();
+        for (OrderItem item : items) {
+            if(item.getMenuItem() == menuItem) {
+                item.setQuantity(quantity);
+                return this;
+            }
+        }
+        return this;
+    }
 
+    public List<MenuItem> choices0UpdateQuantity() {
+        return getMenuItems();
+    }
+
+    public String validate1UpdateQuantity(final int quantity) {
+        return quantity <= 0 ? "Cannot be less than zero": null;
+    }
+    //endregion
 
     //region > menuItems (collection)
 
@@ -96,6 +121,22 @@ public class ShoppingBasket {
     }
     //endregion
 
+    //region > submit (action)
 
+    @Action(semantics = SemanticsOf.SAFE)
+    public Order submit() {
+        getOrder().setStatus(OrderStatus.Submitted);
+        return getOrder();
+    }
+
+    public String disableSubmit() {
+        if (getOrder().getStatus() == OrderStatus.Submitted)
+            return "Order has been submitted";
+        if (getOrder().getStatus() == OrderStatus.PaymentReceived)
+            return "Order has been submitted and paid";
+        return null;
+    }
+
+    //endregion
 
 }
