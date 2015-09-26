@@ -29,6 +29,7 @@ import org.apache.isis.applib.fixturescripts.FixtureScripts;
 import domainapp.dom.seed.roles.AuditModuleRoleAndPermissions;
 import domainapp.dom.seed.roles.CommandModuleRoleAndPermissions;
 import domainapp.dom.seed.roles.DevUtilsModuleRoleAndPermissions;
+import domainapp.dom.seed.roles.DomainAppAdminRoleAndPermissions;
 import domainapp.dom.seed.roles.DomainAppFixtureServiceRoleAndPermissions;
 import domainapp.dom.seed.roles.DomainAppRegularRoleAndPermissions;
 import domainapp.dom.seed.roles.DomainAppVetoSelectedMembersPermissions;
@@ -69,6 +70,7 @@ public class DomainAppRolesAndPermissionsSeedService {
 
             executionContext.executeChild(this, new UsersTenancy());
 
+            executionContext.executeChild(this, new DomainAppAdminRoleAndPermissions());
             executionContext.executeChild(this, new DomainAppRegularRoleAndPermissions());
             executionContext.executeChild(this, new DomainAppVetoSelectedMembersPermissions());
             executionContext.executeChild(this, new DomainAppFixtureServiceRoleAndPermissions());

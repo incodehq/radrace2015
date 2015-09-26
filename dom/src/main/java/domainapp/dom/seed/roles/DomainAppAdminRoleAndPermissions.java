@@ -20,36 +20,49 @@ import org.isisaddons.module.security.dom.permission.ApplicationPermissionMode;
 import org.isisaddons.module.security.dom.permission.ApplicationPermissionRule;
 import org.isisaddons.module.security.seed.scripts.AbstractRoleAndPermissionsFixtureScript;
 
-import domainapp.dom.DomainAppDomainModule;
+import domainapp.dom.event.EventMenu;
+import domainapp.dom.ingredient.Ingredient;
+import domainapp.dom.ingredient.IngredientMenu;
+import domainapp.dom.ingredientcategory.IngredientCategory;
+import domainapp.dom.order.OrderMenu;
+import domainapp.dom.person.PersonMenu;
+import domainapp.dom.supplier.Supplier;
+import domainapp.dom.supplier.SupplierMenu;
 
-public class DomainAppRegularRoleAndPermissions extends AbstractRoleAndPermissionsFixtureScript {
+public class DomainAppAdminRoleAndPermissions extends AbstractRoleAndPermissionsFixtureScript {
 
     public static final String ROLE_NAME = "domainapp-regular-role";
 
-    public DomainAppRegularRoleAndPermissions() {
+    public DomainAppAdminRoleAndPermissions() {
         super(ROLE_NAME, "Read/write access to domainapp dom");
     }
 
     @Override
     protected void execute(final ExecutionContext executionContext) {
-        newPackagePermissions(
+        newClassPermissions(
+                ApplicationPermissionRule.ALLOW,
+                ApplicationPermissionMode.VIEWING,
+                SupplierMenu.class,
+                Supplier.class,
+                IngredientMenu.class,
+                PersonMenu.class,
+                OrderMenu.class,
+                EventMenu.class,
+                Ingredient.class,
+                IngredientCategory.class
+                );
+        newClassPermissions(
                 ApplicationPermissionRule.ALLOW,
                 ApplicationPermissionMode.CHANGING,
-                "domainapp.app",
-                DomainAppDomainModule.class.getPackage().getName()
+                SupplierMenu.class,
+                Supplier.class,
+                IngredientMenu.class,
+                PersonMenu.class,
+                OrderMenu.class,
+                EventMenu.class,
+                Ingredient.class,
+                IngredientCategory.class
                 );
-//        newClassPermissions(
-//                ApplicationPermissionRule.VETO,
-//                ApplicationPermissionMode.VIEWING,
-//                SupplierMenu.class,
-//                Supplier.class,
-//                IngredientMenu.class,
-//                PersonMenu.class,
-//                OrderMenu.class,
-//                EventMenu.class,
-//                Ingredient.class,
-//                IngredientCategory.class
-//                );
     }
 
 }
