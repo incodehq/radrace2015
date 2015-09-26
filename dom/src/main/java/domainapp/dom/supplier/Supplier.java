@@ -59,11 +59,11 @@ import org.apache.isis.applib.util.ObjectContracts;
 })
 @javax.jdo.annotations.Unique(name="Supplier_name_UNQ", members = {"name"})
 @DomainObject(
-        editing = Editing.DISABLED
+        editing = Editing.DISABLED,
+        bounded = true
 )
 @DomainObjectLayout(
-        bookmarking = BookmarkPolicy.AS_ROOT,
-        cssClassFa = "fa-flag"
+        bookmarking = BookmarkPolicy.AS_ROOT
 )
 public class Supplier implements Comparable<Supplier> {
 

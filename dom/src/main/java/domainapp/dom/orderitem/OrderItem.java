@@ -64,8 +64,7 @@ import domainapp.dom.order.Order;
         editing = Editing.DISABLED
 )
 @DomainObjectLayout(
-        bookmarking = BookmarkPolicy.AS_ROOT,
-        cssClassFa = "fa-flag"
+        bookmarking = BookmarkPolicy.AS_ROOT
 )
 public class OrderItem implements Comparable<OrderItem> {
 

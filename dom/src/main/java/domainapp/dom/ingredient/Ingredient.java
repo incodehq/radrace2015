@@ -65,11 +65,11 @@ import domainapp.dom.supplier.Supplier;
 })
 @javax.jdo.annotations.Unique(name="Ingredient_name_UNQ", members = {"name"})
 @DomainObject(
-        editing = Editing.DISABLED
+        editing = Editing.DISABLED,
+        bounded = true
 )
 @DomainObjectLayout(
-        bookmarking = BookmarkPolicy.AS_ROOT,
-        cssClassFa = "fa-flag"
+        bookmarking = BookmarkPolicy.AS_ROOT
 )
 public class Ingredient implements Comparable<Ingredient>, Named {
 

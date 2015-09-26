@@ -66,8 +66,7 @@ import org.apache.isis.applib.util.ObjectContracts;
         editing = Editing.DISABLED
 )
 @DomainObjectLayout(
-        bookmarking = BookmarkPolicy.AS_ROOT,
-        cssClassFa = "fa-flag"
+        bookmarking = BookmarkPolicy.AS_ROOT
 )
 public class QuickObject implements Comparable<QuickObject> {
 

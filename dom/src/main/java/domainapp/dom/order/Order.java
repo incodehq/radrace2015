@@ -80,8 +80,7 @@ import domainapp.dom.person.Person;
         editing = Editing.DISABLED
 )
 @DomainObjectLayout(
-        bookmarking = BookmarkPolicy.AS_ROOT,
-        cssClassFa = "fa-flag"
+        bookmarking = BookmarkPolicy.AS_ROOT
 )
 public class Order implements Comparable<Order> {
 

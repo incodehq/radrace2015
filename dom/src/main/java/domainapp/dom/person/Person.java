@@ -70,8 +70,7 @@ import org.apache.isis.applib.util.TitleBuffer;
         editing = Editing.DISABLED
 )
 @DomainObjectLayout(
-        bookmarking = BookmarkPolicy.AS_ROOT,
-        cssClassFa = "fa-flag"
+        bookmarking = BookmarkPolicy.AS_ROOT
 )
 public class Person implements Comparable<Person> {
 

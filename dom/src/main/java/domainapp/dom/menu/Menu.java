@@ -76,11 +76,11 @@ import domainapp.dom.menuitem.MenuItemRepository;
 })
 @javax.jdo.annotations.Unique(name="Menu_event_UNQ", members = {"event"})
 @DomainObject(
-        editing = Editing.DISABLED
+        editing = Editing.DISABLED,
+        bounded = true
 )
 @DomainObjectLayout(
-        bookmarking = BookmarkPolicy.AS_ROOT,
-        cssClassFa = "fa-flag"
+        bookmarking = BookmarkPolicy.AS_ROOT
 )
 public class Menu implements Comparable<Menu> {
 

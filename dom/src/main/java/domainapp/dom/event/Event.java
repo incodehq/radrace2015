@@ -70,11 +70,11 @@ import domainapp.dom.menu.MenuRepository;
 })
 @javax.jdo.annotations.Unique(name="Event_name_UNQ", members = {"name"})
 @DomainObject(
-        editing = Editing.DISABLED
+        editing = Editing.DISABLED,
+        bounded = true
 )
 @DomainObjectLayout(
-        bookmarking = BookmarkPolicy.AS_ROOT,
-        cssClassFa = "fa-flag"
+        bookmarking = BookmarkPolicy.AS_ROOT
 )
 public class Event implements Comparable<Event>, Named, CalendarEventable {
 

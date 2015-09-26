@@ -38,11 +38,11 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import domainapp.dom.event.Event;
 
 @DomainService(
-        nature = NatureOfService.DOMAIN // REVIEW: exclude from UI for now.
+        nature = NatureOfService.VIEW_MENU_ONLY
 )
 @DomainServiceLayout(
         menuOrder = "230",
-        named = "Ingredients"
+        named = "Menus"
 )
 public class MenuMenu {
 
