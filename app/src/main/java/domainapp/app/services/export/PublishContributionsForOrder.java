@@ -19,7 +19,7 @@ package domainapp.app.services.export;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Map;
+import java.math.BigDecimal;
 
 import com.google.common.base.Function;
 import com.google.common.io.Resources;
@@ -45,17 +45,18 @@ import org.isisaddons.module.docx.dom.DocxService;
 import org.isisaddons.module.docx.dom.LoadTemplateException;
 import org.isisaddons.module.docx.dom.MergeException;
 
-import domainapp.dom.event.Event;
 import domainapp.dom.event.EventRepository;
 import domainapp.dom.ingredient.IngredientRepository;
+import domainapp.dom.menuitem.MenuItem;
+import domainapp.dom.order.Order;
+import domainapp.dom.orderitem.OrderItem;
 import domainapp.dom.quick.QuickObjectMenu;
-import domainapp.dom.supplier.Supplier;
 import domainapp.dom.supplierreport.SupplierReportCreator;
 
 @DomainService(
         nature = NatureOfService.VIEW_CONTRIBUTIONS_ONLY
 )
-public class PublishContributionsForSupplier {
+public class PublishContributionsForOrder {
 
     //region > publish (action)
 
@@ -67,24 +68,24 @@ public class PublishContributionsForSupplier {
             contributed = Contributed.AS_ACTION
     )
     @MemberOrder(sequence = "10")
-    public Blob ingredientsToOrder(final Supplier supplier, final Event event) throws IOException, JDOMException, MergeException {
+    public Blob hardcopy(final Order order) throws IOException, JDOMException, MergeException {
 
-        return exportToWordDocCatchExceptions(supplier, event);
+        return exportToWordDocCatchExceptions(order);
     }
 
     //endregion
 
     //region > exportToWordDoc (programmatic)
 
-    private Blob exportToWordDocCatchExceptions(final Supplier supplier, final Event event)  {
+    private Blob exportToWordDocCatchExceptions(final Order order)  {
         final org.w3c.dom.Document w3cDocument;
         try {
-            w3cDocument = asInputW3cDocument(supplier, event);
+            w3cDocument = asInputW3cDocument(order);
 
             final ByteArrayOutputStream docxTarget = new ByteArrayOutputStream();
             docxService.merge(w3cDocument, getWordprocessingMLPackage(), docxTarget, DocxService.MatchingPolicy.LAX);
 
-            final String blobName = supplier.getName() + "-" + event.getName() + "-" + timestamp() + ".docx";
+            final String blobName = order.getEvent().getName() + "-" + timestamp() + ".docx";
             final String blobMimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
             final byte[] blobBytes = docxTarget.toByteArray();
 
@@ -95,8 +96,8 @@ public class PublishContributionsForSupplier {
         }
     }
 
-    private org.w3c.dom.Document asInputW3cDocument(final Supplier supplier, final Event event) throws JDOMException {
-        final Document jdomDoc = asInputDocument(supplier, event);
+    private org.w3c.dom.Document asInputW3cDocument(final Order order) throws JDOMException {
+        final Document jdomDoc = asInputDocument(order);
 
         final DOMOutputter domOutputter = new DOMOutputter();
         return domOutputter.output(jdomDoc);
@@ -110,9 +111,8 @@ public class PublishContributionsForSupplier {
     }
 
 
-    private Document asInputDocument(final Supplier supplier, Event event) {
+    private Document asInputDocument(final Order order) {
 
-        final Map<String, Integer> quantitiesByIngredient = supplierReportCreator.reportItemsFor(supplier, event);
 
         final Element html = new Element("html");
         final Document document = new Document(html);
@@ -120,20 +120,30 @@ public class PublishContributionsForSupplier {
         final Element body = new Element("body");
         html.addContent(body);
 
-        addPara(body, "SupplierName", "rich", supplier.getName());
-        addPara(body, "EventName", "rich", event.getName());
+        addPara(body, "EventName", "rich", order.getEvent().getName());
+
+        final String personName = order.getPerson().getFirstName() + order.getPerson().getLastName();
+        addPara(body, "PersonName", "rich", personName);
+
         addPara(body, "ExportedOn", "date", clockService.nowAsLocalDateTime().toString("dd-MMM-yyyy"));
 
         final Element table = addTable(body, "Ingredients");
 
-        addTableRow(table, new String[]{ "", "" });
-        for(final String ingredientName: quantitiesByIngredient.keySet()) {
+        addTableRow(table, new String[] { "", ""});
 
-            final Integer integer = quantitiesByIngredient.get(ingredientName);
-            addTableRow(table, new String[] { ingredientName, integer.toString() });
+        for(final OrderItem orderItem: order.getItems()) {
+
+            final MenuItem menuItem = orderItem.getMenuItem();
+            final int quantity = orderItem.getQuantity();
+            final BigDecimal memberPrice = menuItem.getMemberPrice();
+
+            final String quantityOfMenuItem = "" + quantity + " x " + container.titleOf(menuItem);
+            final BigDecimal cost = memberPrice.multiply(BigDecimal.valueOf(quantity));
+
+            addTableRow(table, new String[] { quantityOfMenuItem, cost.toString() });
 
         }
-        addTableRow(table, new String[]{ "", "" });
+        addTableRow(table, new String[] { "", "", "" });
 
 
         return document;
@@ -154,7 +164,7 @@ public class PublishContributionsForSupplier {
     private void initializeIfNecessary() {
         if(wordprocessingMLPackage == null) {
             try {
-                final byte[] bytes = Resources.toByteArray(Resources.getResource(this.getClass(), "SupplierReport.docx"));
+                final byte[] bytes = Resources.toByteArray(Resources.getResource(this.getClass(), "OrderReport.docx"));
                 wordprocessingMLPackage = docxService.loadPackage(new ByteArrayInputStream(bytes));
             } catch (IOException | LoadTemplateException e) {
                 throw new RuntimeException(e);
