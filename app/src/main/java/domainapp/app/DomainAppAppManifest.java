@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Maps;
+
 import org.apache.isis.applib.AppManifest;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
@@ -108,7 +110,13 @@ public class DomainAppAppManifest implements AppManifest {
      */
     @Override
     public Map<String, String> getConfigurationProperties() {
-        return null;
+        final Map<String, String> props = Maps.newHashMap();
+        props.put("isis.service.email.sender.address", "myuser@gmail.com");
+        props.put("isis.service.email.sender.password", "mypassword");
+        props.put("isis.service.email.sender.hostname", "smtp.gmail.com");
+        props.put("isis.service.email.port", "587");
+        props.put("isis.service.email.tls.enabled", "true");
+        return props;
     }
 
 }
