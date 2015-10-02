@@ -53,8 +53,12 @@ Overall I think we implemented about 50~70% of the requirements.  For the record
 
 The domain model that we ended up with was:
 
-image::http://yuml.me/584eda4d[link="http://yuml.me/584eda4d/edit"]
+image::http://yuml.me/5166b3f3[link="http://yuml.me/edit/5166b3f3"]
 
+
+Actually, our first version (sketched out in 10 minutes) was a little bit simpler than this... we simply had each menu item as many-to-one with ingredient.  But we spent a further 10 minutes later on in the first day refactoring to the more generalized design.
+
+If you're a fan of Peter Coad's https://en.wikipedia.org/wiki/Object_Modeling_in_Color[Modeling in Color], then the "blue" stuff is ingredient, ingredient category, supplier; the green stuff is event, menu, menu item; the "pink" stuff is order, order item.
 
 [source]
 ----
@@ -64,7 +68,7 @@ image::http://yuml.me/584eda4d[link="http://yuml.me/584eda4d/edit"]
 [Order]++->0..*[OrderItem|quantity]
 [OrderItem]->[MenuItem]
 [MenuItem]->dependsUpon*>[MenuItem]
-[MenuItem]->*[Ingredient]
+[MenuItem]*->*[Ingredient]
 [Ingredient]*->[[IngredientCategory]
 [Ingredient]*->[[Supplier]
 ----
