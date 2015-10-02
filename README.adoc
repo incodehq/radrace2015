@@ -98,30 +98,53 @@ We customized the home page (using the http://isis.apache.org/guides/rg.html#_rg
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/030-home-page-admin.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/030-home-page-admin.png"]
 
 
+We set up the fixture data so that the "BBQ Event" would be current.  As I write these words, that was a week ago... and so it is now in the "past events" bucket:
+
+image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/040-event.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/040-event.png"]
+
+As per our domain model, we decided that each `Event` would have precisely one `Menu`.  We probably made things a bit more difficult than they needed to be, but the competition organizer made hints that we should keep the application flexible for future requirements changes (YAGNI, anyone?).
+
+Here's what our `Menu` domain object looks like:
+
+image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/050-menu.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/050-menu.png"]
+
+From there once an set up new `MenuItem`s.  Each such has a price for the member; we decided that the non-member price would be defined a the `Menu` level ("non member-supplement):
+
+image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/060-menu-item-create.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/060-menu-item-create.png"]
+
+Once a `Menu` has been defined, one of the requirements was to be able to "publish" it, eg so that it could be downloaded as a PDF from a website for would-be attendees to peruse:
+
+image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/070-publish-menu.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/070-publish-menu.png"]
+
+Our application used the (non-ASF) http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module to generate a Word document based on a Word template (using Smart tags).
+
+image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/080-menu-downloaded.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/080-menu-downloaded.png"]
+
+Viewing in Word gives the following glorious experience:
+
+image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/090-menu-in-word.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/090-menu-in-word.png"]
+
+We admit it, not pretty.  However, the point of the (non-ASF) http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module is that the template (into which the data is "mail merged") is designed using nothing more esoteric than Word itself.  We know (from clients' experience) that this works well as an approach.
+
+As a bit of "candyfloss" we decided to integrate the (non-ASF) http://github.com/isisaddons/isis-module-excel[Isis addons' excel] module, which allows any table to be downloaded as an Excel spreadsheet.  For example, the menu items collection:
+
+image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/100-menu-items-alternative-views.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/100-menu-items-alternative-views.png"]
+
+can be viewed as a "download as Excel" view:
+
+image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/110-menu-items-download-as-excel.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/110-menu-items-download-as-excel.png"]
+
+meaning that it can be downloaded as a `.xlsx` file and then opened within Excel:
+
+image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/120-menu-items-in-excel.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/120-menu-items-in-excel.png"]
+
+
 [NOTE]
 ====
 pending further commentary...
 ====
 
 
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/040-event.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/040-event.png"]
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/050-menu.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/050-menu.png"]
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/060-menu-item-create.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/060-menu-item-create.png"]
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/070-publish-menu.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/070-publish-menu.png"]
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/080-menu-downloaded.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/080-menu-downloaded.png"]
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/090-menu-in-word.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/090-menu-in-word.png"]
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/100-menu-items-alternative-views.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/100-menu-items-alternative-views.png"]
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/110-menu-items-download-as-excel.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/110-menu-items-download-as-excel.png"]
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/120-menu-items-in-excel.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/120-menu-items-in-excel.png"]
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/200-ingredients.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/200-ingredients.png"]
 
@@ -252,6 +275,10 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/999-
 
 
 
+
 == Learnings
 
 Why didn't we win?
+
+
+
