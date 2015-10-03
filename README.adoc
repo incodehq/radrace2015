@@ -660,7 +660,7 @@ If you look through the codebase in this repo you'll see that there's a horrible
 
 Still, we did use fixtures to seed our database, and ran the entire app (both development and our final demo) using an in-memory database.  Fixtures are very important when developing an Apache Isis application, because they allow us to ensure that the app is in a well-defined known state as we implement each new feature (the "given" of a "given/when/then" test).
 
-We did lose quite a lot of time figuring out the best way to set up our data (though we're happy that we ended up with quite an elegant approach, one that we'll be feeding back into the framework).  Overall it was after 2pm on the first day (that is: about 1/3 of the overall time used) before we had our import scripts written. Compare that to other teams, which (when we spoke to them afterwards told us they) simply performed one-off upload using SQL Server Integration Services or similar.  This didn't even occur to us as an approach.
+We did lose quite a lot of time figuring out the best way to set up our data (though we're happy that we ended up with quite an elegant approach, one that we'll be feeding back into the framework).  Overall it was after 2pm on the first day (that is: about 1/3 of the overall time used) before we had our import scripts written. Compare that to other teams, which (when we spoke to them afterwards told us they) simply performed a one-off upload using SQL Server Integration Services or similar.  This didn't even occur to us as an approach.
 
 ==== Deployability
 
@@ -672,21 +672,21 @@ Having not worked with any of the other CASE tools, we took the opportunity to a
 
 Another thing we care a lot about in Apache Isis is maintainability.  The framework doesn't care if you use it to build monoliths or microservices, but if you build the former then it's important to ensure that the various modules are fully decoupled.  Apache Isis' http://isis.apache.org/guides/ug.html#_ug_more-advanced_decoupling[support for decoupling] (contributed actions, its event bus etc) would have meant it would have scored well here.
 
-Also, we learnt that some of the other competitors that their CASE tools were surprisingly naive when it came to data quality: they did not allow referential integrity to be enforced within the database.  Rather, such business rules are enforced by the application itself.  For any application deployed into production over a period of years there's a good change that an undiscovered bug if the application is updated could result in data corruption.  In contrast, Apache Isis leverages the RDBMS to enforce referential integrity, even for polymorphic relationships, courtesy of the http://github.com/isisaddons/isis-module-poly[Isis addons' poly](morphic support) module.
+Also, we learnt that some of the other competitors that their CASE tools were surprisingly naive when it came to data quality: they did not allow referential integrity to be enforced within the database.  Rather, such business rules are enforced by the application itself.  For any application deployed into production over a period of years there's a good chance that an undiscovered bug could result in data corruption.  In contrast, Apache Isis leverages the RDBMS to enforce referential integrity, even for polymorphic relationships, courtesy of the http://github.com/isisaddons/isis-module-poly[Isis addons' poly](morphic support) module.
 
 
 
 === Model Representation/Artifacts
 
-Another big difference, of course, is that an Apache Isis app is written in Java.  The computable.nl article in its introduction made the point: "The teams that scored the best in [previous] years, were always [those that] modeled and configured and not programmed."  This seems to be a false dichotomy... one can after all model in a programming language such as Java, indeed that is exactly what a framework such as Apache Isis is all about.  We had the opportunity after the competition to chat with the ThinkWise team, and - to be honest - we shared very similar philosophy that the domain model should sit in the middle of the app, and then the UI is - for the most part - a visual projection of that business domain.
+The computable.nl article in its introduction made the point: "The teams that scored the best in [previous] years, were always [those that] modeled and configured and not programmed."  This seems to be a false dichotomy... one can after all model in a programming language such as Java, indeed that is exactly what a framework such as Apache Isis is all about.  We had the opportunity after the competition to chat with the ThinkWise team, and - to be honest - we seemed to share a very similar philosophy in that the domain model should sit in the middle of the app; the UI is - for the most part - a visual projection of that business domain.
 
-So the question isn't about modelling vs programming, it's about in what form do you want your model artifacts to be represented?  In the case of Apache Isis your model is represented in Java, following a number of simple http://isis.apache.org/cheat-sheet.html[programming model conventions].  (Not that it would necessarily gain you much, but) it would be feasible to take an Apache Isis application and use its domain model within a custom app built using Spring, for example.
+So the question isn't about modelling vs programming, it's about in what form do you want your model artifacts to be represented?  In the case of Apache Isis your model is represented in Java, with a number of straightforward http://isis.apache.org/cheat-sheet.html[programming model conventions].  (Not that it would necessarily gain you much, but) it would be feasible to take an Apache Isis application and use its domain model almost unchanged within a Spring app, for example.
 
-In the case of ThinkWise, that same model (as I understand it) is represented almost entirely as rows within tables of their database.  Certain business logic can be written in Java or C# and put behind a SOAP service, but the bulk of the model is ultimately in their own proprietary representation.  Following on from that, they have also implemented such concepts as branches and merging within the database.  Clever stuff, but it sounded to us rather like they'd reinvented a versioned filesystem within an RDBMS to hold their app's model artifacts.  I'd much rather be using a standard open source tool such as git.
+In the case of ThinkWise, that same model (as I understand it) is represented almost entirely as rows within tables of their database.  Certain business logic can be written in Java or C# and put behind a SOAP service, but the bulk of the model is ultimately in their own proprietary representation.  Following on from that, they have also implemented such concepts as branches and merging within the database.  Clever stuff, but it sounded to us rather like they'd reinvented a versioned filesystem within an RDBMS to hold their app's model artifacts.  For myself I'd much rather be using a standard open source tool such as https://git-scm.com/[git].
 
 This next statement may be generalizing too far, be we suspect that it would be nigh on impossible to take any of the apps developed using one of the other teams and to reuse any of their code in the tool of some other team.  That is of course part of the business model for proprietary tools: they can undoubtedly provide great productivity, but in exchange your must accept vendor lock-in.
 
-Given these other companies and tools have all proven themselves very successful, there's clearly a large number of customer organizations that are happy with this trade-off.  But we think we've demonstrated that an open source framework can provide similar (to the same order of magnitude) productivity, but without any sort of vendor lock-in.
+Given these other companies and tools have all proven themselves very successful, there's clearly a large number of customer organizations that are happy with this trade-off.  But we think we've demonstrated that an open source framework can provide at least similar productivity, but without any sort of vendor lock-in.
 
 
 
@@ -695,7 +695,7 @@ Given these other companies and tools have all proven themselves very successful
 
 It was a great experience to take part in the competition.  I wouldn't exactly call it fun, but I think we came out of it head held high.
 
-We also learnt a lot about our value proposition.  If in the future we can see ourselves coming up in a project bid against a company using one of these other tools, we know a bit more about them to help the prospective customer decide:
+We also learnt a lot about our value proposition.  If in the future we can see ourselves coming up against one of these other tools, we know a bit more about them to help the prospective customer decide:
 
 * do you care about vendor lock-in, that your business model is represented in some proprietary way
 
