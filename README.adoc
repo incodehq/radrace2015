@@ -1,5 +1,7 @@
 = RAD RACE 2015
 
+image:https://travis-ci.org/incodehq/radrace2015.png?branch=master[Build Status,link=https://travis-ci.org/incodehq/radrace2015]
+
 On Sept 25th and 26th we (Jeroen van der Wal & me, Dan Haywood) took part in the http://www.radrace.org/en/index.html[Original RAD Race] competition.  This is a competition staged each year, this year (as in previous years) hosted and sponsored by Cap Gemini, and held in their offices in Utrecht, Netherlands.
 
 The competition consists of teams of exactly two team members; there were eight in total.  The competition is held under very strict conditions: 8 hours of development on the first day, and a further 4 hours of coding the next.  If you do the maths you'll work out that means a sum total of 24 hours (2 team members x 12 hours), or 3 person-days.
@@ -105,8 +107,6 @@ Although this was a requirement in the initial specs, later on in the competitio
 
 === Logging in as club administrator
 
-pass:[<br/><br/>]
-
 However, we also set up `domainapp-admin` as an our "club administrator".  This was part of our fixture data; when we develop Isis applications, we always run with an in-memory database (more on this later); our fixture data gets the app to a known initial state.
 
 So, we can log in as the `domainapp-admin`:
@@ -115,7 +115,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/020-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 We customized the home page (using the http://isis.apache.org/guides/rg.html#_rg_annotations_manpage-HomePage[@HomePage] annotation) to return a http://isis.apache.org/guides/rg.html#_rg_annotations_manpage-ViewModel[view model] which showed the events for the club, past, present and future:
 
@@ -129,14 +129,14 @@ We set up the fixture data so that the "BBQ Event" would be current.  As I write
 
 Each `Event` consists of a bunch data, including the (strangely named) inscription start and end dates; I think the idea was those represent the dates that someone can choose to attend the event.
 
-As per our domain model (above), we decided that each `Event` would have precisely one `Menu`.  We probably made things a bit more difficult than they needed to be, but the competition organizer made hints that we should keep the application flexible for future requirements changes.  This went against our better instincts (YAGNI), but on balance we felt that since `Event` and `Menu`
+As per our domain model (above), we decided that each `Event` would have precisely one `Menu`.  We probably made things a bit more difficult than they needed to be, but the competition organizer made hints that we should keep the application flexible for future requirements changes.  This went against our better instincts (YAGNI), but on balance we felt that since `Event` and `Menu` were part of the http://martinfowler.com/bliki/UbiquitousLanguage.html["ubiquitous language"], it probably made sense to have them both in the app:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/040-event.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/040-event.png"]
 
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 Here's what our `Menu` domain object looks like:
 
@@ -144,9 +144,6 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/050-
 
 It consists of a list of ``MenuItem``s, each of which has a price for the member.  We decided that the non-member price would be defined a the `Menu` level ("non member-supplement").
 
-
-
-pass:[<br/><br/>]
 
 From the `Menu` new items can be created:
 
@@ -164,7 +161,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/070-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 Our application used the http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module to generate a Word document based on a Word template (using Smart tags).
 
@@ -172,33 +169,35 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/080-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 Viewing in Word gives the following glorious experience:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/090-menu-in-word.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/090-menu-in-word.png"]
 
-We admit it, not pretty.  However, the point of the (non-ASF) http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module is that the template (into which the data is "mail merged") is designed using nothing more esoteric than Word itself.   You can find the template https://github.com/incodehq/radrace2015/blob/master/app/src/main/java/domainapp/app/services/export/MenuReport.docx[here].
+We admit it, not pretty.  However, the point of the http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module is that the template (into which the data is "mail merged") is designed using nothing more esoteric than Word itself.   You can find the template https://github.com/incodehq/radrace2015/blob/master/app/src/main/java/domainapp/app/services/export/MenuReport.docx[here].
 
 
 
 === Excel downloads
 
-As a bit of "candyfloss" we decided to integrate the (non-ASF) http://github.com/isisaddons/isis-module-excel[Isis addons' excel] module, which allows any table to be downloaded as an Excel spreadsheet.  For example, the menu items collection:
+As a bit of "candyfloss" we decided to integrate the http://github.com/isisaddons/isis-module-excel[Isis addons' excel] module, which allows any table to be downloaded as an Excel spreadsheet.
+
+For example, the menu items collection:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/100-menu-items-alternative-views.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/100-menu-items-alternative-views.png"]
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
-which can be viewed as a "download as Excel" view:
+can be viewed as a "download as Excel" view:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/110-menu-items-download-as-excel.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/110-menu-items-download-as-excel.png"]
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 meaning that it can be downloaded as a `.xlsx` file and then opened within Excel:
 
@@ -208,16 +207,16 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/120-
 
 === Ingredients and Suppliers
 
-The club administrator can also use the app to set up `Ingredient`s with associated `Supplier` and `IngredientCategory`.  We loaded this fixture data from an https://github.com/incodehq/radrace2015/blob/master/fixture/src/main/java/domainapp/fixture/scenarios/spreadsheets/EventImport.xls[spreadsheet]; each row corresponded to a https://github.com/incodehq/radrace2015/blob/master/fixture/src/main/java/domainapp/fixture/scenarios/spreadsheets/EventImport.java[view model] which used injected services to actually https://github.com/incodehq/radrace2015/blob/master/fixture/src/main/java/domainapp/fixture/scenarios/spreadsheets/EventImport.java#L212[create] the entities.
+The club administrator can also use the app to set up ``Ingredient``s with associated `Supplier` and `IngredientCategory`.  We loaded this fixture data from an https://github.com/incodehq/radrace2015/blob/master/fixture/src/main/java/domainapp/fixture/scenarios/spreadsheets/EventImport.xls[spreadsheet]; each row corresponded to a https://github.com/incodehq/radrace2015/blob/master/fixture/src/main/java/domainapp/fixture/scenarios/spreadsheets/EventImport.java[view model] which used injected services to actually https://github.com/incodehq/radrace2015/blob/master/fixture/src/main/java/domainapp/fixture/scenarios/spreadsheets/EventImport.java#L212[create] the entities.
 
-The "All ingredients" menu item:
+The "All Ingredients" menu item:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/200-ingredients.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/200-ingredients.png"]
 
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 returns a list of ``Ingredient``s that are imported from the fixture data spreadsheet:
 
@@ -225,7 +224,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/210-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 Our `Ingredient` object looked like:
 
@@ -234,17 +233,13 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/220-
 defining a recursive structure (``Ingredient``s can consist of other ``Ingredient``s), and also dependencies between ``Ingredient``s.
 
 
-
-
-pass:[<br/><br/>]
-
 Both of these relationships can be maintained.  For example, we can set up a new dependency between ingredients:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/240-ingredient-depend-upon-prompt.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/240-ingredient-depend-upon-prompt.png"]
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 so that (in this case) the bearnaise sauce can only be ordered if steak has been ordered.
 
@@ -255,9 +250,9 @@ What we didn't do in the competition is to translate this dependency into a rule
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
-Incidentally, Apache Isis automatically maintains a list of most recently visited objects, accessible top-left or using `ctrl+[`.  In the screenshot below you can see
+Incidentally, Apache Isis automatically maintains a list of most recently visited objects, accessible top-left or using `ctrl+[`.  In the screenshot below you can see a number of objects that I visited while capturing these screenshots:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/400-bookmarks.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/400-bookmarks.png"]
 
@@ -286,7 +281,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/510-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 The http://github.com/isisaddons/isis-module-security[Isis addons' security] module allows different users to have different role, and our intention was to set up the regular user with different permissions to the club administrator so that they would only see the "stuff" relevant to them.  Unfortunately we ran out of time, meaning that they got to see the same home page and top-level menu:
 
@@ -294,51 +289,45 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/520-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
-The two top-level menu items that *would* be relevant to a regular user would have been the "Events" menu:
+The two top-level menu items that *would* be relevant to a regular user would have been the "Events" menu, to view any up-coming events:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/530-available-events.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/530-available-events.png"]
 
-to view any up-coming events, and also
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
-the "Orders" menu, to view any orders that they had placed:
+and also the "Orders" menu, to view any orders that they had placed:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/540-orders-for-events.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/540-orders-for-events.png"]
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
-As the screenshot below shows, we also didn't have time to filter the list of returned ``Order``s, meaning that our regular user was also able to see the orders placed by other users:
+As the screenshot below shows, we also didn't filter the list of returned ``Order``s, meaning that (unfortunately) our regular user was also able to see the orders placed by other users:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/550-inspect-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/550-inspect-order.png"]
 
-If we'd had time, we would probably have used the multi-tenancy feature that is provided by the http://github.com/isisaddons/isis-module-security[Isis addons' security] module.  Each person/user would have a corresponding "`ApplicationTenancy`", and we each `Order` would implement the `WithApplicationTenancy` interface by which it would indicate which user could have access to it.  The security module's concept of multi-tenancy is hierarchical, so we would have set the club administrator as global app tenancy, in other words able to view all ``Order``s.
+If we had had time, we would probably have used the multi-tenancy feature that is provided by the http://github.com/isisaddons/isis-module-security[Isis addons' security] module.  Each person/user would have a corresponding `ApplicationTenancy`, and we each `Order` would implement the `WithApplicationTenancy` interface by which it would indicate which user could have access to it.  The security module's concept of multi-tenancy is hierarchical, so we would have set the club administrator as global app tenancy, in other words able to view all ``Order``s.
 
 
-
-pass:[<br/><br/>]
-
-Continuing... looking to demonstrate that Apache Isis can provide a different user experience for different user/roles, we decided to implement a `ShoppingBasket` for each `Order`.
+Moving on... looking to demonstrate that Apache Isis can provide a different user experience for different user/roles, we decided to implement a `ShoppingBasket` for each `Order`.
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/560-open-basket.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/560-open-basket.png"]
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 The `ShoppingBasket` is a view model on top of the `Order`, the idea being that it guides the end-user through the steps of completing an `Order`.  For example, it allows the user to select available ``MenuItem``s from the ``Event``'s `Menu` and to create corresponding ``OrderItem``s for each:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/570-add-order-items.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/570-add-order-items.png"]
 
-Only `MenuItem`s which have not previously been selected (ie for which there are not ``OrderItem``s in the basket) are shown.
+Only ``MenuItem``s which have not previously been selected (ie for which there are not ``OrderItem``s in the basket) are shown.
 
-
-pass:[<br/><br/>]
 
 The UI, it has to be said, is somewhat odd here.  As of this writing Apache Isis does not support the concept of collections as parameters to actions, meaning that it isn't possible to select multiple items and add them to the basket in a single go.  The best can currently do is to use a http://isis.apache.org/guides/rg.html#_rg_annotations_manpage-Action_invokeOn["bulk" action] against a collection of objects, the checkboxes in the UI allowing the end-user to select multiple items:
 
@@ -346,17 +335,13 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/580-
 
 We've had a https://issues.apache.org/jira/browse/ISIS-785[JIRA ticket] for this feature a good while now; something to tackle soon.
 
-
-
-pass:[<br/><br/>]
-
-Still, what we implemented of the competition worked ok; if the user selects a `MenuItem` then an `OrderItem` is created.
+Still, what we implemented of the competition worked in a roundabout way; if the user selects a `MenuItem` then an `OrderItem` is created.
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/590-order-updated.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/590-order-updated.png"]
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 The `ShoppingBasket` also allows the quantity of each to be updated.  Here though there was a bug... rather than listing the menu items that were in the basket, the dialog showed the menu items *not* in the basket (!).  Silly:
 
@@ -365,7 +350,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/600-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 Not suprisingly, this meant that we didn't actually have a way for the end user to change the quantities of each order item:
 
@@ -381,7 +366,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/630-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 Once more we used the http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module, this time with a slightly prettier https://github.com/incodehq/radrace2015/blob/master/app/src/main/java/domainapp/app/services/export/OrderReport.docx[Word template]:
 
@@ -398,7 +383,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/660-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 Voila, the basket's status changed.  We only implemented a very simple https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/order/OrderStatus.java[state chart] for ``Order``s; once the order was submitted there was no going back:
 
@@ -415,7 +400,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/700-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 We can use the ``Order``'s `paymentReceived(...)` action to indicate that money has been received from the user:
 
@@ -423,7 +408,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/710-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 As a bit of candyfloss, we decided to support partial payments:
 
@@ -431,7 +416,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/720-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 which worked up to a point; here you can see that the amount outstanding has been reduced:
 
@@ -439,15 +424,15 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/730-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
-yada yada:
+Invoking the action again we see that the parameter is defaulted to the remaining amount to be paid:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/740-further-payment-defaulted.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/740-further-payment-defaulted.png"]
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 However there were some bugs, which just goes to show that it's always better to get the app working first for the simple use case, then enhance later if time and is required.  For example it turned out that when entering the payment the amount was rounded down, so any cents could not be entered.  Another silly mistake:
 
@@ -455,22 +440,9 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/770-
 
 
 
-=== Print Order
+=== Payment Reference
 
-Another of the requirements was to allow the club administrator to print out the order, with a payment reference constructed according to some deliberately bizarre rules.  We got the first bit going well enough, once again using the http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/780-print-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/780-print-order.png"]
-
-
-
-pass:[<br/><br/>]
-
-which when opened in Word looked like:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/800-order-open-in-word.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/800-order-open-in-word.png"]
-
-
-However, stupidly we forgot to add the payment reference.  That was particularly galling because we had actually implemented the functionality in a nice little https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/payments/PaymentReferenceService.java[PaymentReferenceService], complete with a tiny little https://github.com/incodehq/radrace2015/blob/master/dom/src/test/java/domainapp/dom/payments/PaymentReferenceServiceTest.java[unit test].
+Another of the requirements was to allow the club administrator to print out the order, with a payment reference constructed according to some deliberately bizarre rules.  Well, we did the hard work, which was to implement the functionality for generating the payment reference in a nice little https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/payments/PaymentReferenceService.java[PaymentReferenceService] (complete with a tiny little https://github.com/incodehq/radrace2015/blob/master/dom/src/test/java/domainapp/dom/payments/PaymentReferenceServiceTest.java[unit test]).  But we never got around to generating the order invoice that used this payment reference.
 
 
 
@@ -482,7 +454,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/810-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 which returned the list of suppliers set up by our fixture data:
 
@@ -490,7 +462,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/820-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 Inspecting one of those ``Supplier``s we provided an `ingredientsToOrder(...)` action:
 
@@ -498,17 +470,17 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/830-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
-The club administrator would specify the `Event`:
+The club administrator specifies the `Event`:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/840-ingredients-to-order-specify-event.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/840-ingredients-to-order-specify-event.png"]
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
-and this would generate the pick list, once more as a Word document:
+and this generates the pick list, once more as a Word document:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/860-ingredients-to-order-open-in-word.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/860-ingredients-to-order-open-in-word.png"]
 
@@ -524,7 +496,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/900-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 As the screenshot below shows, our fixture set up a corresponding `ApplicationUser` for each `Person` in the provided spreadsheet:
 
@@ -532,16 +504,16 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/910-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
-For each `ApplicationUser`, we have corresponding ``ApplicationRole``s.  The regular user just had a regular user role:
+For each `ApplicationUser`, we have corresponding ``ApplicationRole``s.  Each registered user just had a regular (`domainapp-regular-user`) role:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/920-person-has-roles.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/920-person-has-roles.png"]
 
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 while the club administrator had a bunch more roles, including, for example, the ability to administrate security itself:
 
@@ -549,18 +521,13 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/930-
 
 We didn't code any of this in the competition; this is just the "out-of-the-box" UI of the security module.
 
-
-
-
-pass:[<br/><br/>]
-
 As was discussed earlier, the security module also supports multi-tenancy.  Thus, our club administrator had the ability to switch tenancy:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/940-tenancy-switcher.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/940-tenancy-switcher.png"]
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 so that they could view all orders for all users if required.
 
@@ -576,7 +543,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 For example, the sample data had a bunch of people with the surname "Aelber":
 
@@ -584,7 +551,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/970-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 Supporting this using https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/person/Person.java#L68[JDOQL] was easily done:
 
@@ -592,23 +559,19 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/980-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 For a given `Person` one could then view their ``Order``s:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/990-person.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/990-person.png"]
 
-We chose to implement this as a https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/order/OrderContributionsOnPerson.java#L50[contributed collection], thereby decoupling `Person` from `Order`.
-
-(What we could have done, but didn't think to, was to provide the ability to switch back and forth between `Person` and `ApplicationUser`.  That could have been done if `Person` had implemented Isis' built-in `HasUsername` interface; contributed actions provided by the security module would've done the rest).
+We chose to implement this as a https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/order/OrderContributionsOnPerson.java#L50[contributed collection], thereby decoupling `Person` from `Order`.  What we also could have done, but didn't think to, was to provide the ability to switch back and forth between `Person` and `ApplicationUser`.  That could have been done if `Person` had implemented Isis' built-in `HasUsername` interface; contributed actions provided by the security module would've done the rest.
 
 
 
 === REST API
 
-Although we didn't demonstrate this in the competition (there were no requirements for such), the app that we built does of course have its own REST API, because Apache Isis will automatically surface the domain model as REST resources.
-
-If this were a "real" app, then we would have looked to use the REST API to provide a custom UI for the registered user, perhaps using https://angular.io/[Angular] or similar.
+Although we didn't demonstrate this in the competition (there were no requirements for such), the app that we built does of course have its own REST API, because Apache Isis will automatically surface the domain model as REST resources.  If this were a "real" app, then we would have looked to use the REST API to provide a custom UI for the registered user, perhaps using https://angular.io/[Angular] or similar.
 
 To access the REST API, one must login:
 
@@ -616,7 +579,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/994-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 From the home page we can go to the list of services, such as the `EventMenu` service:
 
@@ -624,7 +587,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/995-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 This in turn lists the available actions, one of which is the `allEvents(...)` action:
 
@@ -632,7 +595,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/996-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 This https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/event/EventMenu.java#L48[action has safe (query-only)] semantics, so can be invoked with an HTTP GET:
 
@@ -640,7 +603,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 which returns links to a list of ``Event``s:
 
@@ -649,7 +612,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-
 
 
 
-pass:[<br/><br/>]
+pass:[<br/>]
 
 Following one of those links results in the representation of an `Event`.
 
@@ -666,11 +629,11 @@ When we came into the competition we had high hopes we might do well (after all,
 
 So, why didn't we win?
 
-=== App Requirements (actually, not a problem)
+=== App requirements (actually, not a problem)
 
-For myself, I had thought the biggest issue would be on the nature of the application that we were asked to build.  Apache Isis is ideally suited to "back office" systems, with rich behaviour and domains, and for use by domain experts who need a system to empower them.  On the other hand, it is less well suited to applications where an end-user needs to be guided through the app.  We characterize this as "problem solvers" vs "process followers"; "out-of-the-box" Apache Isis favours the former, not the latter.
+For myself, I had thought the biggest issue might be on the nature of the application that we were asked to build.  Apache Isis is ideally suited to "back office" systems, with rich behaviour and domains, and for use by domain experts who need a system to empower them.  On the other hand, it is less well suited to applications where an end-user needs to be guided through the app.  We characterize this as "problem solvers" vs "process followers".  Out-of-the-box Apache Isis favours the former, not the latter.
 
-The app we were asked to build in the competition had aspects of both of these.  The club administrator part fits reasonably well into the domain expert role, setting up ``Event``s, ``Menu``s and their ``MenuItem``s, the ``Ingredient``s and their ``Supplier``s.  On the other hand the registered user part doesn't really fit in well at all.  Notwithstanding the fact that we failed to limit the menu for our registered user ("theo.aelbers"), we would never in reality have expected a non-expert end user to use an Apache Isis app.  As mentioned above, instead we would have implemented some sort of custom UI against the REST API, using https://angular.io/[Angular] or similar.
+The app we were asked to build in the competition had aspects of both of these.  The club administrator part fits reasonably well into the domain expert/problem solver role, setting up ``Event``s, ``Menu``s and their ``MenuItem``s, the ``Ingredient``s and their ``Supplier``s.  On the other hand the registered user part doesn't really fit in well at all.  Notwithstanding the fact that we failed to provide a limited UI for our registered user, in reality have expected a non-expert end user to use an Apache Isis app.  As mentioned above, instead we would have implemented some sort of custom UI against the REST API, using https://angular.io/[Angular] or similar.
 
 In retrospect it was a mistake to bother creating the `ShoppingBasket` as a wrapper around the `Order`; one of those "seemed a good idea at the time" sort of things that probably muddled rather than illuminated our demo.  But a `ShoppingBasket` might well have been useful for a REST API.
 
@@ -700,6 +663,9 @@ We did lose quite a lot of time figuring out the best way to set up our data (th
 We want to be able to run our application as a demo in "development", to use the same fixture data within our http://isis.apache.org/guides/ug.html#_ug_testing_integ-test-support[integration tests] (running the app within a JUnit test framework), and of course be able to deploy the app into systest, UAT or production as a WAR file onto Tomcat etc.  We may be doing an injustice here, but it seemed that the other teams spent their time just configuring a single instance of an app for a one-off demo.  It doesn't really feel like building an app to us.  Could any of the other teams have put their app into a continuous integration environment such as http://travis-ci.org[Travis]?
 
 Having not worked with any of the other CASE tools, we took the opportunity to ask some of the other teams how they tackled testability.  We can't speak for all of them, but the Mendix team, for example, told us that they "have a tester" on the team.  Exploratory manual testing is essential, of course, but when we probed further it didn't seem that that tool had very much to assist with the development of automated tests.
+
+
+=== Model Representation/Artifacts
 
 Another big difference, of course, is that an Apache Isis app is written in Java.  The computable.nl article in its introduction made the point: "The teams that scored the best in [previous] years, were always [those that] modeled and configured and not programmed."  This seems to be a false dichotomy... one can after all model in a programming language such as Java, indeed that is exactly what a framework such as Apache Isis is all about.  We had the opportunity after the competition to chat with the ThinkWise team, and - to be honest - we shared very similar philosophy that the domain model should sit in the middle of the app, and then the UI is - for the most part - a visual projection of that business domain.
 
