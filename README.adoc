@@ -94,11 +94,13 @@ pass:[<br/><br/><br/>]
 
 However, we also set up `domainapp-admin` as an our "club administrator".  This was part of our fixture data; when we develop Isis applications, we always run with an in-memory database (more on this later); our fixture data gets the app to a known initial state.
 
-So, we can log in as the "domainapp-admin":
+So, we can log in as the `domainapp-admin`:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/020-logon-page-as-admin.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/020-logon-page-as-admin.png"]
 
 
+
+pass:[<br/><br/><br/>]
 
 We customized the home page (using the http://isis.apache.org/guides/rg.html#_rg_annotations_manpage-HomePage[@HomePage] annotation) to return a http://isis.apache.org/guides/rg.html#_rg_annotations_manpage-ViewModel[view model] which showed the events for the club, past, present and future:
 
@@ -119,17 +121,23 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/040-
 
 
 
-
+pass:[<br/><br/><br/>]
 
 Here's what our `Menu` domain object looks like:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/050-menu.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/050-menu.png"]
 
+It consists of a list of ``MenuItem``s, each of which has a price for the member.  We decided that the non-member price would be defined a the `Menu` level ("non member-supplement").
 
 
-It consists of a list of ``MenuItem``s, each of which has a price for the member.  We decided that the non-member price would be defined a the `Menu` level ("non member-supplement"):
+
+pass:[<br/><br/><br/>]
+
+From the `Menu` new items can be created:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/060-menu-item-create.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/060-menu-item-create.png"]
+
+Normally we would have positioned the `newItem(...)` action button with the `items` collection; this can be done with the https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/menu/Menu.layout.json[.layout.json] file.  We forgot.
 
 
 
@@ -141,11 +149,15 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/070-
 
 
 
+pass:[<br/><br/><br/>]
+
 Our application used the (non-ASF) http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module to generate a Word document based on a Word template (using Smart tags).
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/080-menu-downloaded.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/080-menu-downloaded.png"]
 
 
+
+pass:[<br/><br/><br/>]
 
 Viewing in Word gives the following glorious experience:
 
@@ -163,10 +175,15 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/100-
 
 
 
+pass:[<br/><br/><br/>]
+
 which can be viewed as a "download as Excel" view:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/110-menu-items-download-as-excel.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/110-menu-items-download-as-excel.png"]
 
+
+
+pass:[<br/><br/><br/>]
 
 meaning that it can be downloaded as a `.xlsx` file and then opened within Excel:
 
@@ -183,10 +200,17 @@ The "All ingredients" menu item:
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/200-ingredients.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/200-ingredients.png"]
 
 
+
+
+pass:[<br/><br/><br/>]
+
 listed the ``Ingredient``s imported from the fixture data spreadsheet:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/210-ingredients-list-all.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/210-ingredients-list-all.png"]
 
+
+
+pass:[<br/><br/><br/>]
 
 Our `Ingredient` object looked like:
 
@@ -200,123 +224,482 @@ pending further commentary...
 ====
 
 
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/225-ingredient.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/225-ingredient.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/230-ingredient-depend-upon.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/230-ingredient-depend-upon.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/240-ingredient-depend-upon-prompt.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/240-ingredient-depend-upon-prompt.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/250-ingredient-depend-upon-ok.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/250-ingredient-depend-upon-ok.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/260-ingredient-depends-upon-collection.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/260-ingredient-depends-upon-collection.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/400-bookmarks.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/400-bookmarks.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/500-event-orders.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/500-event-orders.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/510-logon-page-as-theo.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/510-logon-page-as-theo.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/520-home-page-theo.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/520-home-page-theo.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/530-available-events.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/530-available-events.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/540-orders-for-events.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/540-orders-for-events.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/550-inspect-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/550-inspect-order.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/560-open-basket.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/560-open-basket.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/570-add-order-items.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/570-add-order-items.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/580-select-menu-items-to-create-order-item.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/580-select-menu-items-to-create-order-item.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/590-order-updated.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/590-order-updated.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/600-update-quantity.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/600-update-quantity.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/610-update-quantity-amount.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/610-update-quantity-amount.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/620-order-item-should-have-been-updated.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/620-order-item-should-have-been-updated.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/630-print-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/630-print-order.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/640-order-downloaded.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/640-order-downloaded.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/650-view-order-in-word.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/650-view-order-in-word.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/660-basket-submit-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/660-basket-submit-order.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/670-order-submitted-and-immutable.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/670-order-submitted-and-immutable.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/680-logout-then-back-as-admin.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/680-logout-then-back-as-admin.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/700-logon-as-admin.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/700-logon-as-admin.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/710-order-payment-received.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/710-order-payment-received.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/720-partial-payment.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/720-partial-payment.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/730-payment-received-updated.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/730-payment-received-updated.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/740-further-payment-defaulted.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/740-further-payment-defaulted.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/750-bug-overwrites-amount.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/750-bug-overwrites-amount.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/760-partial-payment-take-2.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/760-partial-payment-take-2.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/770-bug-rounds-down.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/770-bug-rounds-down.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/780-print-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/780-print-order.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/790-order-downloaded.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/790-order-downloaded.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/800-order-open-in-word.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/800-order-open-in-word.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/810-view-suppliers.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/810-view-suppliers.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/820-supplier-list-all.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/820-supplier-list-all.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/830-ingredients-to-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/830-ingredients-to-order.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/840-ingredients-to-order-specify-event.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/840-ingredients-to-order-specify-event.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/850-ingredients-to-order-downloaded.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/850-ingredients-to-order-downloaded.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/860-ingredients-to-order-open-in-word.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/860-ingredients-to-order-open-in-word.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/900-all-users.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/900-all-users.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/910-person-is-an-application-user.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/910-person-is-an-application-user.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/920-person-has-roles.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/920-person-has-roles.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/930-admin-has-security-admin-role.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/930-admin-has-security-admin-role.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/940-tenancy-switcher.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/940-tenancy-switcher.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/950-switch-tenancy.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/950-switch-tenancy.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-person-find-by-name.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-person-find-by-name.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-person-list-all.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-person-list-all.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/970-person-find-by-name-prompt.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/970-person-find-by-name-prompt.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/980-person-list.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/980-person-list.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/990-person.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/990-person.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/992-ide-import.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/992-ide-import.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/994-rest-api.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/994-rest-api.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/995-rest-services.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/995-rest-services.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/996-rest-events-list.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/996-rest-events-list.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-rest-events-list-invoke.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-rest-events-list-invoke.png"]
 
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
+
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-rest-event-view.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-rest-event-view.png"]
+
+
+
+pass:[<br/><br/><br/>]
+
+yada yada:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/999-rest-event.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/999-rest-event.png"]
 
