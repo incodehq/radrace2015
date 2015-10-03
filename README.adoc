@@ -26,15 +26,25 @@ The requirements for the app were to create an application some sort of "club", 
 
 The requirements ran to 16 pages, but I can't show them to you because they were under strict lock-n-key: the intellectual property belongs to the RAD RACE organizers.  But I can, I think, tell you what I remember:
 
-* allow the club administrator to be able to define an event, with a menu, of various menu items (we had some example menus to get the idea)
+* allow the club administrator to be able to define an event, with a menu, of various menu items (we had some example menus to get the idea). +
++
+Members of the club could potentially get a different price from non-members
 
-* members of the club would get a different price from non-members
 
-* the app would be accessible via web browser for regular users (ie not administrator) to decide to attend an event and to select their food selection from the menu (eg 3 x meat, 1 x fish, 2 x salads etc).
+* allow non-administrators (whether members of the club or non-members) to self-register and to sign in. +
++
+The idea was that there would be a link from the club's website to the sign-in page.
 
-* the app would allow the regular user to print out the available menu (eg to show to their family and friends so that they could decide what they want), and also to print out an order once made
+* allow registered users to place orders for attending an event, making their food selection from the event's menu (eg 3 x meat, 1 x fish, 2 x salads etc).
+
+* the app should allow the registered user to print out the available menu (eg to show to their family and friends so that they could decide what they want), and also to print out an order once made
 
 * the app would also allow the administrator to print out the order once placed, with an appropriate purchase order reference, and would also allow the administrator to print out a "pick list" for the items to purchase from each of the suppliers.
+
+* the app should also allow the administrator to indicate when an order has been paid.  Out of scope was any integration with back-end payment systems.
+
+In addition, we were provided with a spreadsheet of 5,000 users, each with a user/password.  The requirement was to upload that data such that the user could log into the system.  You'll find that spreadsheet https://github.com/incodehq/radrace2015/tree/master/data[here] (we checked it was okay to commit to our repo).
+
 
 There were some further requirements that I'm a bit more vague about:
 
@@ -44,7 +54,7 @@ There were some further requirements that I'm a bit more vague about:
 
 * some other stuff, I'm sure
 
-Overall I think we implemented about 50~70% of the requirements.  For the record, the winning team and runner up both implemented all the requirements, including some - provided as "change requests" - to the teams 45 minutes before the end of the competition.  Kudos to those guys; it was a challenging event.
+Overall I think we implemented about 50~70% of the requirements, though some of that functionality was rather rough around the edges.  For the record, the winning team and runner up both implemented all the requirements, including some that were provided to the teams 45 minutes before the end of the competition.  Kudos to those guys; it was a challenging event.
 
 
 
@@ -83,12 +93,17 @@ As mentioned above, the competition ran for 8 hours over the first day and 4 hou
 Anyway...
 
 
-=== Logging in as club administrator
+=== User sign-up
 
 On the login page we configured the http://isis.apache.org/guides/rg.html#_rg_services-spi_manpage-UserRegistrationService[UserRegistrationService] SPI domain service along with the supporting http://isis.apache.org/guides/rg.html#_rg_services-api_manpage-EmailService[EmailService] API domain service in order that Apache Isis displayed the sign-up link:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/010-logon-page-sign-up-now.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/010-logon-page-sign-up-now.png"]
 
+Although this was a requirement in the initial specs, later on in the competition this was descoped.  We didn't try it out because other competitors had said there were issues getting through the wifi firewall to SMTP servers.  But it should "just work" (we originally developed it for the Apache Isis-powered website for http://www.tellmegen.com/[TellMeGen]).
+
+
+
+=== Logging in as club administrator
 
 pass:[<br/><br/>]
 
@@ -143,7 +158,7 @@ Normally we would have positioned the `newItem(...)` action button with the `ite
 
 === Publishing a Menu
 
-Once a `Menu` has been defined, one of the requirements was to be able to "publish" it, eg so that it could be downloaded as a PDF from a website for would-be attendees to peruse:
+Once a `Menu` has been defined, one of the requirements was to be able to "publish" it, eg so that it could be downloaded from a website for would-be attendees to peruse:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/070-publish-menu.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/070-publish-menu.png"]
 
@@ -204,7 +219,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/200-
 
 pass:[<br/><br/>]
 
-listed the ``Ingredient``s imported from the fixture data spreadsheet:
+returns a list of ``Ingredient``s that are imported from the fixture data spreadsheet:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/210-ingredients-list-all.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/210-ingredients-list-all.png"]
 
@@ -216,34 +231,14 @@ Our `Ingredient` object looked like:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/220-ingredient.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/220-ingredient.png"]
 
+defining a recursive structure (``Ingredient``s can consist of other ``Ingredient``s), and also dependencies between ``Ingredient``s.
 
-
-[NOTE]
-====
-pending further commentary...
-====
 
 
 
 pass:[<br/><br/>]
 
-yada yada:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/225-ingredient.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/225-ingredient.png"]
-
-
-
-pass:[<br/><br/>]
-
-yada yada:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/230-ingredient-depend-upon.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/230-ingredient-depend-upon.png"]
-
-
-
-pass:[<br/><br/>]
-
-yada yada:
+Both of these relationships can be maintained.  For example, we can set up a new dependency between ingredients:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/240-ingredient-depend-upon-prompt.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/240-ingredient-depend-upon-prompt.png"]
 
@@ -251,47 +246,49 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/240-
 
 pass:[<br/><br/>]
 
-yada yada:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/250-ingredient-depend-upon-ok.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/250-ingredient-depend-upon-ok.png"]
-
-
-
-pass:[<br/><br/>]
-
-yada yada:
+so that (in this case) the bearnaise sauce can only be ordered if steak has been ordered.
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/260-ingredient-depends-upon-collection.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/260-ingredient-depends-upon-collection.png"]
 
+What we didn't do in the competition is to translate this dependency into a rule to be implemented when the end-user creates their actual `Order`.  But the data is at least there to do so.
+
+
 
 
 pass:[<br/><br/>]
 
-yada yada:
+Incidentally, Apache Isis automatically maintains a list of most recently visited objects, accessible top-left or using `ctrl+[`.  In the screenshot below you can see
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/400-bookmarks.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/400-bookmarks.png"]
 
 
 
-pass:[<br/><br/>]
+=== Event Orders
 
-yada yada:
+Returning to the `Event` object, we can see that the club administrator can also view any ``Order``s that have been placed:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/500-event-orders.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/500-event-orders.png"]
 
+Next, let's look at how those ``Order``s are placed by registered users.
 
 
-pass:[<br/><br/>]
 
-yada yada:
+=== Registered Users' workflow
+
+(As noted above), the competition organizers provided us with a https://github.com/incodehq/radrace2015/blob/master/data/people.xls[spreadsheet of 5,000 user records] to upload.
+
+We loaded this data using our https://github.com/incodehq/radrace2015/blob/master/fixture/src/main/java/domainapp/fixture/scenarios/spreadsheets/PeopleImport.java[PeopleImport] fixture data, which sets up not only the `Person` entity but also a corresponding `ApplicationUser` as per our integration with the http://github.com/isisaddons/isis-module-security[Isis addons' security] module.
+
+Thus, we can login with any of the users; for example the first one in the spreadsheet, "theo.aelbers".
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/510-logon-page-as-theo.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/510-logon-page-as-theo.png"]
 
 
 
+
 pass:[<br/><br/>]
 
-yada yada:
+The http://github.com/isisaddons/isis-module-security[Isis addons' security] module allows different users to have different role, and our intention was to set up the regular user with different permissions to the club administrator so that they would only see the "stuff" relevant to them.  Unfortunately we ran out of time, meaning that they got to see the same home page and top-level menu:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/520-home-page-theo.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/520-home-page-theo.png"]
 
@@ -299,15 +296,16 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/520-
 
 pass:[<br/><br/>]
 
-yada yada:
+The two top-level menu items that *would* be relevant to a regular user would have been the "Events" menu:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/530-available-events.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/530-available-events.png"]
 
+to view any up-coming events, and also
 
 
 pass:[<br/><br/>]
 
-yada yada:
+the "Orders" menu, to view any orders that they had placed:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/540-orders-for-events.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/540-orders-for-events.png"]
 
@@ -315,15 +313,17 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/540-
 
 pass:[<br/><br/>]
 
-yada yada:
+As the screenshot below shows, we also didn't have time to filter the list of returned ``Order``s, meaning that our regular user was also able to see the orders placed by other users:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/550-inspect-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/550-inspect-order.png"]
+
+If we'd had time, we would probably have used the multi-tenancy feature that is provided by the http://github.com/isisaddons/isis-module-security[Isis addons' security] module.  Each person/user would have a corresponding "`ApplicationTenancy`", and we each `Order` would implement the `WithApplicationTenancy` interface by which it would indicate which user could have access to it.  The security module's concept of multi-tenancy is hierarchical, so we would have set the club administrator as global app tenancy, in other words able to view all ``Order``s.
 
 
 
 pass:[<br/><br/>]
 
-yada yada:
+Continuing... looking to demonstrate that Apache Isis can provide a different user experience for different user/roles, we decided to implement a `ShoppingBasket` for each `Order`.  
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/560-open-basket.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/560-open-basket.png"]
 
