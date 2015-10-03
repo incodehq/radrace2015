@@ -1,6 +1,6 @@
 = RAD RACE 2015
 
-On Sept 25th and 26th we (Jeroen van der Wal & Dan Haywood) took part in the http://www.radrace.org/en/index.html[Original RAD Race] competition.  This is a competition staged each year, this year (as in previous years) hosted and sponsored by Cap Gemini, and held in their offices in Utrecht, Netherlands.
+On Sept 25th and 26th we (Jeroen van der Wal & me, Dan Haywood) took part in the http://www.radrace.org/en/index.html[Original RAD Race] competition.  This is a competition staged each year, this year (as in previous years) hosted and sponsored by Cap Gemini, and held in their offices in Utrecht, Netherlands.
 
 The competition consists of teams of exactly two team members; there were eight in total.  The competition is held under very strict conditions: 8 hours of development on the first day, and a further 4 hours of coding the next.  If you do the maths you'll work out that means a sum total of 24 hours (2 team members x 12 hours), or 3 person-days.
 
@@ -662,10 +662,76 @@ If we were to open up the REST API for third parties, then we would restrict the
 
 
 == Learnings
+When we came into the competition we had high hopes we might do well (after all, why bother otherwise?), but we also knew that there were a lot of unknowns that could affect how well we might do.
 
-Why didn't we win?
+So, why didn't we win?
+
+=== App Requirements (actually, not a problem)
+
+For myself, I had thought the biggest issue would be on the nature of the application that we were asked to build.  Apache Isis is ideally suited to "back office" systems, with rich behaviour and domains, and for use by domain experts who need a system to empower them.  On the other hand, it is less well suited to applications where an end-user needs to be guided through the app.  We characterize this as "problem solvers" vs "process followers"; "out-of-the-box" Apache Isis favours the former, not the latter.
+
+The app we were asked to build in the competition had aspects of both of these.  The club administrator part fits reasonably well into the domain expert role, setting up ``Event``s, ``Menu``s and their ``MenuItem``s, the ``Ingredient``s and their ``Supplier``s.  On the other hand the registered user part doesn't really fit in well at all.  Notwithstanding the fact that we failed to limit the menu for our registered user ("theo.aelbers"), we would never in reality have expected a non-expert end user to use an Apache Isis app.  As mentioned above, instead we would have implemented some sort of custom UI against the REST API, using https://angular.io/[Angular] or similar.
+
+In retrospect it was a mistake to bother creating the `ShoppingBasket` as a wrapper around the `Order`; one of those "seemed a good idea at the time" sort of things that probably muddled rather than illuminated our demo.  But a `ShoppingBasket` might well have been useful for a REST API.
+
+
+=== Development Approach
+
+There were some other reasons we didn't do as well as we thought we should.  One was just being a bit green about the gills; the team that won also won the year before, so they knew what to expect.  All said it was a pretty intense experience, quite exhausting.
+
+More significantly we didn't take the time to look at the app properly from an end-users' viewpoint.  Without clearly-identified user stories to guide the development it was all somewhat slap-dash, rushing to add as many features as possible.  But we should have gone a bit slower and thought about the app from an end-users viewpoint.  That also showed in our demo at the end, which we didn't even rehearse.  We are both experienced enough developers to know better than this, so we let ourselves down there.
+
+
+=== The framework and supporting tools
+
+We also came away with some ideas to improve the framework, and its tooling.  As a result of the competition we ended up with a nice little mini-framework for loading up fixtures from spreadsheets, but it would be nice to have had that in our back pocket to start with.  Also, it would be easy enough to add a few wizards and templates to IntelliJ to generate some of the boilerplate.  Or, we could perhaps build a command line tool similar to https://grails.github.io/grails-doc/latest/guide/commandLine.html[Grails] or http://docs.spring.io/spring-roo/reference/html/beginning.html[Spring Roo].
+
+
+=== Evaluation criteria
+
+But the biggest issue turned out to be not the app we were asked to build (which was a reasonably good fit for Apache Isis); instead it was the evaluation criteria by which the entries were judged.
+
+If you look through the codebase in this repo you'll see that there's a horrible lack of any sort of test, and that's because testability was not mentioned at all in the requirements for the app.  Instead, the emphasis was solely on implementing the features and then demonstrating them to "end-users".  We felt bad about writing code without tests, but since we weren't going to earn any credits by having such tests, we made the judgement call to code without.  That, of course, explains some of the bugs that we ended up with in the final app.
+
+Still, we did use fixtures to seed our database, and ran the entire app (both development and our final demo) using an in-memory database.  Fixtures are very important when developing an Apache Isis application, because they allow us to ensure that the app is in a well-defined known state as we implement each new feature (the "given" of a "given/when/then" test).
+
+We did lose quite a lot of time figuring out the best way to set up our data (though we're happy that we ended up with quite an elegant approach, one that we'll be feeding back into the framework).  Overall it was after 2pm on the first day (that is: about 1/3 of the overall time used) before we had our import scripts written. Compare that to other teams, which (when we spoke to them afterwards told us they) simply performed one-off upload using SQL Server Integration Services or similar.  This didn't even occur to us as an approach.
+
+We want to be able to run our application as a demo in "development", to use the same fixture data within our http://isis.apache.org/guides/ug.html#_ug_testing_integ-test-support[integration tests] (running the app within a JUnit test framework), and of course be able to deploy the app into systest, UAT or production as a WAR file onto Tomcat etc.  We may be doing an injustice here, but it seemed that the other teams spent their time just configuring a single instance of an app for a one-off demo.  It doesn't really feel like building an app to us.  Could any of the other teams have put their app into a continuous integration environment such as http://travis-ci.org[Travis]?
+
+Having not worked with any of the other CASE tools, we took the opportunity to ask some of the other teams how they tackled testability.  We can't speak for all of them, but the Mendix team, for example, told us that they "have a tester" on the team.  Exploratory manual testing is essential, of course, but when we probed further it didn't seem that that tool had very much to assist with the development of automated tests.
+
+Another big difference, of course, is that an Apache Isis app is written in Java.  The computable.nl article in its introduction made the point: "The teams that scored the best in [previous] years, were always [those that] modeled and configured and not programmed."  This seems to be a false dichotomy... one can after all model in a programming language such as Java, indeed that is exactly what a framework such as Apache Isis is all about.  We had the opportunity after the competition to chat with the ThinkWise team, and - to be honest - we shared very similar philosophy that the domain model should sit in the middle of the app, and then the UI is - for the most part - a visual projection of that business domain.
+
+So the question isn't about modelling vs programming, it's about in what form do you want your model artifacts to be represented?  In the case of Apache Isis your model is represented in Java, following a number of simple http://isis.apache.org/cheat-sheet.html[programming model conventions].  (Not that it would necessarily gain you much, but) it would be feasible to take an Apache Isis application and use its domain model within a custom app built using Spring, for example.
+
+In the case of ThinkWise, that same model (as I understand it) is represented almost entirely as rows within tables of their database.  Certain business logic can be written in Java or C# and put behind a SOAP service, but the bulk of the model is ultimately in their own proprietary representation.  Following on from that, they have also implemented such concepts as branches and merging within the database.  Clever stuff, but it sounded to us rather like they'd reinvented a versioned filesystem within an RDBMS to hold their app's model artifacts.  I'd much rather be using a standard open source tool such as git.
+
+This next statement may be generalizing too far, be we suspect that it would be nigh on impossible to take any of the apps developed using one of the other teams and to reuse any of their code in the tool of some other team.  That is of course part of the business model for proprietary tools: they can undoubtedly provide great productivity, but in exchange your must accept vendor lock-in.
+
+Given these other companies and tools have all proven themselves very successful, there's clearly a large number of customer organizations that are happy with this trade-off.  But we think we've demonstrated that an open source framework can provide similar (to the same order of magnitude) productivity, but without any sort of vendor lock-in.
 
 
 
-In retrospect it was a mistake to bother creating the `ShoppingBasket` as a wrapper around the `Order`; one of those "seemed a good idea at the time" sort of things.
+
+== Closing thoughts
+
+It was a great experience to take part in the competition.  I wouldn't exactly call it fun, but I think we came out of it head held high.
+
+We also learnt a lot about our value proposition.  If in the future we can see ourselves coming up in a project bid against a company using one of these other tools, we know a bit more about them to help the prospective customer decide:
+
+* do you care about vendor lock-in, that your business model is represented in some proprietary way
+
+* do you care about licensing costs?
+
+* do you care about being able to recruit staff to maintain the apps that are built?
+
+* do you care about being able to automate the tests
+
+* do you care that the tool may require using non-standard tools for other aspects of the development environment, such as version control or continuous integration?
+
+If the customer doesn't care about any of that, then they should probably just go ahead and go with the proprietary tool.  But otherwise, they'd be better off choosing an open source tool; we think that Apache Isis has shown itself to be a worthy competitor.
+
+
+
 
