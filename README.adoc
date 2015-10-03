@@ -166,7 +166,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/070-
 
 pass:[<br/><br/>]
 
-Our application used the (non-ASF) http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module to generate a Word document based on a Word template (using Smart tags).
+Our application used the http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module to generate a Word document based on a Word template (using Smart tags).
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/080-menu-downloaded.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/080-menu-downloaded.png"]
 
@@ -323,7 +323,7 @@ If we'd had time, we would probably have used the multi-tenancy feature that is 
 
 pass:[<br/><br/>]
 
-Continuing... looking to demonstrate that Apache Isis can provide a different user experience for different user/roles, we decided to implement a `ShoppingBasket` for each `Order`.  
+Continuing... looking to demonstrate that Apache Isis can provide a different user experience for different user/roles, we decided to implement a `ShoppingBasket` for each `Order`.
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/560-open-basket.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/560-open-basket.png"]
 
@@ -331,23 +331,26 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/560-
 
 pass:[<br/><br/>]
 
-yada yada:
+The `ShoppingBasket` is a view model on top of the `Order`, the idea being that it guides the end-user through the steps of completing an `Order`.  For example, it allows the user to select available ``MenuItem``s from the ``Event``'s `Menu` and to create corresponding ``OrderItem``s for each:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/570-add-order-items.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/570-add-order-items.png"]
 
+Only `MenuItem`s which have not previously been selected (ie for which there are not ``OrderItem``s in the basket) are shown.
 
 
 pass:[<br/><br/>]
 
-yada yada:
+The UI, it has to be said, is somewhat odd here.  As of this writing Apache Isis does not support the concept of collections as parameters to actions, meaning that it isn't possible to select multiple items and add them to the basket in a single go.  The best can currently do is to use a http://isis.apache.org/guides/rg.html#_rg_annotations_manpage-Action_invokeOn["bulk" action] against a collection of objects, the checkboxes in the UI allowing the end-user to select multiple items:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/580-select-menu-items-to-create-order-item.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/580-select-menu-items-to-create-order-item.png"]
 
+We've had a https://issues.apache.org/jira/browse/ISIS-785[JIRA ticket] for this feature a good while now; something to tackle soon.
+
 
 
 pass:[<br/><br/>]
 
-yada yada:
+Still, what we implemented of the competition worked ok; if the user selects a `MenuItem` then an `OrderItem` is created.
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/590-order-updated.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/590-order-updated.png"]
 
@@ -355,31 +358,24 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/590-
 
 pass:[<br/><br/>]
 
-yada yada:
+The `ShoppingBasket` also allows the quantity of each to be updated.  Here though there was a bug... rather than listing the menu items that were in the basket, the dialog showed the menu items *not* in the basket (!).  Silly:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/600-update-quantity.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/600-update-quantity.png"]
 
 
 
-pass:[<br/><br/>]
-
-yada yada:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/610-update-quantity-amount.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/610-update-quantity-amount.png"]
-
-
 
 pass:[<br/><br/>]
 
-yada yada:
+Not suprisingly, this meant that we didn't actually have a way for the end user to change the quantities of each order item:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/620-order-item-should-have-been-updated.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/620-order-item-should-have-been-updated.png"]
 
 
 
-pass:[<br/><br/>]
+=== Print Order
 
-yada yada:
+Another requirement was for the end-user to be able to print out their order:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/630-print-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/630-print-order.png"]
 
@@ -387,23 +383,16 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/630-
 
 pass:[<br/><br/>]
 
-yada yada:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/640-order-downloaded.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/640-order-downloaded.png"]
-
-
-
-pass:[<br/><br/>]
-
-yada yada:
+Once more we used the http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module, this time with a slightly prettier https://github.com/incodehq/radrace2015/blob/master/app/src/main/java/domainapp/app/services/export/OrderReport.docx[Word template]:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/650-view-order-in-word.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/650-view-order-in-word.png"]
 
 
 
-pass:[<br/><br/>]
 
-yada yada:
+=== Submit basket
+
+Once the user had finished constructing their order, they could use the ``ShoppingBasket``'s `submit(...)` action to complete:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/660-basket-submit-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/660-basket-submit-order.png"]
 
@@ -411,23 +400,16 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/660-
 
 pass:[<br/><br/>]
 
-yada yada:
+Voila, the basket's status changed.  We only implemented a very simple https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/order/OrderStatus.java[state chart] for ``Order``s; once the order was submitted there was no going back:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/670-order-submitted-and-immutable.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/670-order-submitted-and-immutable.png"]
 
 
 
-pass:[<br/><br/>]
 
-yada yada:
+=== Payment processing
 
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/680-logout-then-back-as-admin.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/680-logout-then-back-as-admin.png"]
-
-
-
-pass:[<br/><br/>]
-
-yada yada:
+Back as the club administrator:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/700-logon-as-admin.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/700-logon-as-admin.png"]
 
@@ -435,7 +417,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/700-
 
 pass:[<br/><br/>]
 
-yada yada:
+We can use the ``Order``'s `paymentReceived(...)` action to indicate that money has been received from the user:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/710-order-payment-received.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/710-order-payment-received.png"]
 
@@ -443,7 +425,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/710-
 
 pass:[<br/><br/>]
 
-yada yada:
+As a bit of candyfloss, we decided to support partial payments:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/720-partial-payment.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/720-partial-payment.png"]
 
@@ -451,7 +433,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/720-
 
 pass:[<br/><br/>]
 
-yada yada:
+which worked up to a point; here you can see that the amount outstanding has been reduced:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/730-payment-received-updated.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/730-payment-received-updated.png"]
 
@@ -467,31 +449,15 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/740-
 
 pass:[<br/><br/>]
 
-yada yada:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/750-bug-overwrites-amount.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/750-bug-overwrites-amount.png"]
-
-
-
-pass:[<br/><br/>]
-
-yada yada:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/760-partial-payment-take-2.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/760-partial-payment-take-2.png"]
-
-
-
-pass:[<br/><br/>]
-
-yada yada:
+However there were some bugs, which just goes to show that it's always better to get the app working first for the simple use case, then enhance later if time and is required.  For example it turned out that when entering the payment the amount was rounded down, so any cents could not be entered.  Another silly mistake:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/770-bug-rounds-down.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/770-bug-rounds-down.png"]
 
 
 
-pass:[<br/><br/>]
+=== Print Order
 
-yada yada:
+Another of the requirements was to allow the club administrator to print out the order, with a payment reference constructed according to some deliberately bizarre rules.  We got the first bit going well enough, once again using the http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/780-print-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/780-print-order.png"]
 
@@ -499,23 +465,18 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/780-
 
 pass:[<br/><br/>]
 
-yada yada:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/790-order-downloaded.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/790-order-downloaded.png"]
-
-
-
-pass:[<br/><br/>]
-
-yada yada:
+which when opened in Word looked like:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/800-order-open-in-word.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/800-order-open-in-word.png"]
 
 
+However, stupidly we forgot to add the payment reference.  That was particularly galling because we had actually implemented the functionality in a nice little https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/payments/PaymentReferenceService.java[PaymentReferenceService], complete with a tiny little https://github.com/incodehq/radrace2015/blob/master/dom/src/test/java/domainapp/dom/payments/PaymentReferenceServiceTest.java[unit test].
 
-pass:[<br/><br/>]
 
-yada yada:
+
+=== Suppliers
+
+A further requirement was for the club administrator to be able to generate a "pick list" for each supplier of ingredients for an event.  The club administrator could view the ``Supplier``s:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/810-view-suppliers.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/810-view-suppliers.png"]
 
@@ -523,7 +484,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/810-
 
 pass:[<br/><br/>]
 
-yada yada:
+which returned the list of suppliers set up by our fixture data:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/820-supplier-list-all.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/820-supplier-list-all.png"]
 
@@ -531,7 +492,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/820-
 
 pass:[<br/><br/>]
 
-yada yada:
+Inspecting one of those ``Supplier``s we provided an `ingredientsToOrder(...)` action:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/830-ingredients-to-order.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/830-ingredients-to-order.png"]
 
@@ -539,7 +500,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/830-
 
 pass:[<br/><br/>]
 
-yada yada:
+The club administrator would specify the `Event`:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/840-ingredients-to-order-specify-event.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/840-ingredients-to-order-specify-event.png"]
 
@@ -547,23 +508,17 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/840-
 
 pass:[<br/><br/>]
 
-yada yada:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/850-ingredients-to-order-downloaded.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/850-ingredients-to-order-downloaded.png"]
-
-
-
-pass:[<br/><br/>]
-
-yada yada:
+and this would generate the pick list, once more as a Word document:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/860-ingredients-to-order-open-in-word.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/860-ingredients-to-order-open-in-word.png"]
 
 
 
-pass:[<br/><br/>]
+=== Security Module
 
-yada yada:
+As mentioned earlier, we integrated the http://github.com/isisaddons/isis-module-security[Isis addons' security] module in order to provide user logins, and roles/permissions, and could have also used for multi-tenancy support.
+
+We didn't demonstrate any of this in the competition, but the screenshot below shows that there's a complete security subsystem available for the administrator to use.  For example we can view all the users (the security module's `ApplicationUser` entity):
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/900-all-users.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/900-all-users.png"]
 
@@ -571,7 +526,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/900-
 
 pass:[<br/><br/>]
 
-yada yada:
+As the screenshot below shows, our fixture set up a corresponding `ApplicationUser` for each `Person` in the provided spreadsheet:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/910-person-is-an-application-user.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/910-person-is-an-application-user.png"]
 
@@ -579,23 +534,27 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/910-
 
 pass:[<br/><br/>]
 
-yada yada:
+For each `ApplicationUser`, we have corresponding ``ApplicationRole``s.  The regular user just had a regular user role:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/920-person-has-roles.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/920-person-has-roles.png"]
 
 
 
+
 pass:[<br/><br/>]
 
-yada yada:
+while the club administrator had a bunch more roles, including, for example, the ability to administrate security itself:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/930-admin-has-security-admin-role.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/930-admin-has-security-admin-role.png"]
 
+We didn't code any of this in the competition; this is just the "out-of-the-box" UI of the security module.
+
+
 
 
 pass:[<br/><br/>]
 
-yada yada:
+As was discussed earlier, the security module also supports multi-tenancy.  Thus, our club administrator had the ability to switch tenancy:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/940-tenancy-switcher.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/940-tenancy-switcher.png"]
 
@@ -603,15 +562,15 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/940-
 
 pass:[<br/><br/>]
 
-yada yada:
+so that they could view all orders for all users if required.
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/950-switch-tenancy.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/950-switch-tenancy.png"]
 
 
 
-pass:[<br/><br/>]
+=== Person
 
-yada yada:
+For each `ApplicationUser` there is also a `Person` instance.  We provided the ability for the club administrator to search for ``Person``s:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-person-find-by-name.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-person-find-by-name.png"]
 
@@ -619,15 +578,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-
 
 pass:[<br/><br/>]
 
-yada yada:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-person-list-all.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-person-list-all.png"]
-
-
-
-pass:[<br/><br/>]
-
-yada yada:
+For example, the sample data had a bunch of people with the surname "Aelber":
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/970-person-find-by-name-prompt.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/970-person-find-by-name-prompt.png"]
 
@@ -635,7 +586,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/970-
 
 pass:[<br/><br/>]
 
-yada yada:
+Supporting this using https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/person/Person.java#L68[JDOQL] was easily done:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/980-person-list.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/980-person-list.png"]
 
@@ -643,23 +594,23 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/980-
 
 pass:[<br/><br/>]
 
-yada yada:
+For a given `Person` one could then view their ``Order``s:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/990-person.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/990-person.png"]
 
+We chose to implement this as a https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/order/OrderContributionsOnPerson.java#L50[contributed collection], thereby decoupling `Person` from `Order`.
 
-
-pass:[<br/><br/>]
-
-yada yada:
-
-image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/992-ide-import.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/992-ide-import.png"]
+(What we could have done, but didn't think to, was to provide the ability to switch back and forth between `Person` and `ApplicationUser`.  That could have been done if `Person` had implemented Isis' built-in `HasUsername` interface; contributed actions provided by the security module would've done the rest).
 
 
 
-pass:[<br/><br/>]
+=== REST API
 
-yada yada:
+Although we didn't demonstrate this in the competition (there were no requirements for such), the app that we built does of course have its own REST API, because Apache Isis will automatically surface the domain model as REST resources.
+
+If this were a "real" app, then we would have looked to use the REST API to provide a custom UI for the registered user, perhaps using https://angular.io/[Angular] or similar.
+
+To access the REST API, one must login:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/994-rest-api.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/994-rest-api.png"]
 
@@ -667,7 +618,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/994-
 
 pass:[<br/><br/>]
 
-yada yada:
+From the home page we can go to the list of services, such as the `EventMenu` service:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/995-rest-services.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/995-rest-services.png"]
 
@@ -675,7 +626,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/995-
 
 pass:[<br/><br/>]
 
-yada yada:
+This in turn lists the available actions, one of which is the `allEvents(...)` action:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/996-rest-events-list.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/996-rest-events-list.png"]
 
@@ -683,7 +634,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/996-
 
 pass:[<br/><br/>]
 
-yada yada:
+This https://github.com/incodehq/radrace2015/blob/master/dom/src/main/java/domainapp/dom/event/EventMenu.java#L48[action has safe (query-only)] semantics, so can be invoked with an HTTP GET:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-rest-events-list-invoke.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-rest-events-list-invoke.png"]
 
@@ -691,18 +642,20 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-
 
 pass:[<br/><br/>]
 
-yada yada:
+which returns links to a list of ``Event``s:
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-rest-event-view.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-rest-event-view.png"]
 
 
 
+
 pass:[<br/><br/>]
 
-yada yada:
+Following one of those links results in the representation of an `Event`.
 
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/999-rest-event.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/999-rest-event.png"]
 
+If we were to open up the REST API for third parties, then we would restrict these domain entities by security, and instead only surface view models (such as `ShoppingBasket`) that would wrap the underlying domain entities and provide a level of abstraction (so that the underlying entities can evolve independently as needs be).
 
 
 
@@ -713,4 +666,6 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/999-
 Why didn't we win?
 
 
+
+In retrospect it was a mistake to bother creating the `ShoppingBasket` as a wrapper around the `Order`; one of those "seemed a good idea at the time" sort of things.
 
