@@ -90,7 +90,7 @@ On the login page we configured the http://isis.apache.org/guides/rg.html#_rg_se
 image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/010-logon-page-sign-up-now.png[link="https://raw.githubusercontent.com/incodehq/radrace2015/master/images/010-logon-page-sign-up-now.png"]
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 However, we also set up `domainapp-admin` as an our "club administrator".  This was part of our fixture data; when we develop Isis applications, we always run with an in-memory database (more on this later); our fixture data gets the app to a known initial state.
 
@@ -100,7 +100,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/020-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 We customized the home page (using the http://isis.apache.org/guides/rg.html#_rg_annotations_manpage-HomePage[@HomePage] annotation) to return a http://isis.apache.org/guides/rg.html#_rg_annotations_manpage-ViewModel[view model] which showed the events for the club, past, present and future:
 
@@ -121,7 +121,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/040-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 Here's what our `Menu` domain object looks like:
 
@@ -131,7 +131,7 @@ It consists of a list of ``MenuItem``s, each of which has a price for the member
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 From the `Menu` new items can be created:
 
@@ -149,7 +149,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/070-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 Our application used the (non-ASF) http://github.com/isisaddons/isis-module-docx[Isis addons' docx] module to generate a Word document based on a Word template (using Smart tags).
 
@@ -157,7 +157,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/080-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 Viewing in Word gives the following glorious experience:
 
@@ -175,7 +175,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/100-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 which can be viewed as a "download as Excel" view:
 
@@ -183,7 +183,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/110-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 meaning that it can be downloaded as a `.xlsx` file and then opened within Excel:
 
@@ -202,7 +202,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/200-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 listed the ``Ingredient``s imported from the fixture data spreadsheet:
 
@@ -210,7 +210,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/210-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 Our `Ingredient` object looked like:
 
@@ -225,7 +225,7 @@ pending further commentary...
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -233,7 +233,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/225-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -241,7 +241,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/230-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -249,7 +249,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/240-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -257,7 +257,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/250-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -265,7 +265,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/260-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -273,7 +273,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/400-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -281,7 +281,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/500-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -289,7 +289,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/510-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -297,7 +297,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/520-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -305,7 +305,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/530-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -313,7 +313,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/540-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -321,7 +321,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/550-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -329,7 +329,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/560-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -337,7 +337,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/570-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -345,7 +345,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/580-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -353,7 +353,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/590-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -361,7 +361,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/600-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -369,7 +369,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/610-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -377,7 +377,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/620-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -385,7 +385,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/630-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -393,7 +393,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/640-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -401,7 +401,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/650-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -409,7 +409,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/660-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -417,7 +417,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/670-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -425,7 +425,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/680-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -433,7 +433,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/700-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -441,7 +441,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/710-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -449,7 +449,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/720-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -457,7 +457,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/730-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -465,7 +465,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/740-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -473,7 +473,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/750-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -481,7 +481,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/760-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -489,7 +489,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/770-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -497,7 +497,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/780-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -505,7 +505,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/790-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -513,7 +513,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/800-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -521,7 +521,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/810-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -529,7 +529,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/820-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -537,7 +537,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/830-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -545,7 +545,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/840-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -553,7 +553,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/850-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -561,7 +561,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/860-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -569,7 +569,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/900-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -577,7 +577,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/910-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -585,7 +585,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/920-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -593,7 +593,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/930-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -601,7 +601,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/940-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -609,7 +609,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/950-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -617,7 +617,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -625,7 +625,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/960-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -633,7 +633,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/970-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -641,7 +641,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/980-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -649,7 +649,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/990-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -657,7 +657,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/992-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -665,7 +665,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/994-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -673,7 +673,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/995-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -681,7 +681,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/996-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -689,7 +689,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
@@ -697,7 +697,7 @@ image::https://raw.githubusercontent.com/incodehq/radrace2015/master/images/997-
 
 
 
-pass:[<br/><br/><br/>]
+pass:[<br/><br/>]
 
 yada yada:
 
