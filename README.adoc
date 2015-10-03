@@ -697,13 +697,13 @@ It was a great experience to take part in the competition.  I wouldn't exactly c
 
 We also learnt a lot about our value proposition.  If in the future we can see ourselves coming up against one of these other tools, we know a bit more about them to help the prospective customer decide:
 
-* do you care about vendor lock-in, that your business model is represented in some proprietary way
+* do you care that your application's domain model is stored using only the vendor's own proprietary representation?
 
-* do you care about licensing costs?
+* do you care about ongoing licensing costs?
 
 * do you care about being able to recruit staff to maintain the apps that are built?
 
-* do you care about being able to automate the tests
+* do you care about being able to automate the tests?
 
 * do you care that the tool may require using non-standard tools for other aspects of the development environment, such as version control or continuous integration?
 
